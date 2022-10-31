@@ -1,6 +1,6 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { IMachineImage, UserData } from 'aws-cdk-lib/aws-ec2';
-import * as bottlerocket from '../lib/constructs/k8s/bottlerocket';
+import * as bottlerocket from '../src/constructs/k8s/bottlerocket';
 
 const DEFAULT_EXPECTED_BOTTLEROCKET_CONFIG: string = `[settings]
 
@@ -68,9 +68,9 @@ describe('Bottlerocket Configuration Generation', () => {
         customContainer: {
           mode: bottlerocket.BootstrapContainerMode.ALWAYS,
           essential: true,
-          source: 'docker.io/myCustomContainer',
-        },
-      },
+          source: 'docker.io/myCustomContainer'
+        }
+      }
     );
     testObj.addTaint('taintKey', 'taintValue', 'NoExecute');
 

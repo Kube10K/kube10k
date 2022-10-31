@@ -1,6 +1,6 @@
 import { Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import { CoreVpc } from '../lib/constructs/network/vpc';
+import { CoreVpc } from '../src/constructs/network/vpc';
 
 describe('Vpc', () => {
   test('Create Default VPC', () => {
@@ -9,7 +9,7 @@ describe('Vpc', () => {
     const vpc = new CoreVpc(stack, 'TestVpc', {
       name: 'foo',
       maxAZs: 2,
-      cidr: '10.0.0.0/16',
+      cidr: '10.0.0.0/16'
     });
 
     // COMPILE
@@ -25,28 +25,28 @@ describe('Vpc', () => {
     template.hasResource('AWS::EC2::Subnet', {
       Properties: {
         CidrBlock: '10.0.0.0/20',
-        Tags: Match.arrayWith([{ Key: 'Name', Value: 'Default/TestVpc/Vpc/PrivateSubnet1' }]),
-      },
+        Tags: Match.arrayWith([{ Key: 'Name', Value: 'Default/TestVpc/Vpc/PrivateSubnet1' }])
+      }
     });
     template.hasResource('AWS::EC2::Subnet', {
       Properties: {
         CidrBlock: '10.0.16.0/20',
-        Tags: Match.arrayWith([{ Key: 'Name', Value: 'Default/TestVpc/Vpc/PrivateSubnet2' }]),
-      },
+        Tags: Match.arrayWith([{ Key: 'Name', Value: 'Default/TestVpc/Vpc/PrivateSubnet2' }])
+      }
     });
 
     // ASSERT: 2 Public Subnets cretaed with the expected CIDR
     template.hasResource('AWS::EC2::Subnet', {
       Properties: {
         CidrBlock: '10.0.32.0/24',
-        Tags: Match.arrayWith([{ Key: 'Name', Value: 'Default/TestVpc/Vpc/PublicSubnet1' }]),
-      },
+        Tags: Match.arrayWith([{ Key: 'Name', Value: 'Default/TestVpc/Vpc/PublicSubnet1' }])
+      }
     });
     template.hasResource('AWS::EC2::Subnet', {
       Properties: {
         CidrBlock: '10.0.33.0/24',
-        Tags: Match.arrayWith([{ Key: 'Name', Value: 'Default/TestVpc/Vpc/PublicSubnet2' }]),
-      },
+        Tags: Match.arrayWith([{ Key: 'Name', Value: 'Default/TestVpc/Vpc/PublicSubnet2' }])
+      }
     });
   });
 });
