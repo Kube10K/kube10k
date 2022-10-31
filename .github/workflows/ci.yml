@@ -1,0 +1,21 @@
+name: CI
+
+# Controls when the workflow will run
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install modules
+        run: yarn
+
+      - name: Run tests
+        run: yarn test
+        env:
+          DOCKER_BUILDKIT: "1"
