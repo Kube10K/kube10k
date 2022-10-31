@@ -2,7 +2,6 @@ import { Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { ClusterSecurityGroups } from '../lib/constructs/k8s/securitygroups';
-import assert = require('assert');
 
 describe('ClusterSecurityGroups', () => {
   test('Create Cluster and Node Security Groups', () => {

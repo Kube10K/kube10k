@@ -41,8 +41,6 @@ kube-api-burst = 60
 taintKey = "taintValue:NoExecute"`;
 
 describe('Bottlerocket Configuration Generation', () => {
-  const app = new App();
-  const stack = new Stack(app, 'TestStack');
   test('getToml() with default values', () => {
     // GIVEN
     const testObj = new bottlerocket.BottleRocketSettings(
@@ -70,9 +68,9 @@ describe('Bottlerocket Configuration Generation', () => {
         customContainer: {
           mode: bottlerocket.BootstrapContainerMode.ALWAYS,
           essential: true,
-          source: 'docker.io/myCustomContainer'
-        }
-      }
+          source: 'docker.io/myCustomContainer',
+        },
+      },
     );
     testObj.addTaint('taintKey', 'taintValue', 'NoExecute');
 
@@ -123,7 +121,7 @@ describe('Bottlerocket Configuration Generation', () => {
     const machineImage: IMachineImage = bottlerocket.getMachineImage('X86_64', '1.2.3');
 
     // ASSERT: We get back an SSM Parameter
-    expect(stack.resolve(machineImage.getImage(stack)).imageId['Ref']).toContain('Ssm');
+    expect(stack.resolve(machineImage.getImage(stack)).imageId.Ref).toContain('Ssm');
   });
 
   test('getImageId()', () => {
@@ -135,6 +133,6 @@ describe('Bottlerocket Configuration Generation', () => {
     const machineImageId: string = bottlerocket.getImageId(stack, '1.23', 'X86_64', '1.2.3');
 
     // ASSERT: We get back an SSM Parameter
-    expect(stack.resolve(machineImageId)['Ref']).toContain('Ssm');
+    expect(stack.resolve(machineImageId).Ref).toContain('Ssm');
   });
 });

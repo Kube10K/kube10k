@@ -9,12 +9,12 @@ describe('Common', () => {
       key: 'testKey',
       value: 'testValue',
       effect: 'NoExecute',
-      operator: 'Equal'
+      operator: 'Equal',
     });
 
     // ASSERT: NodeSelector is returned properly
     expect(taint.getNodeSelector()).toEqual({
-      testKey: 'testValue'
+      testKey: 'testValue',
     });
   });
 });

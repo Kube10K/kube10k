@@ -8,11 +8,11 @@ describe('PriorityClassesAddons', () => {
     const app = new App();
     const rootStack = new Stack(app, 'RootStack');
     const testCluster = new Cluster(rootStack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
     const stack = new NestedStack(rootStack, 'TestStack');
     const psp = new PriorityClasses(stack, 'PriorityClasses', {
-      cluster: testCluster
+      cluster: testCluster,
     });
 
     // THEN

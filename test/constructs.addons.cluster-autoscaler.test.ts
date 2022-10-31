@@ -12,15 +12,15 @@ describe('ClusterAutoscalerAddon', () => {
     const stack = new Stack(app, 'TestStack');
     const nodeTaint = new NodeTaint(undefined, 'test');
     const testCluster = new Cluster(stack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
     const oidcIrsa = new OidcIrsa(stack, 'OidcIrsa', {
-      cluster: testCluster
+      cluster: testCluster,
     });
     new ClusterAutoscaler(stack, 'ClusterAutoscaler', {
       cluster: testCluster,
       nodeTaint: nodeTaint,
-      oidcIrsa: oidcIrsa
+      oidcIrsa: oidcIrsa,
     });
 
     // THEN
@@ -35,16 +35,16 @@ describe('ClusterAutoscalerAddon', () => {
             Effect: 'Allow',
             Principal: {
               Federated: {
-                'Fn::GetAtt': [Match.anyValue(), 'Arn']
-              }
-            }
-          }
-        ]
+                'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+              },
+            },
+          },
+        ],
       },
       Policies: [
         // VERIFY: The AutoscalerPolicy was applied to the IAM Role
-        { PolicyName: 'AutoscalerPolicy' }
-      ]
+        { PolicyName: 'AutoscalerPolicy' },
+      ],
     });
 
     // ASSERT: The HelmChart resource was created
@@ -52,7 +52,7 @@ describe('ClusterAutoscalerAddon', () => {
       Release: 'cluster-autoscaler',
       Chart: 'cluster-autoscaler',
       Version: '0.0.2',
-      Namespace: 'kube-system'
+      Namespace: 'kube-system',
     });
   });
 });

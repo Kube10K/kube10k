@@ -28,3 +28,8 @@ test:
 .PHONY: clean
 clean:
 	rm -rf cdk.out new orig coverage
+
+
+.PHONY: projen
+projen:
+	npx projen

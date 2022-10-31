@@ -34,8 +34,8 @@ describe('RootStack', () => {
       () =>
         new RootStack(app, 'RootStack', {
           kubernetesVersion: '1.24',
-          clusterName: 'test'
-        })
+          clusterName: 'test',
+        }),
     ).toThrowError();
   });
 });

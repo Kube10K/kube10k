@@ -8,10 +8,10 @@ describe('OidcIrsa', () => {
     const app = new App();
     const stack = new Stack(app, 'TestStack');
     const testCluster = new Cluster(stack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
     const oidcIrsa = new OidcIrsa(stack, 'OidcIrsa', {
-      cluster: testCluster
+      cluster: testCluster,
     });
     const template = Template.fromStack(stack);
 

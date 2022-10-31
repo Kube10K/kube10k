@@ -9,10 +9,10 @@ describe('NodeLocalDnsAddon', () => {
     const app = new App();
     const stack = new Stack(app, 'TestStack');
     const testCluster = new Cluster(stack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
     new NodeLocalDns(stack, 'NodeLocalDns', {
-      cluster: testCluster
+      cluster: testCluster,
     });
 
     // THEN
@@ -23,7 +23,7 @@ describe('NodeLocalDnsAddon', () => {
       Release: 'node-local-dns',
       Version: '0.0.3',
       Values: '{"serviceIP":"169.254.20.10","coreDnsIP":"172.20.0.10","ipvsMode":true}',
-      Namespace: 'kube-system'
+      Namespace: 'kube-system',
     });
   });
 });
