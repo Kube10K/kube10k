@@ -1,7 +1,7 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { OidcIrsa } from '../lib/constructs/k8s/oidc-isra';
+import { OidcIrsa } from '../src/constructs/k8s/oidc-isra';
 
 describe('OidcIrsa', () => {
   test('Custom OpenID Provider', () => {

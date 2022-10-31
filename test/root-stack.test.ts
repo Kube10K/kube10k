@@ -1,6 +1,6 @@
 import { App } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { RootStack } from '../lib/stacks/root-stack';
+import { RootStack } from '../src/stacks/root-stack';
 
 describe('RootStack', () => {
   test('Default', () => {

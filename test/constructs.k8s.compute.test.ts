@@ -2,10 +2,10 @@ import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { CfnLaunchTemplate, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { NodeTaint, TaintedNodeEffect } from '../lib/constructs/k8s/common';
-import { ManagedNodeGroup } from '../lib/constructs/k8s/compute';
-import { ClusterRoles } from '../lib/constructs/k8s/roles';
-import { ClusterSecurityGroups } from '../lib/constructs/k8s/securitygroups';
+import { NodeTaint, TaintedNodeEffect } from '../src/constructs/k8s/common';
+import { ManagedNodeGroup } from '../src/constructs/k8s/compute';
+import { ClusterRoles } from '../src/constructs/k8s/roles';
+import { ClusterSecurityGroups } from '../src/constructs/k8s/securitygroups';
 
 describe('Compute', () => {
   test('Default Behavior', () => {

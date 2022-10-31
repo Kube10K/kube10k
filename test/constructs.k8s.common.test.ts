@@ -1,4 +1,4 @@
-import { NodeTaint, TaintedNodeEffect } from '../lib/constructs/k8s/common';
+import { NodeTaint, TaintedNodeEffect } from '../src/constructs/k8s/common';
 describe('Common', () => {
   test('NodeTaint', () => {
     // GIVEN

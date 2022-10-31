@@ -1,6 +1,6 @@
 import { Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import { CoreVpc } from '../lib/constructs/network/vpc';
+import { CoreVpc } from '../src/constructs/network/vpc';
 
 describe('Vpc', () => {
   test('Create Default VPC', () => {

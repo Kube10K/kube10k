@@ -1,7 +1,7 @@
 import { App, NestedStack, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { PodSecurityPolicy } from '../lib/constructs/addons/psp';
+import { PodSecurityPolicy } from '../src/constructs/addons/psp';
 describe('PodSecurityPoliciesAddon', () => {
   test('Default', () => {
     // GIVEN
