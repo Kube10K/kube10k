@@ -15,17 +15,17 @@ export interface BootstrapContainer {
   essential?: boolean;
 }
 
-interface Kernel {
+export interface Kernel {
   sysctl: Sysctl;
 }
 
-interface Sysctl {
+export interface Sysctl {
   'net.ipv4.ip_local_port_range'?: string;
   'fs.inotify.max_user_instances'?: string;
   'fs.inotify.max_user_watches'?: string;
 }
 
-interface Kubernetes {
+export interface Kubernetes {
   /**
    *  Required parameters populated by the constructor of the BottleRocketSettings class.
    */
@@ -46,7 +46,7 @@ interface Kubernetes {
   'eviction-hard'?: EvictionHard;
 }
 
-interface EvictionHard {
+export interface EvictionHard {
   'memory.available'?: string;
   'nodefs.available'?: string;
   'nodefs.inodesFree'?: string;
@@ -55,41 +55,37 @@ interface EvictionHard {
   'pid.available'?: string;
 }
 
-interface Kernel {
-  sysctl: Sysctl;
-}
-
 export class BottleRocketSettings {
   'bootstrap-containers'?: { [id: string]: BootstrapContainer };
   kernel: Kernel;
   kubernetes: Kubernetes;
 
   /**
-   * 
-   * @param apiServer 
+   *
+   * @param apiServer
    * Type: String
-   * 
-   * @param clusterName 
+   *
+   * @param clusterName
    * Type: String
-   * 
-   * @param clusterCertificate 
+   *
+   * @param clusterCertificate
    * Type: String
-   * 
-   * @param clusterDnsIp 
+   *
+   * @param clusterDnsIp
    * Type: List of Strings
-   * 
+   *
    * If supplied, this list of strings is passed into the Kubelet and used to
    * configure Pods to point to particular DNS Server IPs. Typically this is
    * used to redirect Pod DNS requests to a node-local-dns cache.
-   * 
+   *
    * @param {string} imageGcHighThresholdPercent
    * Type: String, Default: '75'
    * We want to try to keep our nodes more empty than that for
    * container storage itself.
-   * 
+   *
    * https://aws.amazon.com/premiumsupport/knowledge-center/eks-worker-nodes-image-cache
 
-   * @param imageGcLowThresholdPercent 
+   * @param imageGcLowThresholdPercent
    * Type: String, Default: '75'
    * We want to try to keep our nodes more empty than that for
    * container storage itself.
@@ -100,20 +96,20 @@ export class BottleRocketSettings {
    * default limits are very very low and safe, but they slow down the
    * bootstrapping process and introduce room for race-conditions and failures
    * especially around IP address handling.
-   * 
+   *
    * https://github.com/projectcalico/calico/issues/3530#issuecomment-636094198
    * https://github.com/kubernetes/kubernetes/issues/39113
    * https://calicousers.slack.com/archives/CPEPF833L/p1622215571117800
 
-   * @param eventQps 
+   * @param eventQps
    * Default: 0
-   * 
-   * @param kubeApiQps 
+   *
+   * @param kubeApiQps
    * Default: 30
-   * 
-   * @param kubeApiBurst 
+   *
+   * @param kubeApiBurst
    * Default: 60
-   * 
+   *
    */
   constructor(
     // "kubernetes" section settings
