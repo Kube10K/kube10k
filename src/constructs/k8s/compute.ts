@@ -298,7 +298,7 @@ export class ManagedNodeGroup extends Construct {
     Tags.of(this.launchTemplate).add('CLUSTER_ID', props.cluster.clusterName);
 
     // Inform the Cluster Autoscaler about our custom taints, if set.
-    if (this.nodeTaint) {
+    if (this.nodeTaint != undefined) {
       Tags.of(this.launchTemplate).add(
         `k8s.cluster-auto-scaler/node-template/taint/${this.nodeTaint.key}`,
         `${this.nodeTaint.value}:${this.nodeTaint.effect}`

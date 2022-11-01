@@ -1,7 +1,7 @@
 export * from './aws-vpc-cni';
 export * from './calico-cni';
 export * from './cluster-autoscaler';
-export * from './common';
+export * as common from './common';
 export * from './coredns';
 export * from './node-local-dns';
 export * from './priority-classes';
