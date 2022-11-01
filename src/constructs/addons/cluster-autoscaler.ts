@@ -4,7 +4,7 @@ import { CfnRole, Effect, PolicyDocument, PolicyStatement, Role } from 'aws-cdk-
 import { Construct } from 'constructs';
 import { NodeTaint } from '../k8s/common';
 import { OidcIrsa } from '../k8s/oidc-isra';
-import { BaseAddonsProps, HelmChartOverrides } from './common';
+import { HelmChartOverrides, IBaseAddonProps } from './common';
 
 // The namespace where the pods and configuration will will live.
 const TARGET_NAMESPACE: string = 'kube-system';
@@ -15,7 +15,7 @@ const DEFAULT_HELM_REPO: string = 'https://kube10k.github.io/helm-charts';
 const DEFAULT_HELM_CHART: string = 'cluster-autoscaler';
 const DEFAULT_HELM_CHART_VERSION: string = '0.0.2';
 
-export interface ClusterAutoscalerProps extends BaseAddonsProps {
+export interface ClusterAutoscalerProps extends IBaseAddonProps {
   /**
    * We explicitly run the Tigera Operator on the System nodes
    */

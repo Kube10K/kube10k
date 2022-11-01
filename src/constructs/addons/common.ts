@@ -2,23 +2,23 @@ import { ICluster } from 'aws-cdk-lib/aws-eks';
 
 export const DEFAULT_RESOURCE_PREFIX: string = 'kube10k';
 
-export interface BaseAddonsProps {
-  cluster: ICluster;
+export interface IBaseAddonProps {
+  readonly cluster: ICluster;
 
   /**
    * Customize the prefix used by the resources created within this stack.
    * Default is {@link DEFAULT_RESOURCE_PREFIX}.
    */
-  resourcePrefix?: string;
+  readonly resourcePrefix?: string;
 }
 
 export interface HelmChartOverrides {
   /**
    * Helm Chart Settings - Defaults are above.
    */
-  repository?: string;
-  chart?: string;
-  version?: string;
-  releaseName?: string;
-  values?: { [id: string]: any };
+  readonly repository?: string;
+  readonly chart?: string;
+  readonly version?: string;
+  readonly releaseName?: string;
+  readonly values?: { [id: string]: any };
 }

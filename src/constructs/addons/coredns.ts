@@ -2,9 +2,9 @@ import { CfnMapping, Fn } from 'aws-cdk-lib';
 import { KubernetesManifest, KubernetesPatch, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
 import { NodeTaint } from '../k8s/common';
-import { BaseAddonsProps } from './common';
+import { IBaseAddonProps } from './common';
 
-export interface CoreDnsProps extends BaseAddonsProps {
+export interface CoreDnsProps extends IBaseAddonProps {
   kubernetesVersion: KubernetesVersion;
   nodeTaint: NodeTaint;
 }

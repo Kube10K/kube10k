@@ -1,10 +1,10 @@
 import { KubernetesManifest } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
-import { BaseAddonsProps, DEFAULT_RESOURCE_PREFIX } from './common';
+import { DEFAULT_RESOURCE_PREFIX, IBaseAddonProps } from './common';
 
 const DEFAULT_PRIORITY_CLASS_VALUE: number = 1000000;
 
-export interface PriorityClassesProps extends BaseAddonsProps {}
+export interface PriorityClassesProps extends IBaseAddonProps {}
 
 export class PriorityClasses extends Construct {
   constructor(scope: Construct, id: string, props: PriorityClassesProps) {

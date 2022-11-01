@@ -1,6 +1,6 @@
 import { HelmChart } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
-import { BaseAddonsProps, HelmChartOverrides } from './common';
+import { HelmChartOverrides, IBaseAddonProps } from './common';
 
 const DEFAULT_COREDNS_SERVICE_IP: string = '172.20.0.10';
 const DEFAULT_NODE_LOCAL_DNS_SERVICE_IP: string = '169.254.20.10';
@@ -18,7 +18,7 @@ const DEFAULT_HELM_CHART_VERSION: string = '0.0.3';
 // references in the node-local-dns pods to the name of the core-dns service.
 const TARGET_NAMESPACE: string = 'kube-system';
 
-export interface NodeLocalDnsProps extends BaseAddonsProps {
+export interface NodeLocalDnsProps extends IBaseAddonProps {
   /**
    * Optionally override the default internal CoreDNS Service IP. This IP
    * address is generally set by AWS.

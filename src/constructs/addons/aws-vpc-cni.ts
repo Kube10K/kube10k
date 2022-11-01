@@ -3,7 +3,7 @@ import { HelmChart, KubernetesManifest, KubernetesPatch } from 'aws-cdk-lib/aws-
 import { CfnRole, ManagedPolicy, Role } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import { OidcIrsa } from '../k8s/oidc-isra';
-import { BaseAddonsProps, HelmChartOverrides } from './common';
+import { HelmChartOverrides, IBaseAddonProps } from './common';
 
 // This is the name of the existing EKS resources (daemonset, service account,
 // cluster role, etc) that is reserved by AWS and we cannot override with our
@@ -22,7 +22,7 @@ const DEFAULT_HELM_REPO: string = 'https://aws.github.io/eks-charts';
 const DEFAULT_HELM_CHART: string = 'aws-vpc-cni';
 const DEFAULT_HELM_CHART_VERSION: string = '1.1.21';
 
-export interface AwsVpcCniProps extends BaseAddonsProps {
+export interface AwsVpcCniProps extends IBaseAddonProps {
   /**
    * Required {@link OidcIrsa} resource used to create the IAM Role with the
    * appropriate {@link FederatedPolicy}.

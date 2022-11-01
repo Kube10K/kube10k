@@ -1,7 +1,7 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { NodeLocalDns } from '../src/constructs/addons';
+import { NodeLocalDns } from '../src/constructs/addons/node-local-dns';
 
 describe('NodeLocalDnsAddon', () => {
   test('Default', () => {

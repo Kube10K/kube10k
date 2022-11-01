@@ -2,7 +2,7 @@ import { Fn, Stack } from 'aws-cdk-lib';
 import { HelmChart, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
 import { NodeTaint } from '../k8s/common';
-import { BaseAddonsProps, HelmChartOverrides } from './common';
+import { HelmChartOverrides, IBaseAddonProps } from './common';
 
 // The namespace where the pods and configuration will will live.
 const TARGET_NAMESPACE: string = 'calico-system';
@@ -13,7 +13,7 @@ const DEFAULT_HELM_CHART_VERSION: string = '3.24.3';
 const DEFAULT_HELM_REPO: string = 'https://projectcalico.docs.tigera.io/charts';
 const DEFAULT_HELM_RELEASE_NAME: string = 'tigera-operator';
 
-export interface CalicoProps extends BaseAddonsProps {
+export interface CalicoProps extends IBaseAddonProps {
   /**
    * We explicitly run the Tigera Operator on the System nodes
    */
