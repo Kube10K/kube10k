@@ -1,8 +1,8 @@
-export * from './aws-vpc-cni';
-export * from './calico-cni';
-export * from './cluster-autoscaler';
+export * as aws_vpc_cni from './aws-vpc-cni';
+export * as calico_cni from './calico-cni';
+export * as cluster_autoscaler from './cluster-autoscaler';
 export * as common from './common';
 export * as coredns from './coredns';
-export * from './node-local-dns';
-export * from './priority-classes';
+export * as node_local_dns from './node-local-dns';
+export * as priority_classes from './priority-classes';
 export * as psp from './psp';

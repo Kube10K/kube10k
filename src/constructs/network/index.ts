@@ -1,1 +1,1 @@
-export * from './vpc';
+export * as vpc from './vpc';
