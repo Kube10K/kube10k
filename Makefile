@@ -33,3 +33,7 @@ clean:
 .PHONY: projen
 projen:
 	npx projen
+
+.PHONY: build
+build:
+	npx projen build

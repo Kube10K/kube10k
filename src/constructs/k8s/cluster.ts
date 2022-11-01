@@ -15,19 +15,19 @@ export const DEFAULT_KUBERNETES_VERSION: string = '1.23';
 export const DEFAULT_PROXY_MODE: string = 'ipvs';
 export const DEFAULT_IPVS_SCHEDULER: string = 'rr';
 
-export interface OptionalClusterProps extends cdk.StackProps {
+export interface OptionalKube10kClusterProps extends cdk.StackProps {
   // IpvsMode (optional) controls the default behavior of the Kube Proxy pods. In IPVS mode, the kernel is more
   // efficient at handling routing of packets to thousands of pods and services than in IPTables mode. The default
   // behavior is to enable IPVS mode.
-  proxyMode?: string;
+  readonly proxyMode?: string;
 
   // IpvsScheduler (optional) controls which scheduler is used when operating in IPVS mode. See
   // https://github.com/bottlerocket-os/bottlerocket/blob/develop/packages/kubernetes-1.23/load-ipvs-modules.conf
   // for allowed schedulers in BottleRocket
-  ipvsScheduler?: string;
+  readonly ipvsScheduler?: string;
 
   // Tags (optional) will be applied to the EKS cluster that is created by the custom Lambda function
-  commonTags?: cdk.CfnTag[];
+  readonly commonTags?: cdk.CfnTag[];
 
   /**
    * ServiceIPv4Cidr (optional, **immutable**) is the "Service IP range" that
@@ -35,35 +35,35 @@ export interface OptionalClusterProps extends cdk.StackProps {
    * 172.20.0.0/16 and should be fine for most cases. This setting cannot be
    * changed once the initial stack has been created.
    */
-  serviceIPv4Cidr?: string;
+  readonly serviceIPv4Cidr?: string;
 }
 
-export interface ClusterProps extends OptionalClusterProps {
+export interface Kube10kClusterProps extends OptionalKube10kClusterProps {
   /**
    * clusterName defines the name of the cluster in EKS - this is an immutable value once you set it.
    */
-  clusterName: string;
+  readonly clusterName: string;
 
   /**
    * ClusterRoles (required, **immutable**) provides pre-defined IAM Roles for
    * the EKS Cluster Control Plane and the EC2 Node Role
    */
-  clusterRoles: ClusterRoles;
+  readonly clusterRoles: ClusterRoles;
 
   /**
    * ClusterNetworkPrep (required, **immutable**) provides dedicated Security
    * Group IDs for the EKS Cluster Control Plane and EC2 Nodes
    */
-  clusterSecurityGroups: ClusterSecurityGroups;
+  readonly clusterSecurityGroups: ClusterSecurityGroups;
 
   /**
    * KubernetesVersion (optional) supplies the desired version of the Kubernetes
    * cluster. This can be increased over time to perform cluster upgrades.
    */
-  kubernetesVersion: eks.KubernetesVersion;
+  readonly kubernetesVersion: eks.KubernetesVersion;
 }
 
-export class Cluster extends Construct {
+export class Kube10kCluster extends Construct {
   /**
    * Provide access to the {@link Key} Key that is used by the cluster for storing
    * secrets. This Key can also be used later for in-cluster resources like the
@@ -75,7 +75,7 @@ export class Cluster extends Construct {
    * Provides access to the underlying Cluster object.
    *
    * Note: We pass back the full Cluster object, not the ICluster interface. The
-   * {@link Cluster} object provides access to the important
+   * {@link Kube10kCluster} object provides access to the important
    * `clusterOpenIdConnectIssuerUrl` property.
    */
   public readonly cluster: eks.Cluster;
@@ -86,7 +86,7 @@ export class Cluster extends Construct {
    */
   public readonly awsAuth: AwsAuth;
 
-  constructor(scope: cdk.Stack, id: string, props: ClusterProps) {
+  constructor(scope: cdk.Stack, id: string, props: Kube10kClusterProps) {
     super(scope, id);
 
     const proxyMode = props.proxyMode || DEFAULT_PROXY_MODE;

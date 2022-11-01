@@ -12,55 +12,55 @@ export enum BootstrapContainerMode {
 }
 
 export interface BootstrapContainer {
-  mode: BootstrapContainerMode;
-  source: string;
-  essential?: boolean;
+  readonly mode: BootstrapContainerMode;
+  readonly source: string;
+  readonly essential?: boolean;
 }
 
 export interface Kernel {
-  sysctl: Sysctl;
+  readonly sysctl: Sysctl;
 }
 
 export interface Sysctl {
-  'net.ipv4.ip_local_port_range'?: string;
-  'fs.inotify.max_user_instances'?: string;
-  'fs.inotify.max_user_watches'?: string;
+  readonly 'net.ipv4.ip_local_port_range'?: string;
+  readonly 'fs.inotify.max_user_instances'?: string;
+  readonly 'fs.inotify.max_user_watches'?: string;
 }
 
 export interface Kubernetes {
   /**
    *  Required parameters populated by the constructor of the BottleRocketSettings class.
    */
-  'api-server': string;
-  'cluster-name': string;
-  'cluster-certificate': string;
+  readonly 'api-server': string;
+  readonly 'cluster-name': string;
+  readonly 'cluster-certificate': string;
 
   /**
    * Optional parameters
    */
-  'cluster-dns-ip'?: string[];
-  'image-gc-high-threshold-percent'?: string;
-  'image-gc-low-threshold-percent'?: string;
-  'event-qps'?: number;
-  'kube-api-qps'?: number;
-  'kube-api-burst'?: number;
-  'node-taints'?: { [key: string]: string };
-  'eviction-hard'?: EvictionHard;
+  readonly 'cluster-dns-ip'?: string[];
+  readonly 'image-gc-high-threshold-percent'?: string;
+  readonly 'image-gc-low-threshold-percent'?: string;
+  readonly 'event-qps'?: number;
+  readonly 'kube-api-qps'?: number;
+  readonly 'kube-api-burst'?: number;
+  readonly 'node-taints': { [key: string]: string };
+  readonly 'eviction-hard'?: EvictionHard;
 }
 
 export interface EvictionHard {
-  'memory.available'?: string;
-  'nodefs.available'?: string;
-  'nodefs.inodesFree'?: string;
-  'imagefs.available'?: string;
-  'imagefs.inodesFree'?: string;
-  'pid.available'?: string;
+  readonly 'memory.available'?: string;
+  readonly 'nodefs.available'?: string;
+  readonly 'nodefs.inodesFree'?: string;
+  readonly 'imagefs.available'?: string;
+  readonly 'imagefs.inodesFree'?: string;
+  readonly 'pid.available'?: string;
 }
 
 export class BottleRocketSettings {
   'bootstrap-containers'?: { [id: string]: BootstrapContainer };
-  kernel: Kernel;
-  kubernetes: Kubernetes;
+  readonly kernel: Kernel;
+  readonly kubernetes: Kubernetes;
 
   /**
    *
@@ -153,7 +153,6 @@ export class BottleRocketSettings {
     BootstrapContainers: { [id: string]: BootstrapContainer } = {}
   ) {
     // TODO: Verify thresholdpercents between 0 and 100
-
     this['bootstrap-containers'] = BootstrapContainers;
     this.kernel = {
       sysctl: {
@@ -172,6 +171,7 @@ export class BottleRocketSettings {
       'event-qps': eventQps,
       'kube-api-qps': kubeApiQps,
       'kube-api-burst': kubeApiBurst,
+      'node-taints': {},
       'eviction-hard': {
         'memory.available': this.percentage(MemoryAvailable),
         'nodefs.available': this.percentage(NodeFSAvailable),
@@ -197,9 +197,6 @@ export class BottleRocketSettings {
   }
 
   addTaint(key: string, value: string, effect: string = 'NoSchedule') {
-    if (this.kubernetes['node-taints'] == undefined) {
-      this.kubernetes['node-taints'] = {};
-    }
     this.kubernetes['node-taints'][key] = `${value}:${effect}`;
   }
 

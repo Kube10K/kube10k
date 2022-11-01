@@ -1,13 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
-import { VpcProps, CoreVpc } from '../constructs/network/vpc';
+import { CoreVpc, VpcProps } from '../constructs/network/vpc';
 
 export interface VpcStackProps extends cdk.NestedStackProps {
   /**
    * vpcProps provides direct access to customize the nested VPC Stack.
    */
-  vpcProps?: VpcProps;
+  readonly vpcProps?: VpcProps;
 }
 
 export class VpcStack extends cdk.NestedStack {

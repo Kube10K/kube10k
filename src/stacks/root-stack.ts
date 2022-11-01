@@ -15,6 +15,7 @@ import { VpcStack, VpcStackProps } from './vpc-stack';
 import { NestedWorkloadSubnetStack } from './workload-subnet-stack';
 
 const DEFAULT_KUBERNETES_VERSION = '1.23';
+const DEFAULT_NODE_TAINT_KEY = 'group.name';
 const DEFAULT_SYSTEM_NODE_TAINT_VALUE = 'system';
 
 export interface RootStackProps extends StackProps {
@@ -26,7 +27,7 @@ export interface RootStackProps extends StackProps {
   /**
    * Name of the cluster
    */
-  clusterName?: string;
+  readonly clusterName?: string;
 
   /**
    * KubernetesVersion is the desired Kubernetes Version. See
@@ -34,13 +35,13 @@ export interface RootStackProps extends StackProps {
    * https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html for details.
    *
    */
-  kubernetesVersion?: string;
+  readonly kubernetesVersion?: string;
 
   /**
    * Optional override that allows setting the NodeVersion to something older
    * than the cluster version during upgrades.
    */
-  nodeKubernetesVersion?: string;
+  readonly nodeKubernetesVersion?: string;
 
   /**
    * CommonTags are a set of CfnTag resources that will be added to every
@@ -50,7 +51,7 @@ export interface RootStackProps extends StackProps {
    * NOTE: Tags are only applied to the EKS Cluster at the time of creation per
    * https://github.com/aws/aws-cdk/issues/19388#issuecomment-1268870426.
    */
-  commonTags?: CfnTag[];
+  readonly commonTags?: CfnTag[];
 
   /**
    * ExistingVpcId is an optional parameter that will prevent the stack from
@@ -59,7 +60,7 @@ export interface RootStackProps extends StackProps {
    * Pod IP range (see VpcStackProps.PodCIDR) and create dedicated subnets and
    * security groups for those pods.
    */
-  existingVpcId?: string;
+  readonly existingVpcId?: string;
 
   /**
    * These various parameters allow the clusters more detailed internal
@@ -71,35 +72,35 @@ export interface RootStackProps extends StackProps {
   /**
    * VpcStackProps provides direct access to customize the nested VPC Stack.
    */
-  vpcStackProps?: VpcStackProps;
+  readonly vpcStackProps?: VpcStackProps;
 
   /**
    * clusterStackProps provides direct access to customize the Kubernetes cluster
    * beyond the standard top level settings within this RootStackProps resource.
    */
-  clusterStackProps?: OptionalClusterStackProps;
+  readonly clusterStackProps?: OptionalClusterStackProps;
 
   /**
    * Allows customizing the default workload subnet props.
    */
-  defaultWorkloadSubnetProps?: OptionalWorkloadSubnetProps;
+  readonly defaultWorkloadSubnetProps?: OptionalWorkloadSubnetProps;
 
   /**
    * systemNodesIsolation defines the node labels and taints that will used to
    * isolate the "System" nodes from other normal workloads.
    */
-  systemNodesTaint?: NodeTaint;
+  readonly systemNodesTaint?: NodeTaint;
 
   /**
    * Customized parameters for the "System" nodes group - this allows
    * customizing the default node sizes, counts, etc.
    */
-  systemNodesProps?: OptionalManagedNodeGroupProps;
+  readonly systemNodesProps?: OptionalManagedNodeGroupProps;
 
   /**
    * Customized parameters for the {@link PodSecurityPolicy} addon stack.
    */
-  podSecurityPolicy?: OptionalPodSecurityPolicyProps;
+  readonly podSecurityPolicy?: OptionalPodSecurityPolicyProps;
 }
 
 export class RootStack extends Stack {
@@ -213,7 +214,7 @@ export class RootStack extends Stack {
      * our nested stacks to "tolerate" the taints.
      */
     const systemNodeTaint =
-      props.systemNodesTaint || new NodeTaint(undefined, DEFAULT_SYSTEM_NODE_TAINT_VALUE, undefined, true);
+      props.systemNodesTaint || new NodeTaint(DEFAULT_NODE_TAINT_KEY, DEFAULT_SYSTEM_NODE_TAINT_VALUE, undefined, true);
 
     /**
      * Create our initial "core addons" stack. This stack pre-creates a number

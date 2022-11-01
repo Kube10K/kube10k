@@ -14,7 +14,7 @@ export interface NodeLabel {
 }
 
 export class NodeLabels {
-  labels: NodeLabel[];
+  readonly labels: NodeLabel[];
 
   constructor() {
     this.labels = [];
@@ -41,9 +41,8 @@ export class NodeLabels {
  * Custom class for defining Taints and then populating Tolerations,
  * BottleRocket Taint configs, etc.
  */
-const DEFAULT_TAINT_KEY: string = 'group.name';
 
-export const enum TaintedNodeEffect {
+export enum TaintedNodeEffect {
   NO_SCHEDULE = 'NoSchedule',
   NO_EXECUTE = 'NoExecute',
   PREFER_NO_SCHEDULE = 'PreferNoSchedule'
@@ -55,7 +54,7 @@ export class NodeTaint {
   readonly effect: TaintedNodeEffect;
 
   constructor(
-    key: string = DEFAULT_TAINT_KEY,
+    key: string,
     value: string,
     effect: TaintedNodeEffect = TaintedNodeEffect.NO_SCHEDULE,
     internal: boolean = false

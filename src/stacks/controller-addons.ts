@@ -5,14 +5,14 @@ import { NodeTaint } from '../constructs/k8s/common';
 import { OidcIrsa } from '../constructs/k8s/oidc-isra';
 
 export interface ControllerAddonsProps {
-  cluster: ICluster;
-  kubernetesVersion: KubernetesVersion;
-  nodeTaint: NodeTaint;
+  readonly cluster: ICluster;
+  readonly kubernetesVersion: KubernetesVersion;
+  readonly nodeTaint: NodeTaint;
 
   /**
    * Used for setting up Role<->ServiceAccount mappings
    */
-  oidcIrsa: OidcIrsa;
+  readonly oidcIrsa: OidcIrsa;
 }
 
 export class ControllerAddonsStack extends NestedStack {

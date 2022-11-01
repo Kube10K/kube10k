@@ -1,10 +1,18 @@
-import { KubernetesManifest } from 'aws-cdk-lib/aws-eks';
+import { ICluster, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
-import { DEFAULT_RESOURCE_PREFIX, IBaseAddonProps } from './common';
+import { DEFAULT_RESOURCE_PREFIX } from '../../common';
 
 const DEFAULT_PRIORITY_CLASS_VALUE: number = 1000000;
 
-export interface PriorityClassesProps extends IBaseAddonProps {}
+export interface PriorityClassesProps {
+  readonly cluster: ICluster;
+
+  /**
+   * Customize the prefix used by the resources created within this stack.
+   * Default is {@link DEFAULT_RESOURCE_PREFIX}.
+   */
+  readonly resourcePrefix?: string;
+}
 
 export class PriorityClasses extends Construct {
   constructor(scope: Construct, id: string, props: PriorityClassesProps) {

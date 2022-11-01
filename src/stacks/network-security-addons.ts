@@ -10,19 +10,19 @@ import { NodeTaint } from '../constructs/k8s/common';
 import { OidcIrsa } from '../constructs/k8s/oidc-isra';
 
 export interface NetworkSecurityAddonsProps {
-  cluster: ICluster;
-  kubernetesVersion: KubernetesVersion;
-  nodeTaint: NodeTaint;
+  readonly cluster: ICluster;
+  readonly kubernetesVersion: KubernetesVersion;
+  readonly nodeTaint: NodeTaint;
 
   /**
    * Used for setting up Role<->ServiceAccount mappings
    */
-  oidcIrsa: OidcIrsa;
+  readonly oidcIrsa: OidcIrsa;
 
   /**
    * Customizable access to tweak the {@link PodSecurityPolicy} addon construct.
    */
-  podSecurityProps?: OptionalPodSecurityPolicyProps;
+  readonly podSecurityProps?: OptionalPodSecurityPolicyProps;
 }
 
 export class NetworkSecurityAddonsStack extends NestedStack {

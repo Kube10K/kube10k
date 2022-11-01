@@ -29,16 +29,16 @@ event-qps = 0
 kube-api-qps = 30
 kube-api-burst = 60
 
+[settings.kubernetes.node-taints]
+taintKey = "taintValue:NoExecute"
+
 [settings.kubernetes.eviction-hard]
 "memory.available" = "5%"
 "nodefs.available" = "10%"
 "nodefs.inodesFree" = "15%"
 "imagefs.available" = "30%"
 "imagefs.inodesFree" = "15%"
-"pid.available" = "30%"
-
-[settings.kubernetes.node-taints]
-taintKey = "taintValue:NoExecute"`;
+"pid.available" = "30%"`;
 
 describe('Bottlerocket Configuration Generation', () => {
   test('getToml() with default values', () => {
@@ -68,9 +68,9 @@ describe('Bottlerocket Configuration Generation', () => {
         customContainer: {
           mode: bottlerocket.BootstrapContainerMode.ALWAYS,
           essential: true,
-          source: 'docker.io/myCustomContainer',
-        },
-      },
+          source: 'docker.io/myCustomContainer'
+        }
+      }
     );
     testObj.addTaint('taintKey', 'taintValue', 'NoExecute');
 
@@ -92,7 +92,7 @@ describe('Bottlerocket Configuration Generation', () => {
     const testObj = new bottlerocket.BottleRocketSettings('1.2.3.4', 'testCluster', 'junkData', ['1.1.1.1', '2.2.2.2']);
 
     // ASSERT: node-taints starts out empty
-    expect(testObj.kubernetes['node-taints']).toEqual(undefined);
+    expect(testObj.kubernetes['node-taints']).toEqual({});
 
     // THEN: add a taint
     testObj.addTaint('testKey', 'testValue', 'testEffect');

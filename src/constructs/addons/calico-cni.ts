@@ -1,8 +1,8 @@
 import { Fn, Stack } from 'aws-cdk-lib';
-import { HelmChart, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
+import { HelmChart, ICluster, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
+import { HelmChartOverrides } from '../../common';
 import { NodeTaint } from '../k8s/common';
-import { HelmChartOverrides, IBaseAddonProps } from './common';
 
 // The namespace where the pods and configuration will will live.
 const TARGET_NAMESPACE: string = 'calico-system';
@@ -13,16 +13,18 @@ const DEFAULT_HELM_CHART_VERSION: string = '3.24.3';
 const DEFAULT_HELM_REPO: string = 'https://projectcalico.docs.tigera.io/charts';
 const DEFAULT_HELM_RELEASE_NAME: string = 'tigera-operator';
 
-export interface CalicoProps extends IBaseAddonProps {
+export interface CalicoProps {
+  readonly cluster: ICluster;
+
   /**
    * We explicitly run the Tigera Operator on the System nodes
    */
-  nodeTaint: NodeTaint;
+  readonly nodeTaint: NodeTaint;
 
   /**
    * If supplied, this allows for helm chart defaults to be overridden by the caller.
    */
-  helm?: HelmChartOverrides;
+  readonly helm?: HelmChartOverrides;
 }
 
 export class CalicoCni extends Construct {

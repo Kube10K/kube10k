@@ -1,6 +1,6 @@
-import { HelmChart } from 'aws-cdk-lib/aws-eks';
+import { HelmChart, ICluster } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
-import { HelmChartOverrides, IBaseAddonProps } from './common';
+import { HelmChartOverrides } from '../../common';
 
 const DEFAULT_COREDNS_SERVICE_IP: string = '172.20.0.10';
 const DEFAULT_NODE_LOCAL_DNS_SERVICE_IP: string = '169.254.20.10';
@@ -18,12 +18,14 @@ const DEFAULT_HELM_CHART_VERSION: string = '0.0.3';
 // references in the node-local-dns pods to the name of the core-dns service.
 const TARGET_NAMESPACE: string = 'kube-system';
 
-export interface NodeLocalDnsProps extends IBaseAddonProps {
+export interface NodeLocalDnsProps {
+  readonly cluster: ICluster;
+
   /**
    * Optionally override the default internal CoreDNS Service IP. This IP
    * address is generally set by AWS.
    */
-  coreDnsIp?: string;
+  readonly coreDnsIp?: string;
 
   /**
    * Optionally override the new Service IP address that will be used for Pods
@@ -32,17 +34,17 @@ export interface NodeLocalDnsProps extends IBaseAddonProps {
    * be configured to point pods to this IP address, so this is a static setting
    * once your cluster is operational.
    */
-  serviceIp?: string;
+  readonly serviceIp?: string;
 
   /**
    * Optionally use this to disable IPVS mode for the Node-Local-DNS pods.
    */
-  enableIpvs?: boolean;
+  readonly enableIpvs?: boolean;
 
   /**
    * If supplied, this allows for helm chart defaults to be overridden by the caller.
    */
-  helm?: HelmChartOverrides;
+  readonly helm?: HelmChartOverrides;
 }
 
 export class NodeLocalDns extends Construct {

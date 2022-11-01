@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
-import { ManagedNodeGroupProps, ManagedNodeGroup } from '../constructs/k8s/compute';
 import { Stack } from 'aws-cdk-lib';
+import { ManagedNodeGroup, ManagedNodeGroupProps } from '../constructs/k8s/compute';
 
 /**
  * Wrapper-stack for creating a single nested stack with a Managed Node Group.
@@ -11,7 +11,7 @@ import { Stack } from 'aws-cdk-lib';
  * handle dependency ordering and to keep the Root Stack from growing too large.
  */
 export class NestedManagedNodeGroupStack extends cdk.NestedStack {
-  nodeGroup: ManagedNodeGroup;
+  readonly nodeGroup: ManagedNodeGroup;
   constructor(scope: Stack, id: string, props: ManagedNodeGroupProps) {
     super(scope, id);
     this.nodeGroup = new ManagedNodeGroup(this, id, props);
@@ -25,7 +25,7 @@ export class NestedManagedNodeGroupStack extends cdk.NestedStack {
  * support.
  */
 export class ManagedNodeGroupStack extends cdk.Stack {
-  nodeGroup: ManagedNodeGroup;
+  readonly nodeGroup: ManagedNodeGroup;
   constructor(scope: Stack, id: string, props: ManagedNodeGroupProps) {
     super(scope, id);
     this.nodeGroup = new ManagedNodeGroup(this, id, props);

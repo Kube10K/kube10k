@@ -12,7 +12,7 @@ export interface OidcIrsaProps extends OptionalOidcIrsaProps {
    * access to the `clusterOpenIdConnectIssuerUrl` property which is not
    * exposed in the {@link ICluster} resource.
    */
-  cluster: Cluster;
+  readonly cluster: Cluster;
 }
 
 /**

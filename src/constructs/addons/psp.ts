@@ -1,19 +1,24 @@
 import { ICluster, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
-import { DEFAULT_RESOURCE_PREFIX } from './common';
+import { DEFAULT_RESOURCE_PREFIX } from '../../common';
+
+export interface PodSecurityAllowedHostPath {
+  readonly pathPrefix: string;
+  readonly readOnly: boolean;
+}
 
 export interface OptionalPodSecurityPolicyProps {
   /**
    * Customize the prefix used by the resources created within this stack.
    * Default is {@link DEFAULT_RESOURCE_PREFIX}.
    */
-  resourcePrefix?: string;
+  readonly resourcePrefix?: string;
 
   /**
    * List of Allowed Host Paths. Customize this list to allow for hostPath
    * access to certain dedicated resources such as Datadog Agents.
    */
-  allowedHostPaths?: { pathPrefix: string; readOnly: boolean }[];
+  readonly allowedHostPaths?: PodSecurityAllowedHostPath[];
 }
 
 export interface PodSecurityPolicyProps extends OptionalPodSecurityPolicyProps {
@@ -21,7 +26,7 @@ export interface PodSecurityPolicyProps extends OptionalPodSecurityPolicyProps {
    * The ICluster representing the EKS cluster these resources are being
    * created in.
    */
-  cluster: ICluster;
+  readonly cluster: ICluster;
 }
 
 export class PodSecurityPolicy extends Construct {

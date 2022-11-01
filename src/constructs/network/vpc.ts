@@ -30,7 +30,7 @@ export interface VpcProps extends cdk.StackProps {
   /**
    * The desired "name" of the VPC.
    */
-  name?: string;
+  readonly name?: string;
 
   /**
    * The CIDR range to use for the VPC. If not supplied, then the DEFAULT_CIDR
@@ -38,7 +38,7 @@ export interface VpcProps extends cdk.StackProps {
    *
    * @default "100.64.0.0/16"
    */
-  cidr?: string;
+  readonly cidr?: string;
 
   /**
    * The maximum number of AZs to leverage in the target AWS region for the VPC.
@@ -48,7 +48,7 @@ export interface VpcProps extends cdk.StackProps {
    *
    * @default 3
    */
-  maxAZs?: number;
+  readonly maxAZs?: number;
 
   /**
    * The subnet size for the Public subnets. These Public subnets are only
@@ -57,7 +57,7 @@ export interface VpcProps extends cdk.StackProps {
    *
    * @default 24
    */
-  publicSubnetBlockSize?: number;
+  readonly publicSubnetBlockSize?: number;
 
   /**
    * The subnet size for the Private subnets. These subnets generally should
@@ -66,22 +66,22 @@ export interface VpcProps extends cdk.StackProps {
    *
    * @default 20
    */
-  privateSubnetBlockSize?: number;
+  readonly privateSubnetBlockSize?: number;
 
   /**
    * The EC2 instance tenancy default for the VPC.
    */
-  defaultInstanceTenancy?: DefaultInstanceTenancy;
+  readonly defaultInstanceTenancy?: DefaultInstanceTenancy;
 
   /**
    * List of desired EC2 Gateway VPC Endpoints to be created within the VPC.
    */
-  gatewayEndpoints?: { [id: string]: GatewayVpcEndpointOptions };
+  readonly gatewayEndpoints?: { [id: string]: GatewayVpcEndpointOptions };
 
   /**
    * List of customized EC2 Interface VPC Endpoints to be created within the VPC.
    */
-  interfaceEndpoints?: ec2.InterfaceVpcEndpointAwsService[];
+  readonly interfaceEndpoints?: ec2.InterfaceVpcEndpointAwsService[];
 }
 
 export class CoreVpc extends Construct {

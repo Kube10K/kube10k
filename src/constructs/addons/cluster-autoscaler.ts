@@ -1,10 +1,10 @@
 import { Stack } from 'aws-cdk-lib';
-import { HelmChart } from 'aws-cdk-lib/aws-eks';
+import { HelmChart, ICluster } from 'aws-cdk-lib/aws-eks';
 import { CfnRole, Effect, PolicyDocument, PolicyStatement, Role } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
+import { HelmChartOverrides } from '../../common';
 import { NodeTaint } from '../k8s/common';
 import { OidcIrsa } from '../k8s/oidc-isra';
-import { HelmChartOverrides, IBaseAddonProps } from './common';
 
 // The namespace where the pods and configuration will will live.
 const TARGET_NAMESPACE: string = 'kube-system';
@@ -15,22 +15,23 @@ const DEFAULT_HELM_REPO: string = 'https://kube10k.github.io/helm-charts';
 const DEFAULT_HELM_CHART: string = 'cluster-autoscaler';
 const DEFAULT_HELM_CHART_VERSION: string = '0.0.2';
 
-export interface ClusterAutoscalerProps extends IBaseAddonProps {
+export interface ClusterAutoscalerProps {
+  readonly cluster: ICluster;
   /**
    * We explicitly run the Tigera Operator on the System nodes
    */
-  nodeTaint: NodeTaint;
+  readonly nodeTaint: NodeTaint;
 
   /**
    * Required {@link OidcIrsa} resource used to create the IAM Role with the
    * appropriate {@link FederatedPolicy}.
    */
-  oidcIrsa: OidcIrsa;
+  readonly oidcIrsa: OidcIrsa;
 
   /**
    * If supplied, this allows for helm chart defaults to be overridden by the caller.
    */
-  helm?: HelmChartOverrides;
+  readonly helm?: HelmChartOverrides;
 }
 
 export class ClusterAutoscaler extends Construct {

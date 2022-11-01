@@ -22,24 +22,24 @@ export interface OptionalWorkloadSubnetProps {
   /**
    * Workload CIDR Range (eg: 100.65.0.0/16)
    */
-  cidr?: string;
+  readonly cidr?: string;
 
   /**
    * Per-Subnet Subnet Block Size (eg: 18)
    */
-  blockSize?: number;
+  readonly blockSize?: number;
 }
 
 export interface WorkloadSubnetProps extends OptionalWorkloadSubnetProps {
   /**
    * {@link ICluster} reference to the cluster that these Subnets are for.
    */
-  cluster: ICluster;
+  readonly cluster: ICluster;
 
   /**
    * {@link IVpc} reference to the VPC that the Subnets will be created in
    */
-  vpc: IVpc;
+  readonly vpc: IVpc;
 }
 
 /**

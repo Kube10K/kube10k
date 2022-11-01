@@ -105,6 +105,10 @@
       "type": "build"
     },
     {
+      "name": "tomlify-j0.4",
+      "type": "bundled"
+    },
+    {
       "name": "@types/prettier",
       "version": "2.6.0",
       "type": "override"

@@ -11,7 +11,7 @@ describe('ClusterAutoscalerAddon', () => {
     const app = new App();
 
     const stack = new Stack(app, 'TestStack');
-    const nodeTaint = new NodeTaint(undefined, 'test');
+    const nodeTaint = new NodeTaint('key', 'test');
     const testCluster = new Cluster(stack, 'TestCluster', {
       version: KubernetesVersion.V1_21
     });

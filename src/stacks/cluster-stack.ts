@@ -3,7 +3,7 @@ import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks';
 import { PolicyStatement, Role } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
-import { Cluster } from '../constructs/k8s/cluster';
+import { Kube10kCluster } from '../constructs/k8s/cluster';
 import { OidcIrsa } from '../constructs/k8s/oidc-isra';
 import { ClusterRoles } from '../constructs/k8s/roles';
 import { ClusterSecurityGroups } from '../constructs/k8s/securitygroups';
@@ -16,20 +16,20 @@ export interface OptionalClusterStackProps extends cdk.NestedStackProps {
    * NOTE: https://github.com/aws/aws-cdk/issues/19388#issuecomment-1268870426 prevents tags from being updated after
    * initial creation of the EKS cluster.
    */
-  commonTags?: cdk.CfnTag[];
+  readonly commonTags?: cdk.CfnTag[];
 
   /**
    * NodeRolePolicyStatement is an optional list of awsiam.PolicyStatement resources used to customize the permissions
    * that the individual EC2 nodes in the cluster have. This can be useful when you want to craft specific ECR
    * permissions for example.
    */
-  nodeRolePolicyStatement?: PolicyStatement[];
+  readonly nodeRolePolicyStatement?: PolicyStatement[];
 
   /**
    * existingMasterRole is the short role name to an already existing AWS IAM
    * Role that will be granted "system:master"s access into the cluster.
    */
-  existingMasterRole?: string;
+  readonly existingMasterRole?: string;
 
   /**
    * roleMappings is a map of key/value pairs that will be used to map existing
@@ -42,31 +42,31 @@ export interface OptionalClusterStackProps extends cdk.NestedStackProps {
    *   }
    *
    */
-  roleMappings?: { [id: string]: string };
+  readonly roleMappings?: { [id: string]: string };
 
   /**
    * serviceIPv4Cidr is the "Service IP range" that will be used by the cluster
    * when creating internal services. The default is 172.20.0.0/16 and should be
    * fine for most cases.
    */
-  serviceIPv4Cidr?: string;
+  readonly serviceIPv4Cidr?: string;
 }
 
 export interface ClusterStackProps extends OptionalClusterStackProps {
   /**
    * clusterName is the desired name for the EKS Cluster.
    */
-  clusterName: string;
+  readonly clusterName: string;
 
   /**
    * kubernetesVersion is the target version for the EKS cluster.
    */
-  kubernetesVersion: string;
+  readonly kubernetesVersion: string;
 
   /**
    * VPC represents an already existing VPC that we will put the cluster into
    */
-  vpc: IVpc;
+  readonly vpc: IVpc;
 }
 
 export class ClusterStack extends cdk.NestedStack {
@@ -89,10 +89,10 @@ export class ClusterStack extends cdk.NestedStack {
   public readonly clusterSecurityGroups: ClusterSecurityGroups;
 
   /**
-   * Provides direct access to the {@link Cluster} resource - the aws-cdk
+   * Provides direct access to the {@link Kube10kCluster} resource - the aws-cdk
    * Layer3 construct used to create the cluster itself.
    */
-  public readonly cluster: Cluster;
+  public readonly cluster: Kube10kCluster;
 
   /**
    * Provides access to the {@link OidcIrsa} construct. This construct is used
@@ -142,7 +142,7 @@ export class ClusterStack extends cdk.NestedStack {
      * of the 'AWS::EKS::CdkCluster' resource, and instead are effectively making the 'eks:CreateCluster' API call
      * ourselves through a Lambda.
      */
-    this.cluster = new Cluster(this, 'Cluster', {
+    this.cluster = new Kube10kCluster(this, 'Cluster', {
       clusterName: props.clusterName,
       kubernetesVersion: KubernetesVersion.of(props.kubernetesVersion),
       clusterSecurityGroups: this.clusterSecurityGroups,

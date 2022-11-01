@@ -41,17 +41,17 @@ export interface OptionalManagedNodeGroupProps {
   /**
    * The arch of the bottlerocket image to run - X86_64 or ARM64
    */
-  architecture?: Architecture;
+  readonly architecture?: Architecture;
 
   /**
    * Pass in the BottleRocket version to use. Otherwise default of 'latest' is used.
    */
-  bottlerocketVersion?: string;
+  readonly bottlerocketVersion?: string;
 
   /**
    * What kind of capacity are we using - Spot or OnDemand?
    */
-  capacityType?: CapacityType;
+  readonly capacityType?: CapacityType;
 
   /**
    * The size of the data volume that container images, containers, and
@@ -60,7 +60,7 @@ export interface OptionalManagedNodeGroupProps {
    * @default: 100
    * @link DEFAULT_DATA_VOLUME_SIZE
    */
-  dataVolumeSize?: number;
+  readonly dataVolumeSize?: number;
 
   /**
    * The size of the root filesystem volume for Bottlerocket - this volume
@@ -68,14 +68,14 @@ export interface OptionalManagedNodeGroupProps {
    *
    * @default: 5
    */
-  rootVolumeSize?: number;
+  readonly rootVolumeSize?: number;
 
   /**
    * Minimum number of instances (per availability zone!) to run at all times.
    *
    * @default: 1
    */
-  minInstanceCount?: number;
+  readonly minInstanceCount?: number;
 
   /**
    * Desired number of instances (per availability zone!) to run at initial
@@ -84,14 +84,14 @@ export interface OptionalManagedNodeGroupProps {
    *
    * @default: 1
    */
-  desiredInstanceCount?: number;
+  readonly desiredInstanceCount?: number;
 
   /**
    * Maximum number of instances (per availability zone!) to ever run.
    *
    * @default: 100
    */
-  maxInstanceCount?: number;
+  readonly maxInstanceCount?: number;
 
   /**
    * Instance Types available for this AutoScaling Group. It critical that you
@@ -99,7 +99,7 @@ export interface OptionalManagedNodeGroupProps {
    * Memory, etc). If you need multiple sizes and shapes of instances, use multiple
    * ManagedNodeGroup resources.
    */
-  instanceTypes?: InstanceType[];
+  readonly instanceTypes?: InstanceType[];
 
   /**
    * Arbitrary set of Labels to apply to the nodes on startup. Amazon EKS will
@@ -108,27 +108,27 @@ export interface OptionalManagedNodeGroupProps {
    *
    * http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-labels
    */
-  nodeLabels?: NodeLabels;
+  readonly nodeLabels?: NodeLabels;
 
   /**
    * Optional configuration for how to taint the nodes on startup to prevent
    * undesired workloads from running on them.
    */
-  nodeTaints?: NodeTaint;
+  readonly nodeTaints?: NodeTaint;
 
   /**
    * Optional configuration of the IP address that kubelet will configure in the
    * /etc/resolv.conf for Pods. This is used to route DNS queries to a
    * node-local-dns cache for example.
    */
-  clusterDnsIp?: string[];
+  readonly clusterDnsIp?: string[];
 
   /**
    * Allows customizing the BottleRocket User Data settings supplied on bootup.
    * Only use this if you want to tune options that are not exposed already in
    * the ManagedNodeGroupProps.
    */
-  bottleRocketSettings?: BottleRocketSettings;
+  readonly bottleRocketSettings?: BottleRocketSettings;
 }
 
 export interface ManagedNodeGroupProps extends OptionalManagedNodeGroupProps {
@@ -136,32 +136,32 @@ export interface ManagedNodeGroupProps extends OptionalManagedNodeGroupProps {
    * A {@link ICluster} resource that is used to populate the Cluster API
    * Server, Certificate, and more.
    */
-  cluster: ICluster;
+  readonly cluster: ICluster;
 
   /**
    * A list of {@link Subnets} that we will launch {@link CfnNodeGroup}
    * resources on.
    */
-  subnets: ISubnet[];
+  readonly subnets: ISubnet[];
 
   /**
    * A {@link ClusterSecurityGroups} resoruce that includes references to the
    * security group for the nodes.
    */
-  clusterNetwork: ClusterSecurityGroups;
+  readonly clusterNetwork: ClusterSecurityGroups;
 
   /**
    * A {@link ClusterRoles} resource that includes references to the NodeRole
    * IAM Role.
    */
-  clusterRoles: ClusterRoles;
+  readonly clusterRoles: ClusterRoles;
 
   /**
    * Must pass in the desired kubernetes version to run on the compute nodes.
    * This should either match the cluster version, or be one version behind
    * the cluster version during upgrdes.
    */
-  kubernetesVersion: KubernetesVersion;
+  readonly kubernetesVersion: KubernetesVersion;
 }
 
 export class ManagedNodeGroup extends Construct {
@@ -222,16 +222,9 @@ export class ManagedNodeGroup extends Construct {
       new BottleRocketSettings(
         props.cluster.clusterEndpoint,
         props.cluster.clusterName,
-        props.cluster.clusterCertificateAuthorityData
+        props.cluster.clusterCertificateAuthorityData,
+        props.clusterDnsIp
       );
-
-    /**
-     * If the ClusterDnsIp list was passed in, then update our
-     * BottleRocketSettings object with those settings.
-     */
-    if (props.clusterDnsIp) {
-      this.bottleRocketSettings.kubernetes['cluster-dns-ip'] = props.clusterDnsIp;
-    }
 
     /**
      * When tainting our nodes, we modify the userData to inform BottleRocket to

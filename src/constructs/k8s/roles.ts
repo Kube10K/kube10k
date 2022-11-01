@@ -17,14 +17,14 @@ export interface ClusterRolesProps extends cdk.ResourceProps {
    * in the cluster have. This can be useful when you want to craft specific ECR
    * permissions for example.
    */
-  nodeRolePolicyStatement?: PolicyStatement[];
+  readonly nodeRolePolicyStatement?: PolicyStatement[];
 
   /**
    * ExistingMasterRole is an optional string that will prevent the creation of
    * a new dedicated MasterRole for the cluster and instead use an existing
    * role.
    */
-  existingMasterRole?: string;
+  readonly existingMasterRole?: string;
 }
 
 export class ClusterRoles extends Construct {
