@@ -9,12 +9,12 @@ describe('WorkloadSubnets', () => {
     const app = new App();
     const rootStack = new Stack(app, 'RootStack');
     const testCluster = new Cluster(rootStack, 'TestCluster', {
-      version: KubernetesVersion.V1_21,
+      version: KubernetesVersion.V1_21
     });
     const stack = new NestedStack(rootStack, 'TestStack');
-    const workload = new WorkloadSubnets(stack, 'WorkloadSubnets', {
+    new WorkloadSubnets(stack, 'WorkloadSubnets', {
       vpc: testCluster.vpc,
-      cluster: testCluster,
+      cluster: testCluster
     });
 
     // THEN
@@ -22,17 +22,17 @@ describe('WorkloadSubnets', () => {
 
     // ASSERT: The CIDR Block is created
     template.hasResourceProperties('AWS::EC2::VPCCidrBlock', {
-      CidrBlock: '100.65.0.0/16',
+      CidrBlock: '100.65.0.0/16'
     });
 
     // ASSERT: Subnets for each AZ were created
     template.hasResourceProperties('AWS::EC2::Subnet', {
       AvailabilityZone: { 'Fn::Select': [0, { 'Fn::GetAZs': '' }] },
-      CidrBlock: { 'Fn::Select': [0, { 'Fn::Cidr': ['100.65.0.0/16', 2, '14'] }] },
+      CidrBlock: { 'Fn::Select': [0, { 'Fn::Cidr': ['100.65.0.0/16', 2, '14'] }] }
     });
     template.hasResourceProperties('AWS::EC2::Subnet', {
       AvailabilityZone: { 'Fn::Select': [1, { 'Fn::GetAZs': '' }] },
-      CidrBlock: { 'Fn::Select': [1, { 'Fn::Cidr': ['100.65.0.0/16', 2, '14'] }] },
+      CidrBlock: { 'Fn::Select': [1, { 'Fn::Cidr': ['100.65.0.0/16', 2, '14'] }] }
     });
 
     // ASSERT: SubnetRouteTableAssociation for each AZ were created

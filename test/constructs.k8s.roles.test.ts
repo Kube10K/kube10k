@@ -7,7 +7,7 @@ describe('Roles', () => {
   test('Create Cluster Roles', () => {
     // GIVEN
     const stack = new Stack();
-    const roles = new ClusterRoles(stack, 'ClusterRoles', {});
+    new ClusterRoles(stack, 'ClusterRoles', {});
 
     // COMPILE
     const template = Template.fromStack(stack);
@@ -21,29 +21,29 @@ describe('Roles', () => {
     // ASSERT: Node Role Exists
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EC2 Node Role',
-      },
+        Description: 'Default/Minimal EC2 Node Role'
+      }
     });
 
     // ASSERT: Cluster Role Exists
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EKS CdkCluster Service Role',
-      },
+        Description: 'Default/Minimal EKS CdkCluster Service Role'
+      }
     });
 
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EKS Master Access Role',
-      },
+        Description: 'Default/Minimal EKS Master Access Role'
+      }
     });
   });
 
   test('Create Cluster Roles with existing Master Role ARN', () => {
     // GIVEN
     const stack = new Stack();
-    const roles = new ClusterRoles(stack, 'ClusterRoles', {
-      existingMasterRole: 'existingRole',
+    new ClusterRoles(stack, 'ClusterRoles', {
+      existingMasterRole: 'existingRole'
     });
 
     // COMPILE
@@ -57,15 +57,15 @@ describe('Roles', () => {
     // ASSERT: Node Role Exists
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EC2 Node Role',
-      },
+        Description: 'Default/Minimal EC2 Node Role'
+      }
     });
 
     // ASSERT: Cluster Role Exists
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EKS CdkCluster Service Role',
-      },
+        Description: 'Default/Minimal EKS CdkCluster Service Role'
+      }
     });
   });
 
@@ -73,14 +73,14 @@ describe('Roles', () => {
     // GIVEN
     const capture = new Capture();
     const stack = new Stack();
-    const roles = new ClusterRoles(stack, 'ClusterRoles', {
+    new ClusterRoles(stack, 'ClusterRoles', {
       nodeRolePolicyStatement: [
         new PolicyStatement({
           effect: Effect.ALLOW,
           actions: ['ecr:CreateRepository'],
-          resources: ['*'],
-        }),
-      ],
+          resources: ['*']
+        })
+      ]
     });
 
     // COMPILE
@@ -92,8 +92,8 @@ describe('Roles', () => {
     // ASSERT: IAM Policy references the NodeRole
     template.hasResource('AWS::IAM::Policy', {
       Properties: {
-        Roles: [{ Ref: capture }],
-      },
+        Roles: [{ Ref: capture }]
+      }
     });
     expect(capture.asString().match(/NodeRole/)).toBeDefined();
   });

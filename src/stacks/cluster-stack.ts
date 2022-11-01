@@ -119,6 +119,7 @@ export class ClusterStack extends cdk.NestedStack {
      * Prepare the VPC by creating dedicated Security Groups for the Nodes and
      * Control Plane.
      */
+    this.vpc = props.vpc;
     this.clusterSecurityGroups = new ClusterSecurityGroups(this, 'ClusterNetworkPrep', { vpc: props.vpc });
 
     /**

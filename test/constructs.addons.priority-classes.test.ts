@@ -12,7 +12,7 @@ describe('PriorityClassesAddons', () => {
       version: KubernetesVersion.V1_21
     });
     const stack = new NestedStack(rootStack, 'TestStack');
-    const psp = new PriorityClasses(stack, 'PriorityClasses', {
+    new PriorityClasses(stack, 'PriorityClasses', {
       cluster: testCluster
     });
 

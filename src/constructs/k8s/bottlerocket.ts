@@ -1,9 +1,11 @@
 import { IMachineImage, MachineImage, UserData } from 'aws-cdk-lib/aws-ec2';
+import { KubernetesVersion } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
 
 var tomlify = require('tomlify-j0.4');
 
-export const enum BootstrapContainerMode {
+KubernetesVersion;
+export enum BootstrapContainerMode {
   OFF = 'off',
   ONCE = 'once',
   ALWAYS = 'always'
@@ -210,6 +212,7 @@ export class BottleRocketSettings {
     return tomlify.toToml(
       { settings: this },
       {
+        //@ts-ignore
         replace: function (key: string, value: any) {
           // If the value is a number, we need to convert it from a float to an
           // int... but JavaScript doesn't really have that concept. See
@@ -217,7 +220,7 @@ export class BottleRocketSettings {
           //
           // Before: event-qps: 30.0
           // After: event-qps: 30
-          //
+
           if (typeof value === 'number') {
             return String(value | 0);
           }

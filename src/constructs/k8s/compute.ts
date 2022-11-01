@@ -178,7 +178,7 @@ export class ManagedNodeGroup extends Construct {
   /**
    * Reference to the NodeTaint applied to the nodes within this group
    */
-  public readonly nodeTaint: NodeTaint;
+  public readonly nodeTaint?: NodeTaint;
 
   /**
    * Reference to the {@link BottleRocketSettings} used to configure these nodes

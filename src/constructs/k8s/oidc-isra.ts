@@ -1,5 +1,5 @@
 import { CfnJson, CustomResource, Fn, RemovalPolicy, Stack } from 'aws-cdk-lib';
-import { Cluster, ICluster } from 'aws-cdk-lib/aws-eks';
+import { Cluster } from 'aws-cdk-lib/aws-eks';
 import { CfnOIDCProvider, FederatedPrincipal } from 'aws-cdk-lib/aws-iam';
 import { Architecture, Code, Function, LayerVersion, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';

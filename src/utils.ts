@@ -8,7 +8,7 @@ export function getStackName(app: App, stackName: string): string {
 export function getClusterName(app: App): string {
   const prefix = getContextValueAsString(app, 'StackPrefix').toLocaleLowerCase();
   const name = getContextValueAsString(app, 'ClusterName').toLocaleLowerCase();
-  return prefix + '-' + 'name';
+  return prefix + '-' + name;
 }
 
 export function getContextValueAsString(app: App, contextValue: string): string {

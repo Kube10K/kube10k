@@ -2,7 +2,7 @@ import { Fn, Stack } from 'aws-cdk-lib';
 import { HelmChart, KubernetesManifest } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
 import { NodeTaint } from '../k8s/common';
-import { BaseAddonsProps, DEFAULT_RESOURCE_PREFIX, HelmChartOverrides } from './common';
+import { BaseAddonsProps, HelmChartOverrides } from './common';
 
 // The namespace where the pods and configuration will will live.
 const TARGET_NAMESPACE: string = 'calico-system';
@@ -35,7 +35,6 @@ export class CalicoCni extends Construct {
     /**
      * Get our "release name" and verify its sanity.
      */
-    const resourcePrefix = props.resourcePrefix || DEFAULT_RESOURCE_PREFIX;
     const releaseName: string = props.helm?.releaseName || DEFAULT_HELM_RELEASE_NAME;
 
     /**

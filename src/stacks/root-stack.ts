@@ -119,10 +119,14 @@ export class RootStack extends Stack {
   readonly clusterName: string;
 
   /**
-   *
+   * Access to the {@link VpcStack}  nested stack, if it gets created.
    */
-  vpcStack: VpcStack;
-  clusterStack: ClusterStack;
+  readonly vpcStack?: VpcStack;
+
+  /**
+   * Access to the {@link ClusterStack} nested stack.
+   */
+  readonly clusterStack: ClusterStack;
 
   constructor(scope: Construct, id: string, props: RootStackProps) {
     super(scope, id, props);

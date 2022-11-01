@@ -86,16 +86,6 @@ export interface VpcProps extends cdk.StackProps {
 
 export class CoreVpc extends Construct {
   /**
-   * Returns the name of the VPC that was created.
-   */
-  readonly name: string;
-
-  /**
-   * The ID of the VPC
-   */
-  readonly vpcId: string;
-
-  /**
    * Reference to the raw VPC object created
    */
   readonly vpc: cdk.aws_ec2.IVpc;

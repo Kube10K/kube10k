@@ -111,8 +111,6 @@ export class WorkloadSubnets extends Construct {
        */
       const cidrSize: number = 32 - this.blockSize;
 
-      // Get the AZ name in short form
-      let az = existingPrivate.availabilityZone;
       let routeTableId = existingPrivate.routeTable.routeTableId;
 
       // Create the Subnet. Use a native CFN resource only here - no constructs

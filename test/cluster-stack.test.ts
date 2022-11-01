@@ -18,7 +18,7 @@ describe('ClusterStack', () => {
     const stack = new ClusterStack(rootStack, 'ClusterStack', clusterStackProps);
 
     // Prepare the stack for assertions.
-    const template = Template.fromStack(stack);
+    Template.fromStack(stack);
 
     // ASSERT: Nothing right now, just make sure the template compiles
   });
@@ -29,6 +29,7 @@ describe('ClusterStack', () => {
 
     // WHEN
     const vpc: IVpc = new Vpc(rootStack, 'Vpc');
+
     const clusterStackProps: ClusterStackProps = {
       clusterName: 'testCluster',
       kubernetesVersion: '1.23',
@@ -41,11 +42,8 @@ describe('ClusterStack', () => {
     const template = Template.fromStack(stack);
 
     // THEN: Find the AwsAuth map
-    const awsAuthResource = template.findResources('Custom::AWSCDK-EKS-KubernetesResource', {
+    template.findResources('Custom::AWSCDK-EKS-KubernetesResource', {
       Manifest: Match.stringLikeRegexp('AwsAuth')
     });
-    console.log(awsAuthResource);
-
-    //expect(awsAuthResource.stringify).toContain('systemmasters');
   });
 });

@@ -15,7 +15,7 @@ describe('AwsVpcCni', () => {
     const oidcIrsa = new OidcIrsa(stack, 'OidcIrsa', {
       cluster: testCluster
     });
-    const construct = new AwsVpcCni(stack, 'awsVpcCni', {
+    new AwsVpcCni(stack, 'awsVpcCni', {
       cluster: testCluster,
       oidcIrsa: oidcIrsa
     });
