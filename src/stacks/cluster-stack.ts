@@ -8,7 +8,7 @@ import { OidcIrsa } from '../constructs/k8s/oidc-isra';
 import { ClusterRoles } from '../constructs/k8s/roles';
 import { ClusterSecurityGroups } from '../constructs/k8s/securitygroups';
 
-export interface OptionalClusterStackProps extends cdk.NestedStackProps {
+export interface OptionalClusterStackProps {
   /**
    * CommonTags are a set of CfnTag resources that will be added ultimately to the EKS cluster, if the cluster is
    * provisioned by this stack (as opposed to the "bring your own cluster" model).
@@ -52,7 +52,7 @@ export interface OptionalClusterStackProps extends cdk.NestedStackProps {
   readonly serviceIPv4Cidr?: string;
 }
 
-export interface ClusterStackProps extends OptionalClusterStackProps {
+export interface ClusterStackProps {
   /**
    * clusterName is the desired name for the EKS Cluster.
    */
@@ -67,6 +67,11 @@ export interface ClusterStackProps extends OptionalClusterStackProps {
    * VPC represents an already existing VPC that we will put the cluster into
    */
   readonly vpc: IVpc;
+
+  /**
+   * Optional User-Customizable Parameters
+   */
+  readonly optionalClusterStackProps?: OptionalClusterStackProps;
 }
 
 export class ClusterStack extends cdk.NestedStack {
@@ -111,8 +116,8 @@ export class ClusterStack extends cdk.NestedStack {
      * roles.
      */
     this.clusterRoles = new ClusterRoles(this, 'ClusterRoles', {
-      nodeRolePolicyStatement: props?.nodeRolePolicyStatement,
-      existingMasterRole: props?.existingMasterRole,
+      nodeRolePolicyStatement: props.optionalClusterStackProps?.nodeRolePolicyStatement,
+      existingMasterRole: props.optionalClusterStackProps?.existingMasterRole
     });
 
     /**
@@ -146,7 +151,7 @@ export class ClusterStack extends cdk.NestedStack {
       clusterName: props.clusterName,
       kubernetesVersion: KubernetesVersion.of(props.kubernetesVersion),
       clusterSecurityGroups: this.clusterSecurityGroups,
-      clusterRoles: this.clusterRoles,
+      clusterRoles: this.clusterRoles
     });
 
     /**
@@ -162,7 +167,7 @@ export class ClusterStack extends cdk.NestedStack {
      * generate IAM role assume policies later by other constructs.
      */
     this.oidcIrsa = new OidcIrsa(this, 'OIDC-Irsa', {
-      cluster: this.cluster.cluster,
+      cluster: this.cluster.cluster
     });
     this.oidcIrsa.node.addDependency(this.cluster);
 
@@ -171,12 +176,13 @@ export class ClusterStack extends cdk.NestedStack {
      * each one. Note, this expects and verifies that the IAM Role exists before
      * it will create the configuration.
      */
-    for (let mappingKey in props.roleMappings) {
-      let value: string = props.roleMappings[mappingKey];
+    const roleMappings: { [id: string]: string } = props.optionalClusterStackProps?.roleMappings || {};
+    for (let mappingKey in roleMappings) {
+      let value: string = roleMappings[mappingKey];
       let discoveredRole = Role.fromRoleName(this, 'AwsAuth-' + mappingKey, mappingKey, { mutable: false });
       this.cluster.awsAuth.addRoleMapping(discoveredRole, {
         username: discoveredRole.roleName + ':{{SessionName}}',
-        groups: [value],
+        groups: [value]
       });
     }
   }

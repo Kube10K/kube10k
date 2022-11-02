@@ -1,4 +1,3 @@
-
 import { Stack, Tags } from 'aws-cdk-lib';
 import { EbsDeviceVolumeType, InstanceType, ISubnet, LaunchTemplate } from 'aws-cdk-lib/aws-ec2';
 import { CapacityType, CfnNodegroup, ICluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
@@ -31,7 +30,7 @@ const DEFAULT_INSTANCE_TYPES: InstanceType[] = [
   new InstanceType('m6i.large'),
   new InstanceType('m6id.large'),
   new InstanceType('t3.large'),
-  new InstanceType('t3a.large'),
+  new InstanceType('t3a.large')
 ];
 const DEFAULT_MAX_INSTANCE_COUNT: number = 100;
 const DEFAULT_MIN_INSTANCE_COUNT: number = 1;
@@ -131,7 +130,7 @@ export interface OptionalManagedNodeGroupProps {
   readonly bottleRocketSettings?: BottleRocketSettings;
 }
 
-export interface ManagedNodeGroupProps extends OptionalManagedNodeGroupProps {
+export interface ManagedNodeGroupProps {
   /**
    * A {@link ICluster} resource that is used to populate the Cluster API
    * Server, Certificate, and more.
@@ -162,6 +161,11 @@ export interface ManagedNodeGroupProps extends OptionalManagedNodeGroupProps {
    * the cluster version during upgrdes.
    */
   readonly kubernetesVersion: KubernetesVersion;
+
+  /**
+   * Optional user-configurable parameters
+   */
+  readonly optionalManagedNodeGroupProps?: OptionalManagedNodeGroupProps;
 }
 
 export class ManagedNodeGroup extends Construct {
@@ -192,7 +196,7 @@ export class ManagedNodeGroup extends Construct {
      * If no nodeLabels are supplied, then start an empty list. We will be
      * adding some labels.
      */
-    this.nodeLabels = props.nodeLabels || new NodeLabels();
+    this.nodeLabels = props.optionalManagedNodeGroupProps?.nodeLabels || new NodeLabels();
 
     /**
      * Append some common node labels
@@ -206,7 +210,7 @@ export class ManagedNodeGroup extends Construct {
      * CfnNodeGroup resource.
      */
     let instanceTypeStrings: string[] = [];
-    const instanceTypes = props.instanceTypes || DEFAULT_INSTANCE_TYPES;
+    const instanceTypes = props.optionalManagedNodeGroupProps?.instanceTypes || DEFAULT_INSTANCE_TYPES;
     instanceTypes.forEach(function (element: InstanceType) {
       instanceTypeStrings.push(element.toString());
     });
@@ -218,21 +222,21 @@ export class ManagedNodeGroup extends Construct {
      * override that we do not expose here.
      */
     this.bottleRocketSettings =
-      props?.bottleRocketSettings ||
+      props?.optionalManagedNodeGroupProps?.bottleRocketSettings ||
       new BottleRocketSettings(
         props.cluster.clusterEndpoint,
         props.cluster.clusterName,
         props.cluster.clusterCertificateAuthorityData,
-        props.clusterDnsIp,
+        props.optionalManagedNodeGroupProps?.clusterDnsIp
       );
 
     /**
      * When tainting our nodes, we modify the userData to inform BottleRocket to
      * configure the taint.
      */
-    if (props.nodeTaints) {
+    if (props.optionalManagedNodeGroupProps?.nodeTaints) {
       // Store the taint object so other callers can reference it from the ManagedNodeGroup construct.
-      this.nodeTaint = props.nodeTaints;
+      this.nodeTaint = props.optionalManagedNodeGroupProps.nodeTaints;
 
       // Patch the userData so that the nodes taint themselves on startup
       this.bottleRocketSettings.addTaint(this.nodeTaint.key, this.nodeTaint.value, this.nodeTaint.effect);
@@ -257,10 +261,10 @@ export class ManagedNodeGroup extends Construct {
             ebsDevice: {
               deleteOnTermination: true,
               volumeType: EbsDeviceVolumeType.GP3,
-              volumeSize: props.rootVolumeSize || DEFAULT_ROOT_VOLUME_SIZE,
-              encrypted: true,
-            },
-          },
+              volumeSize: props.optionalManagedNodeGroupProps?.rootVolumeSize || DEFAULT_ROOT_VOLUME_SIZE,
+              encrypted: true
+            }
+          }
         },
         {
           deviceName: '/dev/xvdb',
@@ -268,23 +272,23 @@ export class ManagedNodeGroup extends Construct {
             ebsDevice: {
               deleteOnTermination: true,
               volumeType: EbsDeviceVolumeType.GP3,
-              volumeSize: props.rootVolumeSize || DEFAULT_DATA_VOLUME_SIZE,
-              encrypted: true,
-            },
-          },
-        },
+              volumeSize: props.optionalManagedNodeGroupProps?.rootVolumeSize || DEFAULT_DATA_VOLUME_SIZE,
+              encrypted: true
+            }
+          }
+        }
       ],
       detailedMonitoring: true,
       securityGroup: props.clusterNetwork.nodeSecurityGroup,
       machineImage: generateMachineImage(
         props.kubernetesVersion.version,
-        props.architecture?.name || DEFAULT_ARCHITECTURE.name,
-        props.bottlerocketVersion || DEFAULT_BOTTLEROCKET_VERSION,
+        props.optionalManagedNodeGroupProps?.architecture?.name || DEFAULT_ARCHITECTURE.name,
+        props.optionalManagedNodeGroupProps?.bottlerocketVersion || DEFAULT_BOTTLEROCKET_VERSION
       ),
       requireImdsv2: true,
       spotOptions: undefined,
       userData: this.bottleRocketSettings.userData(),
-      ebsOptimized: true,
+      ebsOptimized: true
     });
 
     // The CNI-Metrics-Helper plugin uses this tag, oddly.
@@ -294,7 +298,7 @@ export class ManagedNodeGroup extends Construct {
     if (this.nodeTaint != undefined) {
       Tags.of(this.launchTemplate).add(
         `k8s.cluster-auto-scaler/node-template/taint/${this.nodeTaint.key}`,
-        `${this.nodeTaint.value}:${this.nodeTaint.effect}`,
+        `${this.nodeTaint.value}:${this.nodeTaint.effect}`
       );
     }
 
@@ -313,20 +317,20 @@ export class ManagedNodeGroup extends Construct {
         clusterName: props.cluster.clusterName,
         nodeRole: props.clusterRoles.nodeRole.roleArn,
         amiType: 'CUSTOM',
-        capacityType: props.capacityType || DEFAULT_CAPACITY_TYPE,
+        capacityType: props.optionalManagedNodeGroupProps?.capacityType || DEFAULT_CAPACITY_TYPE,
         instanceTypes: instanceTypeStrings,
         forceUpdateEnabled: true,
         subnets: [subnet.subnetId],
         labels: this.nodeLabels.labelsAsMap(),
         scalingConfig: {
-          minSize: props.minInstanceCount || DEFAULT_MIN_INSTANCE_COUNT,
-          maxSize: props.maxInstanceCount || DEFAULT_MAX_INSTANCE_COUNT,
-          desiredSize: props.desiredInstanceCount || DEFAULT_DESIRED_INSTANCE_COUNT,
+          minSize: props.optionalManagedNodeGroupProps?.minInstanceCount || DEFAULT_MIN_INSTANCE_COUNT,
+          maxSize: props.optionalManagedNodeGroupProps?.maxInstanceCount || DEFAULT_MAX_INSTANCE_COUNT,
+          desiredSize: props.optionalManagedNodeGroupProps?.desiredInstanceCount || DEFAULT_DESIRED_INSTANCE_COUNT
         },
         launchTemplate: {
           id: this.launchTemplate.launchTemplateId,
-          version: this.launchTemplate.latestVersionNumber,
-        },
+          version: this.launchTemplate.latestVersionNumber
+        }
       });
     }, this);
   }

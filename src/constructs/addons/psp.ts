@@ -21,18 +21,23 @@ export interface OptionalPodSecurityPolicyProps {
   readonly allowedHostPaths?: PodSecurityAllowedHostPath[];
 }
 
-export interface PodSecurityPolicyProps extends OptionalPodSecurityPolicyProps {
+export interface PodSecurityPolicyProps {
   /**
    * The ICluster representing the EKS cluster these resources are being
    * created in.
    */
   readonly cluster: ICluster;
+
+  /**
+   * Optional PodSecurityPolicy Props
+   */
+  readonly optionalPodSecurityPolicyProps?: OptionalPodSecurityPolicyProps;
 }
 
 export class PodSecurityPolicy extends Construct {
   constructor(scope: Construct, id: string, props: PodSecurityPolicyProps) {
     super(scope, id);
-    const resourcePrefix = props.resourcePrefix || DEFAULT_RESOURCE_PREFIX;
+    const resourcePrefix = props.optionalPodSecurityPolicyProps?.resourcePrefix || DEFAULT_RESOURCE_PREFIX;
 
     /**
      * https://aws.github.io/aws-eks-best-practices/security/docs/pods/#restrict-the-containers-that-can-run-as-privileged
@@ -61,8 +66,8 @@ export class PodSecurityPolicy extends Construct {
             name: `${resourcePrefix}.restricted`,
             annotations: {
               'seccomp.security.alpha.kubernetes.io/allowedProfileNames': 'docker/default,runtime/default',
-              'seccomp.security.alpha.kubernetes.io/defaultProfileName': 'runtime/default',
-            },
+              'seccomp.security.alpha.kubernetes.io/defaultProfileName': 'runtime/default'
+            }
           },
           spec: {
             privileged: false,
@@ -86,42 +91,42 @@ export class PodSecurityPolicy extends Construct {
               'secret',
               'downwardAPI',
               'persistentVolumeClaim',
-              'hostPath',
+              'hostPath'
             ],
             hostNetwork: false,
             hostIPC: false,
             hostPID: false,
             // Require the container to run without root privileges.
             runAsUser: {
-              rule: 'MustRunAsNonRoot',
+              rule: 'MustRunAsNonRoot'
             },
 
             // This policy assumes the nodes are using AppArmor rather than
             // SELinux.
             seLinux: {
-              rule: 'RunAsAny',
+              rule: 'RunAsAny'
             },
 
             supplementalGroups: {
               rule: 'MustRunAs',
               ranges: [
                 // Forbid adding the root group.
-                { min: 1, max: 65535 },
-              ],
+                { min: 1, max: 65535 }
+              ]
             },
 
             fsGroup: {
               rule: 'MustRunAs',
               ranges: [
                 // Forbid adding the root group.
-                { min: 1, max: 65535 },
-              ],
+                { min: 1, max: 65535 }
+              ]
             },
             readOnlyRootFilesystem: false,
-            allowedHostPaths: props.allowedHostPaths,
-          },
-        },
-      ],
+            allowedHostPaths: props.optionalPodSecurityPolicyProps?.allowedHostPaths
+          }
+        }
+      ]
     });
 
     const restrictedPspClusterRole = new KubernetesManifest(this, 'Restricted-PSP-ClusterRole', {
@@ -137,18 +142,18 @@ export class PodSecurityPolicy extends Construct {
           apiVersion: 'rbac.authorization.k8s.io/v1',
           kind: 'ClusterRole',
           metadata: {
-            name: `${resourcePrefix}:podsecuritypolicy:restricted`,
+            name: `${resourcePrefix}:podsecuritypolicy:restricted`
           },
           rules: [
             {
               apiGroups: ['policy'],
               resources: ['podsecuritypolicies'],
               resourceNames: [`${resourcePrefix}.restricted`],
-              verbs: ['use'],
-            },
-          ],
-        },
-      ],
+              verbs: ['use']
+            }
+          ]
+        }
+      ]
     });
 
     /**
@@ -173,22 +178,22 @@ export class PodSecurityPolicy extends Construct {
           kind: 'RoleBinding',
           metadata: {
             name: `${resourcePrefix}:podsecuritypolicy:restricted:core-pods`,
-            namespace: 'kube-system',
+            namespace: 'kube-system'
           },
           roleRef: {
             apiGroup: 'rbac.authorization.k8s.io',
             kind: 'ClusterRole',
-            name: 'eks:podsecuritypolicy:privileged',
+            name: 'eks:podsecuritypolicy:privileged'
           },
 
           subjects: [
             // Core component pre-installed by EKS
             { kind: 'ServiceAccount', name: 'aws-node' },
             { kind: 'ServiceAccount', name: 'coredns' },
-            { kind: 'ServiceAccount', name: 'kube-proxy' },
-          ],
-        },
-      ],
+            { kind: 'ServiceAccount', name: 'kube-proxy' }
+          ]
+        }
+      ]
     });
 
     /**
@@ -212,8 +217,8 @@ export class PodSecurityPolicy extends Construct {
             name: `${resourcePrefix}.default`,
             annotations: {
               'seccomp.security.alpha.kubernetes.io/allowedProfileNames': 'docker/default,runtime/default',
-              'seccomp.security.alpha.kubernetes.io/defaultProfileName': 'runtime/default',
-            },
+              'seccomp.security.alpha.kubernetes.io/defaultProfileName': 'runtime/default'
+            }
           },
           spec: {
             privileged: false,
@@ -249,7 +254,7 @@ export class PodSecurityPolicy extends Construct {
               'secret',
               'downwardAPI',
               'persistentVolumeClaim',
-              'hostPath',
+              'hostPath'
             ],
             hostNetwork: false,
             hostIPC: false,
@@ -257,35 +262,35 @@ export class PodSecurityPolicy extends Construct {
 
             // Require the container to run without root privileges.
             runAsUser: {
-              rule: 'MustRunAsNonRoot',
+              rule: 'MustRunAsNonRoot'
             },
 
             // This policy assumes the nodes are using AppArmor rather than
             // SELinux.
             seLinux: {
-              rule: 'RunAsAny',
+              rule: 'RunAsAny'
             },
 
             supplementalGroups: {
               rule: 'MustRunAs',
               ranges: [
                 // Forbid adding the root group.
-                { min: 1, max: 65535 },
-              ],
+                { min: 1, max: 65535 }
+              ]
             },
 
             fsGroup: {
               rule: 'MustRunAs',
               ranges: [
                 // Forbid adding the root group.
-                { min: 1, max: 65535 },
-              ],
+                { min: 1, max: 65535 }
+              ]
             },
             readOnlyRootFilesystem: false,
-            allowedHostPaths: props.allowedHostPaths,
-          },
-        },
-      ],
+            allowedHostPaths: props.optionalPodSecurityPolicyProps?.allowedHostPaths
+          }
+        }
+      ]
     });
 
     const defaultPspClusterRole = new KubernetesManifest(this, 'Default-PSP-ClusterRole', {
@@ -301,18 +306,18 @@ export class PodSecurityPolicy extends Construct {
           apiVersion: 'rbac.authorization.k8s.io/v1',
           kind: 'ClusterRole',
           metadata: {
-            name: `${resourcePrefix}:podsecuritypolicy:default`,
+            name: `${resourcePrefix}:podsecuritypolicy:default`
           },
           rules: [
             {
               apiGroups: ['policy'],
               resources: ['podsecuritypolicies'],
               resourceNames: [`${resourcePrefix}.default`],
-              verbs: ['use'],
-            },
-          ],
-        },
-      ],
+              verbs: ['use']
+            }
+          ]
+        }
+      ]
     });
 
     const defaultPspClusterRoleBinding = new KubernetesManifest(this, 'Default-PSP-ClusterRoleBinding', {
@@ -330,27 +335,27 @@ export class PodSecurityPolicy extends Construct {
           metadata: {
             name: `${resourcePrefix}:podsecuritypolicy:authenticated`,
             annotations: {
-              'kubernetes.io/description': 'Allow all authenticated users to create default pods',
+              'kubernetes.io/description': 'Allow all authenticated users to create default pods'
             },
             labels: {
               'eks.amazonaws.com/component': 'pod-security-policy',
-              'kubernetes.io/cluster-service': 'true',
-            },
+              'kubernetes.io/cluster-service': 'true'
+            }
           },
           roleRef: {
             apiGroup: 'rbac.authorization.k8s.io',
             kind: 'ClusterRole',
-            name: `${resourcePrefix}:podsecuritypolicy:default`,
+            name: `${resourcePrefix}:podsecuritypolicy:default`
           },
           subjects: [
             {
               apiGroup: 'rbac.authorization.k8s.io',
               kind: 'Group',
-              name: 'system:authenticated',
-            },
-          ],
-        },
-      ],
+              name: 'system:authenticated'
+            }
+          ]
+        }
+      ]
     });
     defaultPspClusterRoleBinding.node.addDependency(defaultPsp);
     defaultPspClusterRoleBinding.node.addDependency(defaultPspClusterRole);
@@ -395,27 +400,27 @@ export class PodSecurityPolicy extends Construct {
           metadata: {
             name: 'eks:podsecuritypolicy:authenticated',
             annotations: {
-              'kubernetes.io/description': 'Allow system:masters to create privileged',
+              'kubernetes.io/description': 'Allow system:masters to create privileged'
             },
             labels: {
               'eks.amazonaws.com/component': 'pod-security-policy',
-              'kubernetes.io/cluster-service': 'true',
-            },
+              'kubernetes.io/cluster-service': 'true'
+            }
           },
           roleRef: {
             apiGroup: 'rbac.authorization.k8s.io',
             kind: 'ClusterRole',
-            name: 'eks:podsecuritypolicy:privileged',
+            name: 'eks:podsecuritypolicy:privileged'
           },
           subjects: [
             {
               apiGroup: 'rbac.authorization.k8s.io',
               kind: 'Group',
-              name: 'system:masters',
-            },
-          ],
-        },
-      ],
+              name: 'system:masters'
+            }
+          ]
+        }
+      ]
     });
 
     /**

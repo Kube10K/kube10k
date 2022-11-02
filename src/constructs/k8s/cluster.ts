@@ -15,7 +15,7 @@ export const DEFAULT_KUBERNETES_VERSION: string = '1.23';
 export const DEFAULT_PROXY_MODE: string = 'ipvs';
 export const DEFAULT_IPVS_SCHEDULER: string = 'rr';
 
-export interface OptionalKube10kClusterProps extends cdk.StackProps {
+export interface OptionalKube10kClusterProps {
   // IpvsMode (optional) controls the default behavior of the Kube Proxy pods. In IPVS mode, the kernel is more
   // efficient at handling routing of packets to thousands of pods and services than in IPTables mode. The default
   // behavior is to enable IPVS mode.
@@ -38,7 +38,7 @@ export interface OptionalKube10kClusterProps extends cdk.StackProps {
   readonly serviceIPv4Cidr?: string;
 }
 
-export interface Kube10kClusterProps extends OptionalKube10kClusterProps {
+export interface Kube10kClusterProps {
   /**
    * clusterName defines the name of the cluster in EKS - this is an immutable value once you set it.
    */
@@ -61,6 +61,11 @@ export interface Kube10kClusterProps extends OptionalKube10kClusterProps {
    * cluster. This can be increased over time to perform cluster upgrades.
    */
   readonly kubernetesVersion: eks.KubernetesVersion;
+
+  /**
+   * Provides access to customize the Kube10kCluster more
+   */
+  readonly optionalKube10kClusterProps?: OptionalKube10kClusterProps;
 }
 
 export class Kube10kCluster extends Construct {
@@ -89,8 +94,8 @@ export class Kube10kCluster extends Construct {
   constructor(scope: cdk.Stack, id: string, props: Kube10kClusterProps) {
     super(scope, id);
 
-    const proxyMode = props.proxyMode || DEFAULT_PROXY_MODE;
-    const ipvsScheduler = props.ipvsScheduler || DEFAULT_IPVS_SCHEDULER;
+    const proxyMode = props.optionalKube10kClusterProps?.proxyMode || DEFAULT_PROXY_MODE;
+    const ipvsScheduler = props.optionalKube10kClusterProps?.ipvsScheduler || DEFAULT_IPVS_SCHEDULER;
 
     /**
      * Create amapping configuraiton that can be used to pull versions/settings
@@ -99,15 +104,15 @@ export class Kube10kCluster extends Construct {
     const versionTable: CfnMapping = new CfnMapping(this, 'KubeProxyTag', {
       mapping: {
         1.23: {
-          KubeProxyTag: 'v1.23.7-minimal-eksbuild.1',
+          KubeProxyTag: 'v1.23.7-minimal-eksbuild.1'
         },
         1.22: {
-          KubeProxyTag: '1.22.11-minimal-eksbuild.2',
+          KubeProxyTag: '1.22.11-minimal-eksbuild.2'
         },
         1.21: {
-          KubeProxyTag: '1.21.14-minimal-eksbuild.2',
-        },
-      },
+          KubeProxyTag: '1.21.14-minimal-eksbuild.2'
+        }
+      }
     });
 
     /**
@@ -123,7 +128,7 @@ export class Kube10kCluster extends Construct {
       description: scope.stackName,
       enabled: true,
       enableKeyRotation: true,
-      removalPolicy: RemovalPolicy.DESTROY,
+      removalPolicy: RemovalPolicy.DESTROY
     });
 
     /**
@@ -140,9 +145,9 @@ export class Kube10kCluster extends Construct {
       code: Code.fromDockerBuild(layerPath, {
         file: 'Dockerfile',
         platform: Architecture.X86_64.dockerPlatform,
-        imagePath: '/opt',
+        imagePath: '/opt'
       }),
-      compatibleArchitectures: [Architecture.X86_64],
+      compatibleArchitectures: [Architecture.X86_64]
     });
 
     /**
@@ -169,9 +174,9 @@ export class Kube10kCluster extends Construct {
         ClusterLoggingTypes.AUDIT,
         ClusterLoggingTypes.AUTHENTICATOR,
         ClusterLoggingTypes.CONTROLLER_MANAGER,
-        ClusterLoggingTypes.SCHEDULER,
+        ClusterLoggingTypes.SCHEDULER
       ],
-      tags: getTagsAsMap(props.commonTags),
+      tags: getTagsAsMap(props.optionalKube10kClusterProps?.commonTags),
       outputClusterName: true,
       outputConfigCommand: false,
       outputMastersRoleArn: false,
@@ -204,14 +209,14 @@ export class Kube10kCluster extends Construct {
        * use. Typically this is 172.0.0.0/16 and does not often conflict with
        * organizations existing IP ranges.
        */
-      serviceIpv4Cidr: props.serviceIPv4Cidr || DEFAULT_SERVICE_IPV4_CIDR,
+      serviceIpv4Cidr: props.optionalKube10kClusterProps?.serviceIPv4Cidr || DEFAULT_SERVICE_IPV4_CIDR,
 
       /**
        * Disable the creation of a default node group because it is EKS-AMI
        * based. We use the Bottlerocket-based nodes and will create our node
        * groups separately.
        */
-      defaultCapacity: 0,
+      defaultCapacity: 0
     });
 
     /**
@@ -226,7 +231,7 @@ export class Kube10kCluster extends Construct {
      */
     this.awsAuth.addRoleMapping(props.clusterRoles.nodeRole, {
       username: 'system:node:{{EC2PrivateDNSName}}',
-      groups: ['system:bootstrappers', 'system:nodes'],
+      groups: ['system:bootstrappers', 'system:nodes']
     });
 
     /**
@@ -240,7 +245,7 @@ export class Kube10kCluster extends Construct {
       prune: false,
       skipValidation: false,
       overwrite: true,
-      manifest: [getKubeProxyConfig(proxyMode, ipvsScheduler)],
+      manifest: [getKubeProxyConfig(proxyMode, ipvsScheduler)]
     });
     kubeProxyConfig.node.addDependency(this.cluster);
 
@@ -267,13 +272,13 @@ export class Kube10kCluster extends Construct {
                 name: 'kube-proxy',
                 image: cdk.Fn.join(':', [
                   cdk.Fn.sub('602401143452.dkr.ecr.${AWS::Region}.amazonaws.com/eks/kube-proxy'),
-                  versionTable.findInMap(props.kubernetesVersion.version, 'KubeProxyTag'),
-                ]),
-              },
-            ],
-          },
-        },
-      },
+                  versionTable.findInMap(props.kubernetesVersion.version, 'KubeProxyTag')
+                ])
+              }
+            ]
+          }
+        }
+      }
     });
     kubeProxyVersionPatch.node.addDependency(this.cluster);
 
@@ -294,13 +299,13 @@ export class Kube10kCluster extends Construct {
                     'kube-proxy',
                     '--v=2',
                     '--config=/var/lib/kube-proxy-config/config',
-                    '--hostname-override=$(NODE_NAME)',
-                  ],
-                },
-              ],
-            },
-          },
-        },
+                    '--hostname-override=$(NODE_NAME)'
+                  ]
+                }
+              ]
+            }
+          }
+        }
       },
 
       applyPatch: {
@@ -316,14 +321,14 @@ export class Kube10kCluster extends Construct {
                     '--config=/var/lib/kube-proxy-config/config',
                     '--hostname-override=$(NODE_NAME)',
                     '--proxy-mode=' + proxyMode,
-                    '--ipvs-scheduler=' + ipvsScheduler,
-                  ],
-                },
-              ],
-            },
-          },
-        },
-      },
+                    '--ipvs-scheduler=' + ipvsScheduler
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     }).node.addDependency(kubeProxyConfig);
   }
 }
@@ -359,7 +364,7 @@ export function getTagsAsMap(tags?: cdk.CfnTag[]): { [id: string]: string } {
  */
 export function getKubeProxyConfig(
   proxyMode: string = DEFAULT_PROXY_MODE,
-  scheduler: string = DEFAULT_IPVS_SCHEDULER,
+  scheduler: string = DEFAULT_IPVS_SCHEDULER
 ): { [id: string]: any } {
   // The "config" blob in the ConfigMap needs to be a string, but we construct
   // it as a map for syntax verification.
@@ -372,7 +377,7 @@ export function getKubeProxyConfig(
       burst: 10,
       contentType: 'application/vnd.kubernetes.protobuf',
       kubeconfig: '/var/lib/kube-proxy/kubeconfig',
-      qps: 5,
+      qps: 5
     },
     clusterCIDR: '',
     configSyncPeriod: '15m0s',
@@ -383,7 +388,7 @@ export function getKubeProxyConfig(
       masqueradeAll: false,
       masqueradeBit: 14,
       minSyncPeriod: '0s',
-      syncPeriod: '30s',
+      syncPeriod: '30s'
     },
     metricsBindAddress: '127.0.0.1:10249',
     nodePortAddresses: null,
@@ -398,7 +403,7 @@ export function getKubeProxyConfig(
       maxPerCore: 0, // default 32k
       min: 0, // default 128k
       tcpCloseWaitTimeout: '1h0m0s',
-      tcpEstablishedTimeout: '24h0m0s',
+      tcpEstablishedTimeout: '24h0m0s'
     },
 
     // configure ipvs mode
@@ -407,8 +412,8 @@ export function getKubeProxyConfig(
       excludeCIDRs: null,
       minSyncPeriod: '0s',
       scheduler: scheduler,
-      syncPeriod: '30s',
-    },
+      syncPeriod: '30s'
+    }
   };
 
   // Convert the map into a YAML string
@@ -423,11 +428,11 @@ export function getKubeProxyConfig(
       namespace: 'kube-system',
       labels: {
         'eks.amazonaws.com/component': 'kube-proxy',
-        'k8s-app': 'kube-proxy',
-      },
+        'k8s-app': 'kube-proxy'
+      }
     },
     data: {
-      config: configString,
-    },
+      config: configString
+    }
   };
 }
