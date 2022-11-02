@@ -8,7 +8,7 @@ import { OidcIrsa } from '../constructs/k8s/oidc-isra';
 import { ClusterRoles } from '../constructs/k8s/roles';
 import { ClusterSecurityGroups } from '../constructs/k8s/securitygroups';
 
-export interface OptionalClusterStackProps {
+export interface OptionalClusterStackProps extends cdk.NestedStackProps {
   /**
    * CommonTags are a set of CfnTag resources that will be added ultimately to the EKS cluster, if the cluster is
    * provisioned by this stack (as opposed to the "bring your own cluster" model).

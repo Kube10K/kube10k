@@ -7031,6 +7031,11 @@ const clusterStackProps: stacks.ClusterStackProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
+| <code><a href="#kube10k.stacks.ClusterStackProps.property.description">description</a></code> | <code>string</code> | A description of the stack. |
+| <code><a href="#kube10k.stacks.ClusterStackProps.property.notificationArns">notificationArns</a></code> | <code>string[]</code> | The Simple Notification Service (SNS) topics to publish stack related events. |
+| <code><a href="#kube10k.stacks.ClusterStackProps.property.parameters">parameters</a></code> | <code>{[ key: string ]: string}</code> | The set value pairs that represent the parameters passed to CloudFormation when this nested stack is created. |
+| <code><a href="#kube10k.stacks.ClusterStackProps.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Policy to apply when the nested stack is removed. |
+| <code><a href="#kube10k.stacks.ClusterStackProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The length of time that CloudFormation waits for the nested stack to reach the CREATE_COMPLETE state. |
 | <code><a href="#kube10k.stacks.ClusterStackProps.property.commonTags">commonTags</a></code> | <code>aws-cdk-lib.CfnTag[]</code> | CommonTags are a set of CfnTag resources that will be added ultimately to the EKS cluster, if the cluster is provisioned by this stack (as opposed to the "bring your own cluster" model). |
 | <code><a href="#kube10k.stacks.ClusterStackProps.property.existingMasterRole">existingMasterRole</a></code> | <code>string</code> | existingMasterRole is the short role name to an already existing AWS IAM Role that will be granted "system:master"s access into the cluster. |
 | <code><a href="#kube10k.stacks.ClusterStackProps.property.nodeRolePolicyStatement">nodeRolePolicyStatement</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | NodeRolePolicyStatement is an optional list of awsiam.PolicyStatement resources used to customize the permissions that the individual EC2 nodes in the cluster have. This can be useful when you want to craft specific ECR permissions for example. |
@@ -7039,6 +7044,89 @@ const clusterStackProps: stacks.ClusterStackProps = { ... }
 | <code><a href="#kube10k.stacks.ClusterStackProps.property.clusterName">clusterName</a></code> | <code>string</code> | clusterName is the desired name for the EKS Cluster. |
 | <code><a href="#kube10k.stacks.ClusterStackProps.property.kubernetesVersion">kubernetesVersion</a></code> | <code>string</code> | kubernetesVersion is the target version for the EKS cluster. |
 | <code><a href="#kube10k.stacks.ClusterStackProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC represents an already existing VPC that we will put the cluster into. |
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="kube10k.stacks.ClusterStackProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description.
+
+A description of the stack.
+
+---
+
+##### `notificationArns`<sup>Optional</sup> <a name="notificationArns" id="kube10k.stacks.ClusterStackProps.property.notificationArns"></a>
+
+```typescript
+public readonly notificationArns: string[];
+```
+
+- *Type:* string[]
+- *Default:* notifications are not sent for this stack.
+
+The Simple Notification Service (SNS) topics to publish stack related events.
+
+---
+
+##### `parameters`<sup>Optional</sup> <a name="parameters" id="kube10k.stacks.ClusterStackProps.property.parameters"></a>
+
+```typescript
+public readonly parameters: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* no user-defined parameters are passed to the nested stack
+
+The set value pairs that represent the parameters passed to CloudFormation when this nested stack is created.
+
+Each parameter has a name corresponding
+to a parameter defined in the embedded template and a value representing
+the value that you want to set for the parameter.
+
+The nested stack construct will automatically synthesize parameters in order
+to bind references from the parent stack(s) into the nested stack.
+
+---
+
+##### `removalPolicy`<sup>Optional</sup> <a name="removalPolicy" id="kube10k.stacks.ClusterStackProps.property.removalPolicy"></a>
+
+```typescript
+public readonly removalPolicy: RemovalPolicy;
+```
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+- *Default:* RemovalPolicy.DESTROY
+
+Policy to apply when the nested stack is removed.
+
+The default is `Destroy`, because all Removal Policies of resources inside the
+Nested Stack should already have been set correctly. You normally should
+not need to set this value.
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="kube10k.stacks.ClusterStackProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* no timeout
+
+The length of time that CloudFormation waits for the nested stack to reach the CREATE_COMPLETE state.
+
+When CloudFormation detects that the nested stack has reached the
+CREATE_COMPLETE state, it marks the nested stack resource as
+CREATE_COMPLETE in the parent stack and resumes creating the parent stack.
+If the timeout period expires before the nested stack reaches
+CREATE_COMPLETE, CloudFormation marks the nested stack as failed and rolls
+back both the nested stack and parent stack.
 
 ---
 
@@ -7379,11 +7467,99 @@ const optionalClusterStackProps: stacks.OptionalClusterStackProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
+| <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.description">description</a></code> | <code>string</code> | A description of the stack. |
+| <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.notificationArns">notificationArns</a></code> | <code>string[]</code> | The Simple Notification Service (SNS) topics to publish stack related events. |
+| <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.parameters">parameters</a></code> | <code>{[ key: string ]: string}</code> | The set value pairs that represent the parameters passed to CloudFormation when this nested stack is created. |
+| <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Policy to apply when the nested stack is removed. |
+| <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The length of time that CloudFormation waits for the nested stack to reach the CREATE_COMPLETE state. |
 | <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.commonTags">commonTags</a></code> | <code>aws-cdk-lib.CfnTag[]</code> | CommonTags are a set of CfnTag resources that will be added ultimately to the EKS cluster, if the cluster is provisioned by this stack (as opposed to the "bring your own cluster" model). |
 | <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.existingMasterRole">existingMasterRole</a></code> | <code>string</code> | existingMasterRole is the short role name to an already existing AWS IAM Role that will be granted "system:master"s access into the cluster. |
 | <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.nodeRolePolicyStatement">nodeRolePolicyStatement</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | NodeRolePolicyStatement is an optional list of awsiam.PolicyStatement resources used to customize the permissions that the individual EC2 nodes in the cluster have. This can be useful when you want to craft specific ECR permissions for example. |
 | <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.roleMappings">roleMappings</a></code> | <code>{[ key: string ]: string}</code> | roleMappings is a map of key/value pairs that will be used to map existing IAM Roles to internal Kubernetes groups. |
 | <code><a href="#kube10k.stacks.OptionalClusterStackProps.property.serviceIPv4Cidr">serviceIPv4Cidr</a></code> | <code>string</code> | serviceIPv4Cidr is the "Service IP range" that will be used by the cluster when creating internal services. |
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="kube10k.stacks.OptionalClusterStackProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description.
+
+A description of the stack.
+
+---
+
+##### `notificationArns`<sup>Optional</sup> <a name="notificationArns" id="kube10k.stacks.OptionalClusterStackProps.property.notificationArns"></a>
+
+```typescript
+public readonly notificationArns: string[];
+```
+
+- *Type:* string[]
+- *Default:* notifications are not sent for this stack.
+
+The Simple Notification Service (SNS) topics to publish stack related events.
+
+---
+
+##### `parameters`<sup>Optional</sup> <a name="parameters" id="kube10k.stacks.OptionalClusterStackProps.property.parameters"></a>
+
+```typescript
+public readonly parameters: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* no user-defined parameters are passed to the nested stack
+
+The set value pairs that represent the parameters passed to CloudFormation when this nested stack is created.
+
+Each parameter has a name corresponding
+to a parameter defined in the embedded template and a value representing
+the value that you want to set for the parameter.
+
+The nested stack construct will automatically synthesize parameters in order
+to bind references from the parent stack(s) into the nested stack.
+
+---
+
+##### `removalPolicy`<sup>Optional</sup> <a name="removalPolicy" id="kube10k.stacks.OptionalClusterStackProps.property.removalPolicy"></a>
+
+```typescript
+public readonly removalPolicy: RemovalPolicy;
+```
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+- *Default:* RemovalPolicy.DESTROY
+
+Policy to apply when the nested stack is removed.
+
+The default is `Destroy`, because all Removal Policies of resources inside the
+Nested Stack should already have been set correctly. You normally should
+not need to set this value.
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="kube10k.stacks.OptionalClusterStackProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* no timeout
+
+The length of time that CloudFormation waits for the nested stack to reach the CREATE_COMPLETE state.
+
+When CloudFormation detects that the nested stack has reached the
+CREATE_COMPLETE state, it marks the nested stack resource as
+CREATE_COMPLETE in the parent stack and resumes creating the parent stack.
+If the timeout period expires before the nested stack reaches
+CREATE_COMPLETE, CloudFormation marks the nested stack as failed and rolls
+back both the nested stack and parent stack.
 
 ---
 

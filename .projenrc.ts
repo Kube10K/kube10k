@@ -6,8 +6,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   cdkVersion: '2.50.0',
   defaultReleaseBranch: 'main',
   name: 'kube10k',
-  repositoryUrl: 'git@github.com:Kube10K/kube10k.git',
-  entrypoint: 'src/index.ts',
+  repositoryUrl: 'https://github.com/Kube10K/kube10k.git',
   gitignore: [
     // CDK Temp Data
     'cdk.out',

@@ -2,7 +2,7 @@
   "name": "kube10k",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Kube10K/kube10k.git"
+    "url": "https://github.com/Kube10K/kube10k.git"
   },
   "scripts": {
     "build": "npx projen build",
@@ -62,16 +62,10 @@
     "aws-cdk-lib": "^2.50.0",
     "constructs": "^10.0.5"
   },
-  "dependencies": {
-    "tomlify-j0.4": "^3.0.0"
-  },
-  "bundledDependencies": [
-    "tomlify-j0.4"
-  ],
   "keywords": [
     "cdk"
   ],
-  "main": "src/index.ts",
+  "main": "lib/index.js",
   "license": "Apache-2.0",
   "version": "0.0.0",
   "jest": {
