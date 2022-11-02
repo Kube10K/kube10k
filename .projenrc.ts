@@ -14,10 +14,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
     // VIM
     '*.swp',
-    '*.swo'
+    '*.swo',
   ],
 
-  projenrcTs: true /* https://projen.io/typescript.html */
+  projenrcTs: true, /* https://projen.io/typescript.html */
 
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */

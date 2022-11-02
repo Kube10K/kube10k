@@ -171,9 +171,9 @@ export class ClusterStack extends cdk.NestedStack {
      * each one. Note, this expects and verifies that the IAM Role exists before
      * it will create the configuration.
      */
-    for (let id in props.roleMappings) {
-      let value: string = props.roleMappings[id];
-      let discoveredRole = Role.fromRoleName(this, 'AwsAuth-' + id, id, { mutable: false });
+    for (let mappingKey in props.roleMappings) {
+      let value: string = props.roleMappings[mappingKey];
+      let discoveredRole = Role.fromRoleName(this, 'AwsAuth-' + mappingKey, mappingKey, { mutable: false });
       this.cluster.awsAuth.addRoleMapping(discoveredRole, {
         username: discoveredRole.roleName + ':{{SessionName}}',
         groups: [value],
