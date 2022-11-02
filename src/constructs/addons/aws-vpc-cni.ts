@@ -3,7 +3,7 @@ import { HelmChart, ICluster, KubernetesManifest, KubernetesPatch } from 'aws-cd
 import { CfnRole, ManagedPolicy, Role } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import { HelmChartOverrides } from '../../common';
-import { OidcIrsa } from '../k8s';
+import { OidcIrsa } from '../k8s/oidc-isra';
 
 // This is the name of the existing EKS resources (daemonset, service account,
 // cluster role, etc) that is reserved by AWS and we cannot override with our

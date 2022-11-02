@@ -14,16 +14,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
     // VIM
     '*.swp',
-    '*.swo',
+    '*.swo'
   ],
-
-  projenrcTs: true, /* https://projen.io/typescript.html */
-
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
+  projenrcTs: true /* https://projen.io/typescript.html */,
+  peerDeps: ['aws-cdk-lib', 'constructs'],
+  devDeps: ['@types/jest', 'jest'],
+  majorVersion: 2
 });
-project.addBundledDeps('yaml');
-project.addBundledDeps('tomlify-j0.4');
+//project.addBundledDeps('yaml');
+project.addDeps('yaml');
+project.addDeps('tomlify-j0.4');
+//project.addBundledDeps('tomlify-j0.4');
 project.synth();
