@@ -5,16 +5,16 @@ describe('Common', () => {
     const taint = new NodeTaint('testKey', 'testValue', TaintedNodeEffect.NO_EXECUTE);
 
     // ASSERT: Toleration is returned properly
-    expect(taint.getToleration()).toEqual({
+    expect(taint.toleration()).toEqual({
       key: 'testKey',
       value: 'testValue',
       effect: 'NoExecute',
-      operator: 'Equal',
+      operator: 'Equal'
     });
 
     // ASSERT: NodeSelector is returned properly
-    expect(taint.getNodeSelector()).toEqual({
-      testKey: 'testValue',
+    expect(taint.nodeSelector()).toEqual({
+      testKey: 'testValue'
     });
   });
 });

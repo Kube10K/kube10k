@@ -1,10 +1,7 @@
 import { IMachineImage, MachineImage, UserData } from 'aws-cdk-lib/aws-ec2';
-import { KubernetesVersion } from 'aws-cdk-lib/aws-eks';
 import { Construct } from 'constructs';
-
 var tomlify = require('tomlify-j0.4');
 
-KubernetesVersion;
 export enum BootstrapContainerMode {
   OFF = 'off',
   ONCE = 'once',
@@ -17,50 +14,8 @@ export interface BootstrapContainer {
   readonly essential?: boolean;
 }
 
-export interface Kernel {
-  readonly sysctl: Sysctl;
-}
-
-export interface Sysctl {
-  readonly 'net.ipv4.ip_local_port_range'?: string;
-  readonly 'fs.inotify.max_user_instances'?: string;
-  readonly 'fs.inotify.max_user_watches'?: string;
-}
-
-export interface Kubernetes {
-  /**
-   *  Required parameters populated by the constructor of the BottleRocketSettings class.
-   */
-  readonly 'api-server': string;
-  readonly 'cluster-name': string;
-  readonly 'cluster-certificate': string;
-
-  /**
-   * Optional parameters
-   */
-  readonly 'cluster-dns-ip'?: string[];
-  readonly 'image-gc-high-threshold-percent'?: string;
-  readonly 'image-gc-low-threshold-percent'?: string;
-  readonly 'event-qps'?: number;
-  readonly 'kube-api-qps'?: number;
-  readonly 'kube-api-burst'?: number;
-  readonly 'node-taints': { [key: string]: string };
-  readonly 'eviction-hard'?: EvictionHard;
-}
-
-export interface EvictionHard {
-  readonly 'memory.available'?: string;
-  readonly 'nodefs.available'?: string;
-  readonly 'nodefs.inodesFree'?: string;
-  readonly 'imagefs.available'?: string;
-  readonly 'imagefs.inodesFree'?: string;
-  readonly 'pid.available'?: string;
-}
-
 export class BottleRocketSettings {
-  'bootstrap-containers'?: { [id: string]: BootstrapContainer };
-  readonly kernel: Kernel;
-  readonly kubernetes: Kubernetes;
+  readonly settings: { [id: string]: any };
 
   /**
    *
@@ -150,35 +105,35 @@ export class BottleRocketSettings {
     PidAvailable: number = 30,
 
     // "kubernetes.bootstrap-containers" optional bootstrap containers
-    BootstrapContainers: { [id: string]: BootstrapContainer } = {}
+    BootstrapContainers?: { [id: string]: BootstrapContainer }
   ) {
-    // TODO: Verify thresholdpercents between 0 and 100
-    this['bootstrap-containers'] = BootstrapContainers;
-    this.kernel = {
-      sysctl: {
-        'net.ipv4.ip_local_port_range': `${NetIpv4LocalPortRangeStart} ${NetIpv4LocalPortRangeEnd}`,
-        'fs.inotify.max_user_instances': FsInotifyMaxUserInstances.toString(),
-        'fs.inotify.max_user_watches': FsInotifyMaxUserWatches.toString()
-      }
-    };
-    this.kubernetes = {
-      'api-server': apiServer,
-      'cluster-name': clusterName,
-      'cluster-certificate': clusterCertificate,
-      'cluster-dns-ip': clusterDnsIp,
-      'image-gc-high-threshold-percent': imageGcHighThresholdPercent.toString(),
-      'image-gc-low-threshold-percent': imageGcLowThresholdPercent.toString(),
-      'event-qps': eventQps,
-      'kube-api-qps': kubeApiQps,
-      'kube-api-burst': kubeApiBurst,
-      'node-taints': {},
-      'eviction-hard': {
-        'memory.available': this.percentage(MemoryAvailable),
-        'nodefs.available': this.percentage(NodeFSAvailable),
-        'nodefs.inodesFree': this.percentage(NodeFSInodesFree),
-        'imagefs.available': this.percentage(ImageFSAvailable),
-        'imagefs.inodesFree': this.percentage(ImageFSInodesFree),
-        'pid.available': this.percentage(PidAvailable)
+    this.settings = {
+      'bootstrap-containers': BootstrapContainers,
+      kubernetes: {
+        'api-server': apiServer,
+        'cluster-name': clusterName,
+        'cluster-certificate': clusterCertificate,
+        'cluster-dns-ip': clusterDnsIp,
+        'image-gc-high-threshold-percent': imageGcHighThresholdPercent.toString(),
+        'image-gc-low-threshold-percent': imageGcLowThresholdPercent.toString(),
+        'event-qps': eventQps,
+        'kube-api-qps': kubeApiQps,
+        'kube-api-burst': kubeApiBurst,
+        'eviction-hard': {
+          'memory.available': this.percentage(MemoryAvailable),
+          'nodefs.available': this.percentage(NodeFSAvailable),
+          'nodefs.inodesFree': this.percentage(NodeFSInodesFree),
+          'imagefs.available': this.percentage(ImageFSAvailable),
+          'imagefs.inodesFree': this.percentage(ImageFSInodesFree),
+          'pid.available': this.percentage(PidAvailable)
+        }
+      },
+      kernel: {
+        sysctl: {
+          'net.ipv4.ip_local_port_range': `${NetIpv4LocalPortRangeStart} ${NetIpv4LocalPortRangeEnd}`,
+          'fs.inotify.max_user_instances': FsInotifyMaxUserInstances.toString(),
+          'fs.inotify.max_user_watches': FsInotifyMaxUserWatches.toString()
+        }
       }
     };
   }
@@ -197,7 +152,10 @@ export class BottleRocketSettings {
   }
 
   addTaint(key: string, value: string, effect: string = 'NoSchedule') {
-    this.kubernetes['node-taints'][key] = `${value}:${effect}`;
+    if (this.settings['kubernetes']['node-taints'] == undefined) {
+      this.settings['kubernetes']['node-taints'] = {};
+    }
+    this.settings['kubernetes']['node-taints'][key] = `${value}:${effect}`;
   }
 
   /**
@@ -207,7 +165,7 @@ export class BottleRocketSettings {
    */
   toToml(): string {
     return tomlify.toToml(
-      { settings: this },
+      { settings: this.settings },
       {
         //@ts-ignore
         replace: function (key: string, value: any) {
@@ -230,7 +188,7 @@ export class BottleRocketSettings {
   /**
    * @returns A populated {@link UserData} object
    */
-  getUserData(): UserData {
+  userData(): UserData {
     return UserData.custom(this.toToml());
   }
 }
@@ -244,7 +202,7 @@ export class BottleRocketSettings {
  * @param version The desired BottleRocket version. Default is 'latest'.
  * @returns A populated {@link IMachineImage} resource
  */
-export function getMachineImage(
+export function generateMachineImage(
   kubernetesVersion: string,
   architecture: string,
   version: string = 'latest'
@@ -264,11 +222,40 @@ export function getMachineImage(
  * @param version The desired BottleRocket version. Default is 'latest'.
  * @returns A string represnting the AMI ID.
  */
-export function getImageId(
+export function generateImageId(
   scope: Construct,
   kubernetesVersion: string,
   architecture: string,
   version: string = 'latest'
 ): string {
-  return getMachineImage(kubernetesVersion, architecture, version).getImage(scope).imageId;
+  return generateMachineImage(kubernetesVersion, architecture, version).getImage(scope).imageId;
 }
+
+//const isArray = function (a: any) {
+//  return Array.isArray(a);
+//};
+//
+//function toHyphen(s: string): string {
+//  return s.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
+//}
+//
+//const isObject = function (o: any) {
+//  return o === Object(o) && !isArray(o) && typeof o !== 'function';
+//};
+
+//function keysToHyphen(o: any): any {
+//  if (isObject(o)) {
+//    const n: { [id: string]: any } = {};
+//    Object.keys(o).forEach((k: string) => {
+//      n[toHyphen(k)] = keysToHyphen(o[k]);
+//    });
+//
+//    return n;
+//  } else if (isArray(o)) {
+//    return o.map((i: number) => {
+//      return keysToHyphen(i);
+//    });
+//  }
+//
+//  return o;
+//}

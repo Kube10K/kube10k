@@ -105,7 +105,7 @@ export class ClusterAutoscaler extends Construct {
         clusterName: props.cluster.clusterName,
 
         // Tolerate the system nodes taints
-        tolerations: [props.nodeTaint.getToleration()],
+        tolerations: [props.nodeTaint.toleration()],
 
         /**
          * Don't require it, but prefer the System Nodes to run on. If the pods

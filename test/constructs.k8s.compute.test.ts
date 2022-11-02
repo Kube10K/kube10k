@@ -155,10 +155,10 @@ describe('Compute', () => {
     const template = Template.fromStack(stack);
 
     // ASSERT: The bottlerocketSettings cluster-dns-ip was set
-    expect(group.bottleRocketSettings.kubernetes['cluster-dns-ip']).toEqual(['1.2.3.4']);
+    expect(group.bottleRocketSettings.settings['kubernetes']['cluster-dns-ip']).toEqual(['1.2.3.4']);
 
     // ASSERT: The bottlerocketSettings taints were added
-    expect(group.bottleRocketSettings.kubernetes['node-taints']).toEqual({
+    expect(group.bottleRocketSettings.settings['kubernetes']['node-taints']).toEqual({
       testKey: 'testValue:NoExecute'
     });
 

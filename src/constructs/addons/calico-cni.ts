@@ -191,8 +191,8 @@ export class CalicoCni extends Construct {
           ],
 
           // Only applies to kube-controllers and apiserver for now.
-          controlPlaneNodeSelector: props.nodeTaint.getNodeSelector(),
-          controlPlaneTolerations: [props.nodeTaint.getToleration()],
+          controlPlaneNodeSelector: props.nodeTaint.nodeSelector(),
+          controlPlaneTolerations: [props.nodeTaint.toleration()],
 
           /**
            * Bottlerocket cannot create local shared filesystems with the
@@ -228,7 +228,7 @@ export class CalicoCni extends Construct {
          * Override the default toleration ("tolerate everything") for the
          * operator and instead tolerate our system nodes only for the operator.
          */
-        tolerations: [props.nodeTaint.getToleration()]
+        tolerations: [props.nodeTaint.toleration()]
       },
 
       // Waiting is potentially dangerous during certain upgrade/reconfiguration

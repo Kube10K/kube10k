@@ -20,7 +20,7 @@ export class NodeLabels {
     this.labels = [];
   }
 
-  getLabelsAsMap(): { [id: string]: string } {
+  labelsAsMap(): { [id: string]: string } {
     let retMap: { [id: string]: string } = {};
     this.labels.forEach((element) => {
       retMap[element.key] = element.value;
@@ -68,13 +68,13 @@ export class NodeTaint {
     this.effect = effect;
   }
 
-  getNodeSelector(): { [id: string]: string } {
+  nodeSelector(): { [id: string]: string } {
     let m: { [id: string]: string } = {};
     m[this.key] = this.value;
     return m;
   }
 
-  getPreferredNodeAffinity(weight: number = 1): { [id: string]: any } {
+  getPreferredNodeAffeinity(weight: number = 1): { [id: string]: any } {
     return {
       weight: weight,
       preference: {
@@ -89,7 +89,7 @@ export class NodeTaint {
     };
   }
 
-  getToleration(): { [id: string]: string } {
+  toleration(): { [id: string]: string } {
     return {
       key: this.key,
       value: this.value,

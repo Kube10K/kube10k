@@ -132,7 +132,7 @@ export class CoreDns extends Construct {
             spec: {
               // Ensure that the CoreDNS Pods tolerate the taints for the "system" nodes.
               tolerations: [
-                props.nodeTaint.getToleration(),
+                props.nodeTaint.toleration(),
                 // Original Tolerations
                 { key: 'node-role.kubernetes.io/master', effect: 'NoSchedule' },
                 { key: 'CriticalAddonsOnly', operator: 'Exists' }

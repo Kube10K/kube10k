@@ -4,7 +4,7 @@ import { Stack, Tags } from 'aws-cdk-lib';
 import { EbsDeviceVolumeType, InstanceType, ISubnet, LaunchTemplate } from 'aws-cdk-lib/aws-ec2';
 import { Architecture } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
-import { BottleRocketSettings, getMachineImage } from './bottlerocket';
+import { BottleRocketSettings, generateMachineImage } from './bottlerocket';
 import { NodeLabels, NodeTaint } from './common';
 import { ClusterRoles } from './roles';
 import { ClusterSecurityGroups } from './securitygroups';
@@ -276,14 +276,14 @@ export class ManagedNodeGroup extends Construct {
       ],
       detailedMonitoring: true,
       securityGroup: props.clusterNetwork.nodeSecurityGroup,
-      machineImage: getMachineImage(
+      machineImage: generateMachineImage(
         props.kubernetesVersion.version,
         props.architecture?.name || DEFAULT_ARCHITECTURE.name,
         props.bottlerocketVersion || DEFAULT_BOTTLEROCKET_VERSION
       ),
       requireImdsv2: true,
       spotOptions: undefined,
-      userData: this.bottleRocketSettings.getUserData(),
+      userData: this.bottleRocketSettings.userData(),
       ebsOptimized: true
     });
 
@@ -317,7 +317,7 @@ export class ManagedNodeGroup extends Construct {
         instanceTypes: instanceTypeStrings,
         forceUpdateEnabled: true,
         subnets: [subnet.subnetId],
-        labels: this.nodeLabels.getLabelsAsMap(),
+        labels: this.nodeLabels.labelsAsMap(),
         scalingConfig: {
           minSize: props.minInstanceCount || DEFAULT_MIN_INSTANCE_COUNT,
           maxSize: props.maxInstanceCount || DEFAULT_MAX_INSTANCE_COUNT,
