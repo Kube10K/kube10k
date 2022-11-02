@@ -24,7 +24,7 @@ describe('ClusterFunctions', () => {
     // GIVEN
     const cfnTags: CfnTag[] = [
       { key: 'foo', value: 'bar' },
-      { key: 'foo2', value: 'bar2' }
+      { key: 'foo2', value: 'bar2' },
     ];
 
     // THEN
@@ -52,8 +52,8 @@ describe('Cluster', () => {
     clusterSecurityGroups: new ClusterSecurityGroups(stack, 'TestPrep', { vpc: vpc }),
     kubernetesVersion: KubernetesVersion.V1_21,
     optionalKube10kClusterProps: {
-      commonTags: [{ key: 'Foo', value: 'Bar' }]
-    }
+      commonTags: [{ key: 'Foo', value: 'Bar' }],
+    },
   });
   const template = Template.fromStack(stack);
 
@@ -61,12 +61,12 @@ describe('Cluster', () => {
     // ASSERT: KMS Key Created, and has appropriate Description
     template.resourceCountIs('AWS::KMS::Key', 1);
     template.hasResourceProperties('AWS::KMS::Key', {
-      Description: 'TestStack'
+      Description: 'TestStack',
     });
 
     // ASSERT: KMS Alias created and has appropriate name
     template.hasResourceProperties('AWS::KMS::Alias', {
-      AliasName: 'alias/TestClusterName'
+      AliasName: 'alias/TestClusterName',
     });
   });
 
@@ -89,27 +89,27 @@ describe('Cluster', () => {
           {
             provider: {
               keyArn: {
-                'Fn::GetAtt': [stack.getLogicalId(testCluster.kmsKey.node.defaultChild as CfnKey), 'Arn']
-              }
-            }
-          }
+                'Fn::GetAtt': [stack.getLogicalId(testCluster.kmsKey.node.defaultChild as CfnKey), 'Arn'],
+              },
+            },
+          },
         ],
         // ASSERT: ServiceIpv4Cidr is respected
         kubernetesNetworkConfig: {
-          serviceIpv4Cidr: cluster.DEFAULT_SERVICE_IPV4_CIDR
+          serviceIpv4Cidr: cluster.DEFAULT_SERVICE_IPV4_CIDR,
         },
 
         // ASSERT: The Cluster Control Plane role we provided is the one
         // actually used in the final resource
         roleArn: {
-          'Fn::GetAtt': [stack.getLogicalId(clusterRoles.clusterRole.node.defaultChild as CfnRole), 'Arn']
+          'Fn::GetAtt': [stack.getLogicalId(clusterRoles.clusterRole.node.defaultChild as CfnRole), 'Arn'],
         },
 
         // ASSERT: That the tags we passed in are set on the final custom resource
         tags: {
-          Foo: 'Bar'
-        }
-      }
+          Foo: 'Bar',
+        },
+      },
     });
   });
 });

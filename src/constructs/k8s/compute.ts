@@ -30,7 +30,7 @@ const DEFAULT_INSTANCE_TYPES: InstanceType[] = [
   new InstanceType('m6i.large'),
   new InstanceType('m6id.large'),
   new InstanceType('t3.large'),
-  new InstanceType('t3a.large')
+  new InstanceType('t3a.large'),
 ];
 const DEFAULT_MAX_INSTANCE_COUNT: number = 100;
 const DEFAULT_MIN_INSTANCE_COUNT: number = 1;
@@ -227,7 +227,7 @@ export class ManagedNodeGroup extends Construct {
         props.cluster.clusterEndpoint,
         props.cluster.clusterName,
         props.cluster.clusterCertificateAuthorityData,
-        props.optionalManagedNodeGroupProps?.clusterDnsIp
+        props.optionalManagedNodeGroupProps?.clusterDnsIp,
       );
 
     /**
@@ -262,9 +262,9 @@ export class ManagedNodeGroup extends Construct {
               deleteOnTermination: true,
               volumeType: EbsDeviceVolumeType.GP3,
               volumeSize: props.optionalManagedNodeGroupProps?.rootVolumeSize || DEFAULT_ROOT_VOLUME_SIZE,
-              encrypted: true
-            }
-          }
+              encrypted: true,
+            },
+          },
         },
         {
           deviceName: '/dev/xvdb',
@@ -273,22 +273,22 @@ export class ManagedNodeGroup extends Construct {
               deleteOnTermination: true,
               volumeType: EbsDeviceVolumeType.GP3,
               volumeSize: props.optionalManagedNodeGroupProps?.rootVolumeSize || DEFAULT_DATA_VOLUME_SIZE,
-              encrypted: true
-            }
-          }
-        }
+              encrypted: true,
+            },
+          },
+        },
       ],
       detailedMonitoring: true,
       securityGroup: props.clusterNetwork.nodeSecurityGroup,
       machineImage: generateMachineImage(
         props.kubernetesVersion.version,
         props.optionalManagedNodeGroupProps?.architecture?.name || DEFAULT_ARCHITECTURE.name,
-        props.optionalManagedNodeGroupProps?.bottlerocketVersion || DEFAULT_BOTTLEROCKET_VERSION
+        props.optionalManagedNodeGroupProps?.bottlerocketVersion || DEFAULT_BOTTLEROCKET_VERSION,
       ),
       requireImdsv2: true,
       spotOptions: undefined,
       userData: this.bottleRocketSettings.userData(),
-      ebsOptimized: true
+      ebsOptimized: true,
     });
 
     // The CNI-Metrics-Helper plugin uses this tag, oddly.
@@ -298,7 +298,7 @@ export class ManagedNodeGroup extends Construct {
     if (this.nodeTaint != undefined) {
       Tags.of(this.launchTemplate).add(
         `k8s.cluster-auto-scaler/node-template/taint/${this.nodeTaint.key}`,
-        `${this.nodeTaint.value}:${this.nodeTaint.effect}`
+        `${this.nodeTaint.value}:${this.nodeTaint.effect}`,
       );
     }
 
@@ -325,12 +325,12 @@ export class ManagedNodeGroup extends Construct {
         scalingConfig: {
           minSize: props.optionalManagedNodeGroupProps?.minInstanceCount || DEFAULT_MIN_INSTANCE_COUNT,
           maxSize: props.optionalManagedNodeGroupProps?.maxInstanceCount || DEFAULT_MAX_INSTANCE_COUNT,
-          desiredSize: props.optionalManagedNodeGroupProps?.desiredInstanceCount || DEFAULT_DESIRED_INSTANCE_COUNT
+          desiredSize: props.optionalManagedNodeGroupProps?.desiredInstanceCount || DEFAULT_DESIRED_INSTANCE_COUNT,
         },
         launchTemplate: {
           id: this.launchTemplate.launchTemplateId,
-          version: this.launchTemplate.latestVersionNumber
-        }
+          version: this.launchTemplate.latestVersionNumber,
+        },
       });
     }, this);
   }

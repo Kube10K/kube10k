@@ -99,7 +99,7 @@ export class WorkloadSubnets extends Construct {
      */
     const cidrBlock = new CfnVPCCidrBlock(this, 'CIDRBlock', {
       vpcId: props.vpc.vpcId,
-      cidrBlock: this.cidr
+      cidrBlock: this.cidr,
     });
 
     /**
@@ -123,7 +123,7 @@ export class WorkloadSubnets extends Construct {
       let subnet = new CfnSubnet(this, `Subnet-${i}`, {
         vpcId: props.vpc.vpcId,
         availabilityZone: existingPrivate.availabilityZone,
-        cidrBlock: Fn.select(i, Fn.cidr(this.cidr, props.vpc.availabilityZones.length, cidrSize.toString()))
+        cidrBlock: Fn.select(i, Fn.cidr(this.cidr, props.vpc.availabilityZones.length, cidrSize.toString())),
       });
       subnet.node.addDependency(cidrBlock);
 
@@ -133,7 +133,7 @@ export class WorkloadSubnets extends Construct {
       // Associate the new Subnet with the existing Route Table ID in the same zone.
       let routeAssoc = new CfnSubnetRouteTableAssociation(this, `SubnetRouteTableAssociation-${i}`, {
         routeTableId: routeTableId,
-        subnetId: subnet.ref
+        subnetId: subnet.ref,
       });
       routeAssoc.node.addDependency(subnet);
 

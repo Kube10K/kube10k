@@ -15,10 +15,10 @@ describe('Compute', () => {
     const vpc = new Vpc(stack, 'TestVpc');
     const clusterRoles = new ClusterRoles(stack, 'TestRoles');
     const clusterNetworkPrep = new ClusterSecurityGroups(stack, 'TestNetworkPrep', {
-      vpc: vpc
+      vpc: vpc,
     });
     const testCluster = new Cluster(stack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
 
     // THEN: Create the construct
@@ -27,7 +27,7 @@ describe('Compute', () => {
       clusterRoles: clusterRoles,
       clusterNetwork: clusterNetworkPrep,
       kubernetesVersion: KubernetesVersion.V1_21,
-      subnets: vpc.privateSubnets
+      subnets: vpc.privateSubnets,
     });
 
     // COMPILE
@@ -44,8 +44,8 @@ describe('Compute', () => {
               DeleteOnTermination: true,
               Encrypted: true,
               VolumeSize: 5,
-              VolumeType: 'gp3'
-            }
+              VolumeType: 'gp3',
+            },
           },
           {
             DeviceName: '/dev/xvdb',
@@ -53,9 +53,9 @@ describe('Compute', () => {
               DeleteOnTermination: true,
               Encrypted: true,
               VolumeSize: 100,
-              VolumeType: 'gp3'
-            }
-          }
+              VolumeType: 'gp3',
+            },
+          },
         ],
 
         // VERIFY: TagSpecifications Set Properly
@@ -64,18 +64,18 @@ describe('Compute', () => {
             ResourceType: 'instance',
             Tags: [
               { Key: 'CLUSTER_ID', Value: Match.anyValue() },
-              { Key: 'Name', Value: 'Stack/TestGroup/LaunchTemplate-v1' }
-            ]
+              { Key: 'Name', Value: 'Stack/TestGroup/LaunchTemplate-v1' },
+            ],
           },
           {
             ResourceType: 'volume',
             Tags: [
               { Key: 'CLUSTER_ID', Value: Match.anyValue() },
-              { Key: 'Name', Value: 'Stack/TestGroup/LaunchTemplate-v1' }
-            ]
-          }
-        ]
-      }
+              { Key: 'Name', Value: 'Stack/TestGroup/LaunchTemplate-v1' },
+            ],
+          },
+        ],
+      },
     });
 
     // ASSERT: LaunchTemplate Created Successfully
@@ -93,13 +93,13 @@ describe('Compute', () => {
         'm6i.large',
         'm6id.large',
         't3.large',
-        't3a.large'
+        't3a.large',
       ],
 
       // VERIFY: Node bootup Labels have been applied
       Labels: {
         'kube10k/provisioner': 'cluster-autoscaler',
-        'kube10k/stack': 'Stack'
+        'kube10k/stack': 'Stack',
       },
 
       // VERIFY: Capacity Type set properly from the default
@@ -109,21 +109,21 @@ describe('Compute', () => {
       ScalingConfig: {
         DesiredSize: 1,
         MinSize: 1,
-        MaxSize: 100
+        MaxSize: 100,
       },
 
       // VERIFY: LaunchTemplate References are correct
       LaunchTemplate: {
         Id: {
-          Ref: stack.getLogicalId(testManagedNodeGroup.launchTemplate.node.defaultChild as CfnLaunchTemplate)
+          Ref: stack.getLogicalId(testManagedNodeGroup.launchTemplate.node.defaultChild as CfnLaunchTemplate),
         },
         Version: {
           'Fn::GetAtt': [
             stack.getLogicalId(testManagedNodeGroup.launchTemplate.node.defaultChild as CfnLaunchTemplate),
-            'LatestVersionNumber'
-          ]
-        }
-      }
+            'LatestVersionNumber',
+          ],
+        },
+      },
     });
   });
 
@@ -134,10 +134,10 @@ describe('Compute', () => {
     const vpc = new Vpc(stack, 'TestVpc');
     const clusterRoles = new ClusterRoles(stack, 'TestRoles');
     const clusterNetworkPrep = new ClusterSecurityGroups(stack, 'TestNetworkPrep', {
-      vpc: vpc
+      vpc: vpc,
     });
     const testCluster = new Cluster(stack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
 
     // THEN: Create the construct
@@ -149,8 +149,8 @@ describe('Compute', () => {
       subnets: vpc.privateSubnets,
       optionalManagedNodeGroupProps: {
         nodeTaints: new NodeTaint('testKey', 'testValue', TaintedNodeEffect.NO_EXECUTE),
-        clusterDnsIp: ['1.2.3.4']
-      }
+        clusterDnsIp: ['1.2.3.4'],
+      },
     });
 
     // COMPILE
@@ -161,7 +161,7 @@ describe('Compute', () => {
 
     // ASSERT: The bottlerocketSettings taints were added
     expect(group.bottleRocketSettings.settings.kubernetes['node-taints']).toEqual({
-      testKey: 'testValue:NoExecute'
+      testKey: 'testValue:NoExecute',
     });
 
     // ASSERT: LaunchTemplate Created Successfully
@@ -177,19 +177,19 @@ describe('Compute', () => {
             Tags: [
               { Key: 'CLUSTER_ID', Value: Match.anyValue() },
               { Key: 'k8s.cluster-auto-scaler/node-template/taint/testKey', Value: 'testValue:NoExecute' },
-              { Key: 'Name', Value: 'Stack/TestGroup/LaunchTemplate-v1' }
-            ]
+              { Key: 'Name', Value: 'Stack/TestGroup/LaunchTemplate-v1' },
+            ],
           },
           {
             ResourceType: 'volume',
             Tags: [
               { Key: 'CLUSTER_ID', Value: Match.anyValue() },
               { Key: 'k8s.cluster-auto-scaler/node-template/taint/testKey', Value: 'testValue:NoExecute' },
-              { Key: 'Name', Value: 'Stack/TestGroup/LaunchTemplate-v1' }
-            ]
-          }
-        ]
-      }
+              { Key: 'Name', Value: 'Stack/TestGroup/LaunchTemplate-v1' },
+            ],
+          },
+        ],
+      },
     });
   });
 });

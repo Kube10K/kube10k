@@ -59,15 +59,15 @@ export class OidcIrsa extends Construct {
       code: Code.fromDockerBuild(codeDirectory.path, {
         file: 'Dockerfile',
         platform: Architecture.X86_64.dockerPlatform,
-        imagePath: '/opt'
+        imagePath: '/opt',
       }),
-      compatibleArchitectures: [Architecture.X86_64]
+      compatibleArchitectures: [Architecture.X86_64],
     });
     const handler = new Function(this, 'ThumbprintHandler', {
       runtime: Runtime.PYTHON_3_7,
       code: codeDirectory,
       layers: [thumbprintLayer],
-      handler: 'thumbprint.handler'
+      handler: 'thumbprint.handler',
     });
     handler.node.addDependency(thumbprintLayer);
 
@@ -84,8 +84,8 @@ export class OidcIrsa extends Construct {
       resourceType: 'Custom::Thumbprint',
       serviceToken: handler.functionArn,
       properties: {
-        URL: props.cluster.clusterOpenIdConnectIssuerUrl
-      }
+        URL: props.cluster.clusterOpenIdConnectIssuerUrl,
+      },
     });
     thumbprint.node.addDependency(handler);
 
@@ -96,7 +96,7 @@ export class OidcIrsa extends Construct {
     this.oidcProvider = new CfnOIDCProvider(this, 'OidcProvider', {
       thumbprintList: [thumbprint.ref],
       clientIdList: ['sts.amazonaws.com'],
-      url: props.cluster.clusterOpenIdConnectIssuerUrl
+      url: props.cluster.clusterOpenIdConnectIssuerUrl,
     });
 
     //Tags.of(this.oidcProvider).add((key = 'cfn.eks-dev.stack'), (value = 'iam-pid-stack'));
@@ -133,11 +133,11 @@ export class OidcIrsa extends Construct {
         StringEquals: new CfnJson(scope, 'FederatedPrincipalCondition', {
           value: {
             [`${this.clusterIdString}:aud`]: 'sts.amazonaws.com',
-            [`${this.clusterIdString}:sub`]: `system:serviceaccount:${ns}:${sa}`
-          }
-        })
+            [`${this.clusterIdString}:sub`]: `system:serviceaccount:${ns}:${sa}`,
+          },
+        }),
       },
-      'sts:AssumeRoleWithWebIdentity'
+      'sts:AssumeRoleWithWebIdentity',
     );
   }
 }

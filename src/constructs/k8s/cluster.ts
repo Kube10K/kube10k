@@ -104,15 +104,15 @@ export class Kube10kCluster extends Construct {
     const versionTable: CfnMapping = new CfnMapping(this, 'KubeProxyTag', {
       mapping: {
         1.23: {
-          KubeProxyTag: 'v1.23.7-minimal-eksbuild.1'
+          KubeProxyTag: 'v1.23.7-minimal-eksbuild.1',
         },
         1.22: {
-          KubeProxyTag: '1.22.11-minimal-eksbuild.2'
+          KubeProxyTag: '1.22.11-minimal-eksbuild.2',
         },
         1.21: {
-          KubeProxyTag: '1.21.14-minimal-eksbuild.2'
-        }
-      }
+          KubeProxyTag: '1.21.14-minimal-eksbuild.2',
+        },
+      },
     });
 
     /**
@@ -128,7 +128,7 @@ export class Kube10kCluster extends Construct {
       description: scope.stackName,
       enabled: true,
       enableKeyRotation: true,
-      removalPolicy: RemovalPolicy.DESTROY
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     /**
@@ -145,9 +145,9 @@ export class Kube10kCluster extends Construct {
       code: Code.fromDockerBuild(layerPath, {
         file: 'Dockerfile',
         platform: Architecture.X86_64.dockerPlatform,
-        imagePath: '/opt'
+        imagePath: '/opt',
       }),
-      compatibleArchitectures: [Architecture.X86_64]
+      compatibleArchitectures: [Architecture.X86_64],
     });
 
     /**
@@ -174,7 +174,7 @@ export class Kube10kCluster extends Construct {
         ClusterLoggingTypes.AUDIT,
         ClusterLoggingTypes.AUTHENTICATOR,
         ClusterLoggingTypes.CONTROLLER_MANAGER,
-        ClusterLoggingTypes.SCHEDULER
+        ClusterLoggingTypes.SCHEDULER,
       ],
       tags: getTagsAsMap(props.optionalKube10kClusterProps?.commonTags),
       outputClusterName: true,
@@ -216,7 +216,7 @@ export class Kube10kCluster extends Construct {
        * based. We use the Bottlerocket-based nodes and will create our node
        * groups separately.
        */
-      defaultCapacity: 0
+      defaultCapacity: 0,
     });
 
     /**
@@ -231,7 +231,7 @@ export class Kube10kCluster extends Construct {
      */
     this.awsAuth.addRoleMapping(props.clusterRoles.nodeRole, {
       username: 'system:node:{{EC2PrivateDNSName}}',
-      groups: ['system:bootstrappers', 'system:nodes']
+      groups: ['system:bootstrappers', 'system:nodes'],
     });
 
     /**
@@ -245,7 +245,7 @@ export class Kube10kCluster extends Construct {
       prune: false,
       skipValidation: false,
       overwrite: true,
-      manifest: [getKubeProxyConfig(proxyMode, ipvsScheduler)]
+      manifest: [getKubeProxyConfig(proxyMode, ipvsScheduler)],
     });
     kubeProxyConfig.node.addDependency(this.cluster);
 
@@ -272,13 +272,13 @@ export class Kube10kCluster extends Construct {
                 name: 'kube-proxy',
                 image: cdk.Fn.join(':', [
                   cdk.Fn.sub('602401143452.dkr.ecr.${AWS::Region}.amazonaws.com/eks/kube-proxy'),
-                  versionTable.findInMap(props.kubernetesVersion.version, 'KubeProxyTag')
-                ])
-              }
-            ]
-          }
-        }
-      }
+                  versionTable.findInMap(props.kubernetesVersion.version, 'KubeProxyTag'),
+                ]),
+              },
+            ],
+          },
+        },
+      },
     });
     kubeProxyVersionPatch.node.addDependency(this.cluster);
 
@@ -299,13 +299,13 @@ export class Kube10kCluster extends Construct {
                     'kube-proxy',
                     '--v=2',
                     '--config=/var/lib/kube-proxy-config/config',
-                    '--hostname-override=$(NODE_NAME)'
-                  ]
-                }
-              ]
-            }
-          }
-        }
+                    '--hostname-override=$(NODE_NAME)',
+                  ],
+                },
+              ],
+            },
+          },
+        },
       },
 
       applyPatch: {
@@ -321,14 +321,14 @@ export class Kube10kCluster extends Construct {
                     '--config=/var/lib/kube-proxy-config/config',
                     '--hostname-override=$(NODE_NAME)',
                     '--proxy-mode=' + proxyMode,
-                    '--ipvs-scheduler=' + ipvsScheduler
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      }
+                    '--ipvs-scheduler=' + ipvsScheduler,
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
     }).node.addDependency(kubeProxyConfig);
   }
 }
@@ -364,7 +364,7 @@ export function getTagsAsMap(tags?: cdk.CfnTag[]): { [id: string]: string } {
  */
 export function getKubeProxyConfig(
   proxyMode: string = DEFAULT_PROXY_MODE,
-  scheduler: string = DEFAULT_IPVS_SCHEDULER
+  scheduler: string = DEFAULT_IPVS_SCHEDULER,
 ): { [id: string]: any } {
   // The "config" blob in the ConfigMap needs to be a string, but we construct
   // it as a map for syntax verification.
@@ -377,7 +377,7 @@ export function getKubeProxyConfig(
       burst: 10,
       contentType: 'application/vnd.kubernetes.protobuf',
       kubeconfig: '/var/lib/kube-proxy/kubeconfig',
-      qps: 5
+      qps: 5,
     },
     clusterCIDR: '',
     configSyncPeriod: '15m0s',
@@ -388,7 +388,7 @@ export function getKubeProxyConfig(
       masqueradeAll: false,
       masqueradeBit: 14,
       minSyncPeriod: '0s',
-      syncPeriod: '30s'
+      syncPeriod: '30s',
     },
     metricsBindAddress: '127.0.0.1:10249',
     nodePortAddresses: null,
@@ -403,7 +403,7 @@ export function getKubeProxyConfig(
       maxPerCore: 0, // default 32k
       min: 0, // default 128k
       tcpCloseWaitTimeout: '1h0m0s',
-      tcpEstablishedTimeout: '24h0m0s'
+      tcpEstablishedTimeout: '24h0m0s',
     },
 
     // configure ipvs mode
@@ -412,8 +412,8 @@ export function getKubeProxyConfig(
       excludeCIDRs: null,
       minSyncPeriod: '0s',
       scheduler: scheduler,
-      syncPeriod: '30s'
-    }
+      syncPeriod: '30s',
+    },
   };
 
   // Convert the map into a YAML string
@@ -428,11 +428,11 @@ export function getKubeProxyConfig(
       namespace: 'kube-system',
       labels: {
         'eks.amazonaws.com/component': 'kube-proxy',
-        'k8s-app': 'kube-proxy'
-      }
+        'k8s-app': 'kube-proxy',
+      },
     },
     data: {
-      config: configString
-    }
+      config: configString,
+    },
   };
 }
