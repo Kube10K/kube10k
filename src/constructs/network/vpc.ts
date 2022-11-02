@@ -6,7 +6,7 @@ import {
   NatProvider,
   Port,
   SubnetConfiguration,
-  SubnetType
+  SubnetType,
 } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 
@@ -17,13 +17,13 @@ const DEFAULT_MAX_AZS: number = 3;
 const DEFAULT_INSTANCE_TENANCY: DefaultInstanceTenancy = DefaultInstanceTenancy.DEFAULT;
 const DEFAULT_GATEWAY_ENDPOINTS: { [id: string]: GatewayVpcEndpointOptions } = {
   S3: { service: cdk.aws_ec2.GatewayVpcEndpointAwsService.S3 },
-  DynamoDB: { service: cdk.aws_ec2.GatewayVpcEndpointAwsService.DYNAMODB }
+  DynamoDB: { service: cdk.aws_ec2.GatewayVpcEndpointAwsService.DYNAMODB },
 };
 const DEFAULT_INTERFACE_ENDPOINTS: ec2.InterfaceVpcEndpointAwsService[] = [
   ec2.InterfaceVpcEndpointAwsService.EC2,
   ec2.InterfaceVpcEndpointAwsService.STS,
   ec2.InterfaceVpcEndpointAwsService.ECR,
-  ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER
+  ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
 ];
 
 export interface VpcProps extends cdk.StackProps {
@@ -107,13 +107,13 @@ export class CoreVpc extends Construct {
       {
         name: 'Private',
         subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-        cidrMask: props.privateSubnetBlockSize || DEFAULT_PRIVATE_SUBNET_BLOCK_SIZE
+        cidrMask: props.privateSubnetBlockSize || DEFAULT_PRIVATE_SUBNET_BLOCK_SIZE,
       },
       {
         name: 'Public',
         subnetType: SubnetType.PUBLIC,
-        cidrMask: props.publicSubnetBlockSize || DEFAULT_PUBLIC_SUBNET_BLOCK_SIZE
-      }
+        cidrMask: props.publicSubnetBlockSize || DEFAULT_PUBLIC_SUBNET_BLOCK_SIZE,
+      },
     ];
 
     /**
@@ -190,7 +190,7 @@ export class CoreVpc extends Construct {
        * smaller and our private subnets are very large. See the
        * SubnetConfiguration above.
        */
-      subnetConfiguration: subnets
+      subnetConfiguration: subnets,
     });
 
     const interfaceEndpoints = props.interfaceEndpoints || DEFAULT_INTERFACE_ENDPOINTS;

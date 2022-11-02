@@ -65,7 +65,7 @@ export class AwsVpcCni extends Construct {
      * way. Its more error prone, but it does work.
      */
     const role = new Role(this, 'Role', {
-      assumedBy: props.oidcIrsa.generateFederatedPolicy(this, TARGET_NAMESPACE, releaseName)
+      assumedBy: props.oidcIrsa.generateFederatedPolicy(this, TARGET_NAMESPACE, releaseName),
     });
 
     // https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html
@@ -93,21 +93,21 @@ export class AwsVpcCni extends Construct {
           template: {
             spec: {
               nodeSelector: {
-                defaultAwsNodeIsDisabled: 'true'
-              }
-            }
-          }
-        }
+                defaultAwsNodeIsDisabled: 'true',
+              },
+            },
+          },
+        },
       },
       restorePatch: {
         spec: {
           template: {
             spec: {
-              nodeSelector: null
-            }
-          }
-        }
-      }
+              nodeSelector: null,
+            },
+          },
+        },
+      },
     });
 
     /**
@@ -127,21 +127,21 @@ export class AwsVpcCni extends Construct {
           kind: 'RoleBinding',
           metadata: {
             name: `${releaseName}-privileged-psp-access`,
-            namespace: TARGET_NAMESPACE
+            namespace: TARGET_NAMESPACE,
           },
           roleRef: {
             apiGroup: 'rbac.authorization.k8s.io',
             kind: 'ClusterRole',
-            name: EKS_PRIVILEGED_PSP_NAME
+            name: EKS_PRIVILEGED_PSP_NAME,
           },
           subjects: [
             {
               kind: 'ServiceAccount',
-              name: releaseName
-            }
-          ]
-        }
-      ]
+              name: releaseName,
+            },
+          ],
+        },
+      ],
     });
 
     /**
@@ -178,8 +178,8 @@ export class AwsVpcCni extends Construct {
         serviceAccount: {
           name: releaseName,
           annotations: {
-            'eks.amazonaws.com/role-arn': (role.node.defaultChild as CfnRole).getAtt('Arn')
-          }
+            'eks.amazonaws.com/role-arn': (role.node.defaultChild as CfnRole).getAtt('Arn'),
+          },
         },
 
         /**
@@ -188,14 +188,14 @@ export class AwsVpcCni extends Construct {
          */
         init: {
           image: {
-            region: scope.region
-          }
+            region: scope.region,
+          },
         },
         image: {
-          region: scope.region
+          region: scope.region,
         },
         eniConfig: {
-          region: scope.region
+          region: scope.region,
         },
 
         /**
@@ -251,7 +251,7 @@ export class AwsVpcCni extends Construct {
           WARM_PREFIX_TARGET: '1',
 
           // Log to stdout so that `kubectl logs <pod>...` is useful for operators.
-          AWS_VPC_K8S_CNI_LOG_FILE: 'stdout'
+          AWS_VPC_K8S_CNI_LOG_FILE: 'stdout',
         },
 
         /**
@@ -261,12 +261,12 @@ export class AwsVpcCni extends Construct {
          */
         resources: {
           limits: {
-            memory: '256Mi'
+            memory: '256Mi',
           },
           requests: {
             cpu: '100m',
-            memory: '128Mi'
-          }
+            memory: '128Mi',
+          },
         },
 
         /**
@@ -277,9 +277,9 @@ export class AwsVpcCni extends Construct {
          * (also then removing the chart would try to remove the CRD, which would be bad)
          */
         crd: {
-          create: false
-        }
-      }
+          create: false,
+        },
+      },
     });
 
     /**

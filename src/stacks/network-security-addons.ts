@@ -38,7 +38,7 @@ export class NetworkSecurityAddonsStack extends NestedStack {
     this.coreDns = new CoreDns(this, 'CoreDns', {
       cluster: props.cluster,
       nodeTaint: props.nodeTaint,
-      kubernetesVersion: props.kubernetesVersion
+      kubernetesVersion: props.kubernetesVersion,
     });
 
     /**
@@ -46,7 +46,7 @@ export class NetworkSecurityAddonsStack extends NestedStack {
      * caching service installed on each node.
      */
     this.nodeLocalDns = new NodeLocalDns(this, 'NodeLocalDns', {
-      cluster: props.cluster
+      cluster: props.cluster,
     });
 
     /**
@@ -59,14 +59,14 @@ export class NetworkSecurityAddonsStack extends NestedStack {
      */
     new PodSecurityPolicy(this, 'PodSecurityPolicies', {
       ...props.podSecurityProps,
-      cluster: props.cluster
+      cluster: props.cluster,
     });
 
     /**
      * Install the PriorityClasses addons
      */
     new PriorityClasses(this, 'PriorityClasses', {
-      cluster: props.cluster
+      cluster: props.cluster,
     });
 
     /**
@@ -74,7 +74,7 @@ export class NetworkSecurityAddonsStack extends NestedStack {
      */
     new AwsVpcCni(this, 'AwsVpcCni', {
       cluster: props.cluster,
-      oidcIrsa: props.oidcIrsa
+      oidcIrsa: props.oidcIrsa,
     });
 
     /**
@@ -83,7 +83,7 @@ export class NetworkSecurityAddonsStack extends NestedStack {
      */
     new CalicoCni(this, 'CalicoCni', {
       cluster: props.cluster,
-      nodeTaint: props.nodeTaint
+      nodeTaint: props.nodeTaint,
     });
   }
 }

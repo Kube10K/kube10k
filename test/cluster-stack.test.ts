@@ -13,7 +13,7 @@ describe('ClusterStack', () => {
     const clusterStackProps: ClusterStackProps = {
       clusterName: 'testCluster',
       kubernetesVersion: '1.23',
-      vpc: vpc
+      vpc: vpc,
     };
     const stack = new ClusterStack(rootStack, 'ClusterStack', clusterStackProps);
 
@@ -34,7 +34,7 @@ describe('ClusterStack', () => {
       clusterName: 'testCluster',
       kubernetesVersion: '1.23',
       vpc: vpc,
-      roleMappings: { admins: 'system:masters' }
+      roleMappings: { admins: 'system:masters' },
     };
     const stack = new ClusterStack(rootStack, 'ClusterStack', clusterStackProps);
 
@@ -43,7 +43,7 @@ describe('ClusterStack', () => {
 
     // THEN: Find the AwsAuth map
     template.findResources('Custom::AWSCDK-EKS-KubernetesResource', {
-      Manifest: Match.stringLikeRegexp('AwsAuth')
+      Manifest: Match.stringLikeRegexp('AwsAuth'),
     });
   });
 });

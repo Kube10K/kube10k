@@ -33,13 +33,13 @@ export class PriorityClasses extends Construct {
           apiVersion: 'scheduling.k8s.io/v1',
           kind: 'PriorityClass',
           metadata: {
-            name: `${resourcePrefix}.default`
+            name: `${resourcePrefix}.default`,
           },
           value: DEFAULT_PRIORITY_CLASS_VALUE,
           globalDefault: true,
-          description: 'Default PriorityClass that provides even scheduling with other default pods.'
-        }
-      ]
+          description: 'Default PriorityClass that provides even scheduling with other default pods.',
+        },
+      ],
     });
   }
 }

@@ -21,21 +21,21 @@ describe('Roles', () => {
     // ASSERT: Node Role Exists
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EC2 Node Role'
-      }
+        Description: 'Default/Minimal EC2 Node Role',
+      },
     });
 
     // ASSERT: Cluster Role Exists
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EKS CdkCluster Service Role'
-      }
+        Description: 'Default/Minimal EKS CdkCluster Service Role',
+      },
     });
 
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EKS Master Access Role'
-      }
+        Description: 'Default/Minimal EKS Master Access Role',
+      },
     });
   });
 
@@ -43,7 +43,7 @@ describe('Roles', () => {
     // GIVEN
     const stack = new Stack();
     new ClusterRoles(stack, 'ClusterRoles', {
-      existingMasterRole: 'existingRole'
+      existingMasterRole: 'existingRole',
     });
 
     // COMPILE
@@ -57,15 +57,15 @@ describe('Roles', () => {
     // ASSERT: Node Role Exists
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EC2 Node Role'
-      }
+        Description: 'Default/Minimal EC2 Node Role',
+      },
     });
 
     // ASSERT: Cluster Role Exists
     template.hasResource('AWS::IAM::Role', {
       Properties: {
-        Description: 'Default/Minimal EKS CdkCluster Service Role'
-      }
+        Description: 'Default/Minimal EKS CdkCluster Service Role',
+      },
     });
   });
 
@@ -78,9 +78,9 @@ describe('Roles', () => {
         new PolicyStatement({
           effect: Effect.ALLOW,
           actions: ['ecr:CreateRepository'],
-          resources: ['*']
-        })
-      ]
+          resources: ['*'],
+        }),
+      ],
     });
 
     // COMPILE
@@ -92,8 +92,8 @@ describe('Roles', () => {
     // ASSERT: IAM Policy references the NodeRole
     template.hasResource('AWS::IAM::Policy', {
       Properties: {
-        Roles: [{ Ref: capture }]
-      }
+        Roles: [{ Ref: capture }],
+      },
     });
     expect(capture.asString().match(/NodeRole/)).toBeDefined();
   });

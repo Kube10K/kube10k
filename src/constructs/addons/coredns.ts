@@ -21,16 +21,16 @@ export class CoreDns extends Construct {
 
     const versionTable = new CfnMapping(this, 'VersionMapping', {
       mapping: {
-        '1.23': {
-          CoreDnsTag: 'v1.8.7-eksbuild.2'
+        1.23: {
+          CoreDnsTag: 'v1.8.7-eksbuild.2',
         },
-        '1.22': {
-          CoreDnsTag: 'v1.8.7'
+        1.22: {
+          CoreDnsTag: 'v1.8.7',
         },
-        '1.21': {
-          CoreDnsTag: 'v1.8.4'
-        }
-      }
+        1.21: {
+          CoreDnsTag: 'v1.8.4',
+        },
+      },
     });
 
     /**
@@ -58,23 +58,23 @@ export class CoreDns extends Construct {
             labels: {
               'eks.amazonaws.com/component': 'coredns',
               'k8s-app': 'kube-dns',
-              'kubernetes.io/bootstrapping': 'rbac-defaults'
-            }
+              'kubernetes.io/bootstrapping': 'rbac-defaults',
+            },
           },
           rules: [
             {
               apiGroups: [''],
               resources: ['endpoints', 'services', 'pods', 'namespaces'],
-              verbs: ['list', 'watch']
+              verbs: ['list', 'watch'],
             },
             {
               apiGroups: ['discovery.k8s.io'],
               resources: ['endpointslices'],
-              verbs: ['list', 'watch']
-            }
-          ]
-        }
-      ]
+              verbs: ['list', 'watch'],
+            },
+          ],
+        },
+      ],
     });
 
     /**
@@ -96,19 +96,19 @@ export class CoreDns extends Construct {
             namespace: 'kube-system',
             labels: {
               'eks.amazonaws.com/component': 'coredns',
-              'k8s-app': 'kube-dns'
-            }
+              'k8s-app': 'kube-dns',
+            },
           },
           spec: {
             maxUnavailable: 1,
             selector: {
               matchLabels: {
-                'eks.amazonaws.com/component': 'coredns'
-              }
-            }
-          }
-        }
-      ]
+                'eks.amazonaws.com/component': 'coredns',
+              },
+            },
+          },
+        },
+      ],
     });
 
     new KubernetesPatch(this, 'VersionPatch', {
@@ -126,8 +126,8 @@ export class CoreDns extends Construct {
                 'ad.datadoghq.com/coredns.check_names': '["coredns"]',
                 'ad.datadoghq.com/coredns.init_configs': '[{}]',
                 'ad.datadoghq.com/coredns.instances':
-                  '[{"prometheus_url": "http://%%host%%:9153/metrics", "tags": ["dns-pod:%%host%%"]}]'
-              }
+                  '[{"prometheus_url": "http://%%host%%:9153/metrics", "tags": ["dns-pod:%%host%%"]}]',
+              },
             },
             spec: {
               // Ensure that the CoreDNS Pods tolerate the taints for the "system" nodes.
@@ -135,7 +135,7 @@ export class CoreDns extends Construct {
                 props.nodeTaint.toleration(),
                 // Original Tolerations
                 { key: 'node-role.kubernetes.io/master', effect: 'NoSchedule' },
-                { key: 'CriticalAddonsOnly', operator: 'Exists' }
+                { key: 'CriticalAddonsOnly', operator: 'Exists' },
               ],
               affinity: {
                 /**
@@ -179,13 +179,13 @@ export class CoreDns extends Construct {
                           {
                             key: 'k8s-app',
                             operator: 'In',
-                            values: ['kube-dns']
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
+                            values: ['kube-dns'],
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
               },
 
               /**
@@ -196,16 +196,16 @@ export class CoreDns extends Construct {
                   name: 'coredns',
                   image: Fn.join(':', [
                     Fn.sub('602401143452.dkr.ecr.${AWS::Region}.amazonaws.com/eks/coredns'),
-                    versionTable.findInMap(props.kubernetesVersion.version, 'CoreDnsTag')
-                  ])
-                }
-              ]
-            }
-          }
-        }
+                    versionTable.findInMap(props.kubernetesVersion.version, 'CoreDnsTag'),
+                  ]),
+                },
+              ],
+            },
+          },
+        },
       },
       // In a "delete" operation, just ignore this resource
-      restorePatch: {}
+      restorePatch: {},
     }).node.addDependency(missingClusterRole);
   }
 }

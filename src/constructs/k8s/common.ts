@@ -57,7 +57,7 @@ export class NodeTaint {
     key: string,
     value: string,
     effect: TaintedNodeEffect = TaintedNodeEffect.NO_SCHEDULE,
-    internal: boolean = false
+    internal: boolean = false,
   ) {
     if (internal) {
       this.key = `${NODE_TAINT_PREFIX}/${key}`;
@@ -82,10 +82,10 @@ export class NodeTaint {
           {
             key: this.key,
             operator: 'In',
-            values: [this.value]
-          }
-        ]
-      }
+            values: [this.value],
+          },
+        ],
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class NodeTaint {
       key: this.key,
       value: this.value,
       effect: this.effect,
-      operator: 'Equal'
+      operator: 'Equal',
     };
   }
 }

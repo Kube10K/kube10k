@@ -53,10 +53,10 @@ export class CalicoCni extends Construct {
           apiVersion: 'v1',
           kind: 'Namespace',
           metadata: {
-            name: TARGET_NAMESPACE
-          }
-        }
-      ]
+            name: TARGET_NAMESPACE,
+          },
+        },
+      ],
     });
 
     /**
@@ -83,14 +83,14 @@ export class CalicoCni extends Construct {
           kind: 'ConfigMap',
           metadata: {
             name: 'kubernetes-services-endpoint',
-            namespace: TARGET_NAMESPACE
+            namespace: TARGET_NAMESPACE,
           },
           data: {
             KUBERNETES_SERVICE_PORT: '443',
-            KUBERNETES_SERVICE_HOST: Fn.select(1, Fn.split('https://', props.cluster.clusterEndpoint))
-          }
-        }
-      ]
+            KUBERNETES_SERVICE_HOST: Fn.select(1, Fn.split('https://', props.cluster.clusterEndpoint)),
+          },
+        },
+      ],
     });
     this.serviceEndpointConfig.node.addDependency(namespace);
 
@@ -115,21 +115,21 @@ export class CalicoCni extends Construct {
           kind: 'RoleBinding',
           metadata: {
             name: releaseName,
-            namespace: TARGET_NAMESPACE
+            namespace: TARGET_NAMESPACE,
           },
           roleRef: {
             apiGroup: 'rbac.authorization.k8s.io',
             kind: 'ClusterRole',
-            name: 'eks:podsecuritypolicy:privileged'
+            name: 'eks:podsecuritypolicy:privileged',
           },
           subjects: [
             {
               kind: 'ServiceAccount',
-              name: releaseName
-            }
-          ]
-        }
-      ]
+              name: releaseName,
+            },
+          ],
+        },
+      ],
     });
     pspAccess.node.addDependency(namespace);
 
@@ -154,7 +154,7 @@ export class CalicoCni extends Construct {
           kubernetesProvider: 'EKS',
           // Ensure Tigera understands were using AWS VPC networking mode
           cni: {
-            type: 'AmazonVPC'
+            type: 'AmazonVPC',
           },
           // Set individual resources for components
           componentResources: [
@@ -163,9 +163,9 @@ export class CalicoCni extends Construct {
               resourceRequirements: {
                 requests: {
                   cpu: '100m',
-                  memory: '128Mi'
-                }
-              }
+                  memory: '128Mi',
+                },
+              },
             },
 
             {
@@ -173,9 +173,9 @@ export class CalicoCni extends Construct {
               resourceRequirements: {
                 requests: {
                   cpu: '500m',
-                  memory: '256Mi'
-                }
-              }
+                  memory: '256Mi',
+                },
+              },
             },
 
             {
@@ -184,10 +184,10 @@ export class CalicoCni extends Construct {
                 requests: {
                   cpu: '25m',
                   // Observed ~1Gi @ 400 nodes
-                  memory: '2Gi'
-                }
-              }
-            }
+                  memory: '2Gi',
+                },
+              },
+            },
           ],
 
           // Only applies to kube-controllers and apiserver for now.
@@ -202,7 +202,7 @@ export class CalicoCni extends Construct {
            * https://github.com/bottlerocket-os/bottlerocket/issues/2413
            * https://kubernetes.io/docs/concepts/storage/volumes/#flexvolume-deprecated
            */
-          flexVolumePath: 'None'
+          flexVolumePath: 'None',
         },
 
         /**
@@ -211,7 +211,7 @@ export class CalicoCni extends Construct {
         resources: {
           requests: {
             cpu: '100m',
-            memory: '384Mi'
+            memory: '384Mi',
           },
           limits: {
             /** The tigera-operator usually operates at a low memory footprint
@@ -220,21 +220,21 @@ export class CalicoCni extends Construct {
              * memory limit here so that if the footprint is too large we OOM it
              * gets too big.
              */
-            memory: '1Gi'
-          }
+            memory: '1Gi',
+          },
         },
 
         /**
          * Override the default toleration ("tolerate everything") for the
          * operator and instead tolerate our system nodes only for the operator.
          */
-        tolerations: [props.nodeTaint.toleration()]
+        tolerations: [props.nodeTaint.toleration()],
       },
 
       // Waiting is potentially dangerous during certain upgrade/reconfiguration
       // events. The onus of verifying that these apps are working perfectly is
       // to the cluster operator.
-      wait: false
+      wait: false,
     });
     chart.node.addDependency(namespace);
     chart.node.addDependency(pspAccess);
@@ -254,23 +254,23 @@ export class CalicoCni extends Construct {
           kind: 'Service',
           metadata: {
             name: `${releaseName}-felix-metrics`,
-            namespace: TARGET_NAMESPACE
+            namespace: TARGET_NAMESPACE,
           },
           spec: {
             selector: {
-              'k8s-app': 'calico-node'
+              'k8s-app': 'calico-node',
             },
             ports: [
               {
                 port: 9091,
                 targetPort: 9091,
                 name: 'metrics',
-                protocol: 'TCP'
-              }
-            ]
-          }
-        }
-      ]
+                protocol: 'TCP',
+              },
+            ],
+          },
+        },
+      ],
     }).node.addDependency(namespace);
 
     new KubernetesManifest(this, 'TyphaMetrics', {
@@ -284,23 +284,23 @@ export class CalicoCni extends Construct {
           kind: 'Service',
           metadata: {
             name: `${releaseName}-typha-metrics`,
-            namespace: TARGET_NAMESPACE
+            namespace: TARGET_NAMESPACE,
           },
           spec: {
             selector: {
-              'k8s-app': 'calico-typha'
+              'k8s-app': 'calico-typha',
             },
             ports: [
               {
                 port: 9093,
                 targetPort: 9093,
                 name: 'metrics',
-                protocol: 'TCP'
-              }
-            ]
-          }
-        }
-      ]
+                protocol: 'TCP',
+              },
+            ],
+          },
+        },
+      ],
     }).node.addDependency(namespace);
   }
 }

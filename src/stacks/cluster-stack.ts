@@ -8,7 +8,7 @@ import { OidcIrsa } from '../constructs/k8s/oidc-isra';
 import { ClusterRoles } from '../constructs/k8s/roles';
 import { ClusterSecurityGroups } from '../constructs/k8s/securitygroups';
 
-export interface OptionalClusterStackProps extends cdk.NestedStackProps {
+export interface OptionalClusterStackProps {
   /**
    * CommonTags are a set of CfnTag resources that will be added ultimately to the EKS cluster, if the cluster is
    * provisioned by this stack (as opposed to the "bring your own cluster" model).
@@ -102,7 +102,7 @@ export class ClusterStack extends cdk.NestedStack {
   public readonly oidcIrsa: OidcIrsa;
 
   constructor(scope: Construct, id: string, props: ClusterStackProps) {
-    super(scope, id, props);
+    super(scope, id);
 
     /**
      * Create the common IAM Roles. The EKS-native "aws-cdk.Cluster" resource

@@ -10,12 +10,12 @@ describe('CalicoCniAddon', () => {
     const app = new App();
     const stack = new Stack(app, 'TestStack');
     const testCluster = new Cluster(stack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
     const testTaint = new NodeTaint('testKey', 'testValue');
     new CalicoCni(stack, 'CalicoCni', {
       cluster: testCluster,
-      nodeTaint: testTaint
+      nodeTaint: testTaint,
     });
 
     // THEN
@@ -23,7 +23,7 @@ describe('CalicoCniAddon', () => {
 
     // ASSERT: namespace created
     template.hasResourceProperties('Custom::AWSCDK-EKS-KubernetesResource', {
-      Manifest: Match.stringLikeRegexp('Namespace.*calico-system')
+      Manifest: Match.stringLikeRegexp('Namespace.*calico-system'),
     });
 
     // ASSERT: The HelmChart resource was created

@@ -10,14 +10,14 @@ describe('AwsVpcCni', () => {
     const app = new App();
     const stack = new Stack(app, 'TestStack');
     const testCluster = new Cluster(stack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
     const oidcIrsa = new OidcIrsa(stack, 'OidcIrsa', {
-      cluster: testCluster
+      cluster: testCluster,
     });
     new AwsVpcCni(stack, 'awsVpcCni', {
       cluster: testCluster,
-      oidcIrsa: oidcIrsa
+      oidcIrsa: oidcIrsa,
     });
 
     // THEN
@@ -32,26 +32,26 @@ describe('AwsVpcCni', () => {
             Effect: 'Allow',
             Principal: {
               Federated: {
-                'Fn::GetAtt': [Match.anyValue(), 'Arn']
-              }
-            }
-          }
-        ]
+                'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+              },
+            },
+          },
+        ],
       },
       ManagedPolicyArns: [
-        { 'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':iam::aws:policy/AmazonEKS_CNI_Policy']] }
-      ]
+        { 'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':iam::aws:policy/AmazonEKS_CNI_Policy']] },
+      ],
     });
 
     // ASSERT: The original aws-node daemonset is patched to be disabled
     template.hasResourceProperties('Custom::AWSCDK-EKS-KubernetesPatch', {
       ResourceName: 'daemonset/aws-node',
-      ResourceNamespace: 'kube-system'
+      ResourceNamespace: 'kube-system',
     });
 
     // ASSERT: The EKS PSP Access was created
     template.hasResourceProperties('Custom::AWSCDK-EKS-KubernetesResource', {
-      Manifest: Match.stringLikeRegexp('kube-system.*eks:podsecuritypolicy:privileged')
+      Manifest: Match.stringLikeRegexp('kube-system.*eks:podsecuritypolicy:privileged'),
     });
 
     // ASSERT: The HelmChart resource was created
@@ -62,7 +62,7 @@ describe('AwsVpcCni', () => {
       Repository: 'https://aws.github.io/eks-charts',
       Timeout: '300s',
       Version: '1.1.21',
-      Wait: true
+      Wait: true,
     });
   });
 
@@ -71,10 +71,10 @@ describe('AwsVpcCni', () => {
     const app = new App();
     const stack = new Stack(app, 'TestStack');
     const testCluster = new Cluster(stack, 'TestCluster', {
-      version: KubernetesVersion.V1_21
+      version: KubernetesVersion.V1_21,
     });
     const oidcIrsa = new OidcIrsa(stack, 'OidcIrsa', {
-      cluster: testCluster
+      cluster: testCluster,
     });
 
     // https://github.com/facebook/jest/issues/7425#issuecomment-442737001
@@ -84,9 +84,9 @@ describe('AwsVpcCni', () => {
           cluster: testCluster,
           oidcIrsa: oidcIrsa,
           helm: {
-            releaseName: 'aws-node'
-          }
-        })
+            releaseName: 'aws-node',
+          },
+        }),
     ).toThrowError();
   });
 });

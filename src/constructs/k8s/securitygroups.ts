@@ -45,7 +45,7 @@ export class ClusterSecurityGroups extends Construct {
       description: cdk.Fn.join('/', [scope.stackName, 'ControlPlane']),
       vpc: this.vpc,
       allowAllOutbound: false,
-      disableInlineRules: false
+      disableInlineRules: false,
     });
 
     /**
@@ -63,7 +63,7 @@ export class ClusterSecurityGroups extends Construct {
       description: cdk.Fn.join('/', [scope.stackName, 'Nodes']),
       vpc: this.vpc,
       allowAllOutbound: true,
-      disableInlineRules: false
+      disableInlineRules: false,
     });
 
     /**
@@ -78,7 +78,7 @@ export class ClusterSecurityGroups extends Construct {
       this.nodeSecurityGroup,
       Port.tcp(443),
       'Node Access to Control Plane Services',
-      false
+      false,
     );
 
     /**
@@ -88,7 +88,7 @@ export class ClusterSecurityGroups extends Construct {
       this.controlPlaneSecurityGroup,
       Port.tcpRange(1024, 65535),
       'Control Plane acces to Nodes',
-      false
+      false,
     );
 
     /**
@@ -104,7 +104,7 @@ export class ClusterSecurityGroups extends Construct {
       this.controlPlaneSecurityGroup,
       Port.tcp(443),
       'Control Plane Webhook Access to Nodes',
-      false
+      false,
     );
 
     /**
@@ -119,7 +119,7 @@ export class ClusterSecurityGroups extends Construct {
       this.nodeSecurityGroup,
       Port.allTraffic(),
       'Node to Node Traffic is wide open',
-      false
+      false,
     );
   }
 }

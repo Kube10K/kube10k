@@ -168,7 +168,7 @@ export class RootStack extends Stack {
     if (props.existingVpcId) {
       console.log('VPC: Using user-supplied VPC ID (vpcId: %s)', props.existingVpcId);
       this.vpc = Vpc.fromLookup(this, 'VpcLookup', {
-        vpcId: props.existingVpcId
+        vpcId: props.existingVpcId,
       });
     } else {
       console.log('VPC: Using Dedicated VPC');
@@ -188,7 +188,7 @@ export class RootStack extends Stack {
       clusterName: this.clusterName,
       kubernetesVersion: this.kubernetesVersion,
       vpc: this.vpc,
-      commonTags: props.commonTags
+      commonTags: props.commonTags,
     });
 
     /**
@@ -205,7 +205,7 @@ export class RootStack extends Stack {
     const defaultWorkloadSubnets = new NestedWorkloadSubnetStack(this, 'DefaultWorkloadSubnets', {
       ...props.defaultWorkloadSubnetProps,
       vpc: this.vpc,
-      cluster: this.clusterStack.cluster.cluster
+      cluster: this.clusterStack.cluster.cluster,
     });
 
     /**
@@ -233,7 +233,7 @@ export class RootStack extends Stack {
       kubernetesVersion: KubernetesVersion.of(props.nodeKubernetesVersion || this.kubernetesVersion),
       nodeTaint: systemNodeTaint,
       podSecurityProps: props.podSecurityPolicy,
-      oidcIrsa: this.clusterStack.oidcIrsa
+      oidcIrsa: this.clusterStack.oidcIrsa,
     });
 
     /**
@@ -248,7 +248,7 @@ export class RootStack extends Stack {
       clusterNetwork: this.clusterStack.clusterSecurityGroups,
       cluster: this.clusterStack.cluster.cluster,
       nodeTaints: systemNodeTaint,
-      clusterDnsIp: [coreAddonsStack.nodeLocalDns.serviceIp]
+      clusterDnsIp: [coreAddonsStack.nodeLocalDns.serviceIp],
     });
     systemNodesStack.node.addDependency(coreAddonsStack);
 
@@ -260,7 +260,7 @@ export class RootStack extends Stack {
       cluster: this.clusterStack.cluster.cluster,
       kubernetesVersion: KubernetesVersion.of(props.nodeKubernetesVersion || this.kubernetesVersion),
       nodeTaint: systemNodeTaint,
-      oidcIrsa: this.clusterStack.oidcIrsa
+      oidcIrsa: this.clusterStack.oidcIrsa,
     });
     controllerAddonsStack.addDependency(systemNodesStack);
   }

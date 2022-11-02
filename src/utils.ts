@@ -36,7 +36,7 @@ export function addCommonTags(scope: Construct, tags: CfnTag[]) {
        * instances directly through the LaunchTemplate, so that we are never
        * updating the NodeGroup and LaunchTemplate at the same time.
        */
-      excludeResourceTypes: ['AWS::EKS::Nodegroup']
+      excludeResourceTypes: ['AWS::EKS::Nodegroup'],
     });
   });
 }

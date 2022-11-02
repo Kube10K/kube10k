@@ -6,7 +6,7 @@ import {
   ManagedPolicy,
   PolicyStatement,
   Role,
-  ServicePrincipal
+  ServicePrincipal,
 } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 
@@ -89,8 +89,8 @@ export class ClusterRoles extends Construct {
          * For newer versions of the aws-node daemonset:
          * https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
          */
-        ManagedPolicy.fromAwsManagedPolicyName('AmazonEKS_CNI_Policy')
-      ]
+        ManagedPolicy.fromAwsManagedPolicyName('AmazonEKS_CNI_Policy'),
+      ],
     });
 
     /**
@@ -117,8 +117,8 @@ export class ClusterRoles extends Construct {
         ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSServicePolicy'),
 
         // https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html
-        ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSVPCResourceController')
-      ]
+        ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSVPCResourceController'),
+      ],
     });
 
     /**
@@ -132,12 +132,12 @@ export class ClusterRoles extends Construct {
      */
     if (props?.existingMasterRole) {
       this.masterRole = Role.fromRoleName(this, 'ExistingMasterRole', props.existingMasterRole, {
-        mutable: false
+        mutable: false,
       });
     } else {
       this.masterRole = new Role(this, 'MasterRole', {
         description: cdk.Fn.join('/', [scope.stackName, 'Minimal EKS Master Access Role']),
-        assumedBy: new AccountRootPrincipal()
+        assumedBy: new AccountRootPrincipal(),
       });
     }
   }

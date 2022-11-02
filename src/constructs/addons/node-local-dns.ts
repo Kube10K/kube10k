@@ -62,7 +62,7 @@ export class NodeLocalDns extends Construct {
     const overrideValues = {
       serviceIP: this.serviceIp,
       coreDnsIP: props.coreDnsIp || DEFAULT_COREDNS_SERVICE_IP,
-      ipvsMode: props.enableIpvs || DEFAULT_ENABLE_IPVS
+      ipvsMode: props.enableIpvs || DEFAULT_ENABLE_IPVS,
     };
 
     new HelmChart(this, id, {
@@ -78,7 +78,7 @@ export class NodeLocalDns extends Construct {
       // Waiting is potentially dangerous during certain upgrade/reconfiguration
       // events. The onus of verifying that these apps are working perfectly is
       // to the cluster operator.
-      wait: false
+      wait: false,
     });
   }
 }

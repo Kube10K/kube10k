@@ -68,9 +68,9 @@ describe('Bottlerocket Configuration Generation', () => {
         customContainer: {
           mode: bottlerocket.BootstrapContainerMode.ALWAYS,
           essential: true,
-          source: 'docker.io/myCustomContainer'
-        }
-      }
+          source: 'docker.io/myCustomContainer',
+        },
+      },
     );
 
     testObj.addTaint('taintKey', 'taintValue', 'NoExecute');
@@ -93,13 +93,13 @@ describe('Bottlerocket Configuration Generation', () => {
     const testObj = new bottlerocket.BottleRocketSettings('1.2.3.4', 'testCluster', 'junkData', ['1.1.1.1', '2.2.2.2']);
 
     // ASSERT: node-taints starts out empty
-    expect(testObj.settings['kubernetes']['node-taints']).toEqual(undefined);
+    expect(testObj.settings.kubernetes['node-taints']).toEqual(undefined);
 
     // THEN: add a taint
     testObj.addTaint('testKey', 'testValue', 'testEffect');
 
     // ASSERT: taint line is now set
-    expect(testObj.settings['kubernetes']['node-taints']).toEqual({ testKey: 'testValue:testEffect' });
+    expect(testObj.settings.kubernetes['node-taints']).toEqual({ testKey: 'testValue:testEffect' });
   });
 
   test('getUserData()', () => {

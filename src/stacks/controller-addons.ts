@@ -25,7 +25,7 @@ export class ControllerAddonsStack extends NestedStack {
     new ClusterAutoscaler(this, 'ClusterAutoscaler', {
       cluster: props.cluster,
       oidcIrsa: props.oidcIrsa,
-      nodeTaint: props.nodeTaint
+      nodeTaint: props.nodeTaint,
     });
   }
 }

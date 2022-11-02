@@ -55,8 +55,8 @@ export class ClusterAutoscaler extends Construct {
             'autoscaling:DescribeLaunchConfigurations',
             'autoscaling:DescribeTags',
             'ec2:DescribeInstanceTypes',
-            'ec2:DescribeLaunchTemplateVersions'
-          ]
+            'ec2:DescribeLaunchTemplateVersions',
+          ],
         }),
 
         // Actions that could be more narrowly scoped in the future.
@@ -68,16 +68,16 @@ export class ClusterAutoscaler extends Construct {
             'autoscaling:TerminateInstanceInAutoScalingGroup',
             'ec2:DescribeImages',
             'ec2:GetInstanceTypesFromInstanceRequirements',
-            'eks:DescribeNodegroup'
-          ]
-        })
-      ]
+            'eks:DescribeNodegroup',
+          ],
+        }),
+      ],
     });
     const role = new Role(this, 'Role', {
       assumedBy: props.oidcIrsa.generateFederatedPolicy(this, TARGET_NAMESPACE, serviceAccountName),
       inlinePolicies: {
-        AutoscalerPolicy: policy
-      }
+        AutoscalerPolicy: policy,
+      },
     });
 
     /**
@@ -121,22 +121,22 @@ export class ClusterAutoscaler extends Construct {
                   {
                     key: props.nodeTaint.key,
                     operator: 'In',
-                    values: [props.nodeTaint.value]
-                  }
-                ]
-              }
-            }
-          ]
+                    values: [props.nodeTaint.value],
+                  },
+                ],
+              },
+            },
+          ],
         },
 
         // Make sure the ServiceAccount has access to the IAM Role created above
         serviceAccount: {
           name: serviceAccountName,
           annotations: {
-            'eks.amazonaws.com/role-arn': (role.node.defaultChild as CfnRole).getAtt('Arn')
-          }
-        }
-      }
+            'eks.amazonaws.com/role-arn': (role.node.defaultChild as CfnRole).getAtt('Arn'),
+          },
+        },
+      },
     });
 
     /**

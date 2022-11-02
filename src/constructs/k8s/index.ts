@@ -1,8 +1,8 @@
-export * as bottlerocket from './bottlerocket';
-export * as cluster from './cluster';
-export * as common from './common';
-export * as compute from './compute';
-export * as oidc_irsa from './oidc-isra';
-export * as roles from './roles';
-export * as securitygroups from './securitygroups';
-export * as workload_subnets from './workload-subnets';
+export * from './bottlerocket';
+export * from './cluster';
+export * from './common';
+export * from './compute';
+export * from './oidc-isra';
+export * from './roles';
+export * from './securitygroups';
+export * from './workload-subnets';

@@ -1,6 +1,5 @@
 import { IMachineImage, MachineImage, UserData } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
-var tomlify = require('tomlify-j0.4');
 
 export enum BootstrapContainerMode {
   OFF = 'off',
@@ -152,10 +151,10 @@ export class BottleRocketSettings {
   }
 
   addTaint(key: string, value: string, effect: string = 'NoSchedule') {
-    if (this.settings['kubernetes']['node-taints'] == undefined) {
-      this.settings['kubernetes']['node-taints'] = {};
+    if (this.settings.kubernetes['node-taints'] == undefined) {
+      this.settings.kubernetes['node-taints'] = {};
     }
-    this.settings['kubernetes']['node-taints'][key] = `${value}:${effect}`;
+    this.settings.kubernetes['node-taints'][key] = `${value}:${effect}`;
   }
 
   /**
@@ -164,25 +163,26 @@ export class BottleRocketSettings {
    * @returns A TOML-formatted string
    */
   toToml(): string {
-    return tomlify.toToml(
-      { settings: this.settings },
-      {
-        //@ts-ignore
-        replace: function (key: string, value: any) {
-          // If the value is a number, we need to convert it from a float to an
-          // int... but JavaScript doesn't really have that concept. See
-          // https://stackoverflow.com/questions/596467/how-do-i-convert-a-float-number-to-a-whole-number-in-javascript.
-          //
-          // Before: event-qps: 30.0
-          // After: event-qps: 30
+    return 'foo';
+    // return tomlify.toToml(
+    //   { settings: this.settings },
+    //   {
+    //     //@ts-ignore
+    //     replace: function (key: string, value: any) {
+    //       // If the value is a number, we need to convert it from a float to an
+    //       // int... but JavaScript doesn't really have that concept. See
+    //       // https://stackoverflow.com/questions/596467/how-do-i-convert-a-float-number-to-a-whole-number-in-javascript.
+    //       //
+    //       // Before: event-qps: 30.0
+    //       // After: event-qps: 30
 
-          if (typeof value === 'number') {
-            return String(value | 0);
-          }
-          return false;
-        }
-      }
-    );
+    //       if (typeof value === 'number') {
+    //         return String(value | 0);
+    //       }
+    //       return false;
+    //     }
+    //   }
+    // );
   }
 
   /**
