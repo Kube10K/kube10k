@@ -62,6 +62,14 @@
     "aws-cdk-lib": "^2.50.0",
     "constructs": "^10.0.5"
   },
+  "dependencies": {
+    "tomlify-j0.4": "^3.0.0",
+    "yaml": "2"
+  },
+  "bundledDependencies": [
+    "tomlify-j0.4",
+    "yaml"
+  ],
   "keywords": [
     "cdk"
   ],

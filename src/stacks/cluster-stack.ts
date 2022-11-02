@@ -112,7 +112,7 @@ export class ClusterStack extends cdk.NestedStack {
      */
     this.clusterRoles = new ClusterRoles(this, 'ClusterRoles', {
       nodeRolePolicyStatement: props?.nodeRolePolicyStatement,
-      existingMasterRole: props?.existingMasterRole
+      existingMasterRole: props?.existingMasterRole,
     });
 
     /**
@@ -146,7 +146,7 @@ export class ClusterStack extends cdk.NestedStack {
       clusterName: props.clusterName,
       kubernetesVersion: KubernetesVersion.of(props.kubernetesVersion),
       clusterSecurityGroups: this.clusterSecurityGroups,
-      clusterRoles: this.clusterRoles
+      clusterRoles: this.clusterRoles,
     });
 
     /**
@@ -162,7 +162,7 @@ export class ClusterStack extends cdk.NestedStack {
      * generate IAM role assume policies later by other constructs.
      */
     this.oidcIrsa = new OidcIrsa(this, 'OIDC-Irsa', {
-      cluster: this.cluster.cluster
+      cluster: this.cluster.cluster,
     });
     this.oidcIrsa.node.addDependency(this.cluster);
 
@@ -176,7 +176,7 @@ export class ClusterStack extends cdk.NestedStack {
       let discoveredRole = Role.fromRoleName(this, 'AwsAuth-' + id, id, { mutable: false });
       this.cluster.awsAuth.addRoleMapping(discoveredRole, {
         username: discoveredRole.roleName + ':{{SessionName}}',
-        groups: [value]
+        groups: [value],
       });
     }
   }

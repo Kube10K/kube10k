@@ -104,11 +104,11 @@ export class BottleRocketSettings {
     PidAvailable: number = 30,
 
     // "kubernetes.bootstrap-containers" optional bootstrap containers
-    BootstrapContainers?: { [id: string]: BootstrapContainer }
+    BootstrapContainers?: { [id: string]: BootstrapContainer },
   ) {
     this.settings = {
       'bootstrap-containers': BootstrapContainers,
-      kubernetes: {
+      'kubernetes': {
         'api-server': apiServer,
         'cluster-name': clusterName,
         'cluster-certificate': clusterCertificate,
@@ -124,16 +124,16 @@ export class BottleRocketSettings {
           'nodefs.inodesFree': this.percentage(NodeFSInodesFree),
           'imagefs.available': this.percentage(ImageFSAvailable),
           'imagefs.inodesFree': this.percentage(ImageFSInodesFree),
-          'pid.available': this.percentage(PidAvailable)
-        }
+          'pid.available': this.percentage(PidAvailable),
+        },
       },
-      kernel: {
+      'kernel': {
         sysctl: {
           'net.ipv4.ip_local_port_range': `${NetIpv4LocalPortRangeStart} ${NetIpv4LocalPortRangeEnd}`,
           'fs.inotify.max_user_instances': FsInotifyMaxUserInstances.toString(),
-          'fs.inotify.max_user_watches': FsInotifyMaxUserWatches.toString()
-        }
-      }
+          'fs.inotify.max_user_watches': FsInotifyMaxUserWatches.toString(),
+        },
+      },
     };
   }
 
@@ -205,10 +205,10 @@ export class BottleRocketSettings {
 export function generateMachineImage(
   kubernetesVersion: string,
   architecture: string,
-  version: string = 'latest'
+  version: string = 'latest',
 ): IMachineImage {
   return MachineImage.fromSsmParameter(
-    `/aws/service/bottlerocket/aws-k8s-${kubernetesVersion}/${architecture.toLocaleLowerCase()}/${version}/image_id`
+    `/aws/service/bottlerocket/aws-k8s-${kubernetesVersion}/${architecture.toLocaleLowerCase()}/${version}/image_id`,
   );
 }
 
@@ -226,7 +226,7 @@ export function generateImageId(
   scope: Construct,
   kubernetesVersion: string,
   architecture: string,
-  version: string = 'latest'
+  version: string = 'latest',
 ): string {
   return generateMachineImage(kubernetesVersion, architecture, version).getImage(scope).imageId;
 }
