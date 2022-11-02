@@ -8,7 +8,8 @@ import { WorkloadSubnetProps, WorkloadSubnets } from '../constructs/k8s/workload
  * organizational purposes primarily.
  */
 export class NestedWorkloadSubnetStack extends cdk.NestedStack {
-  workloadSubnets: WorkloadSubnets;
+  public readonly workloadSubnets: WorkloadSubnets;
+
   constructor(scope: Stack, id: string, props: WorkloadSubnetProps) {
     super(scope, id);
     this.workloadSubnets = new WorkloadSubnets(this, id, props);
