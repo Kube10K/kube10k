@@ -1,13 +1,13 @@
 import { NestedStack, Stack } from 'aws-cdk-lib';
 import { ICluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { AwsVpcCni } from '../constructs/addons/aws-vpc-cni';
-import { CalicoCni } from '../constructs/addons/calico-cni';
-import { CoreDns } from '../constructs/addons/coredns';
-import { NodeLocalDns } from '../constructs/addons/node-local-dns';
-import { PriorityClasses } from '../constructs/addons/priority-classes';
-import { OptionalPodSecurityPolicyProps, PodSecurityPolicy } from '../constructs/addons/psp';
-import { NodeTaint } from '../constructs/k8s/common';
-import { OidcIrsa } from '../constructs/k8s/oidc-isra';
+import { AwsVpcCni } from '../kube10k_constructs/addons/aws-vpc-cni';
+import { CalicoCni } from '../kube10k_constructs/addons/calico-cni';
+import { CoreDns } from '../kube10k_constructs/addons/coredns';
+import { NodeLocalDns } from '../kube10k_constructs/addons/node-local-dns';
+import { PriorityClasses } from '../kube10k_constructs/addons/priority-classes';
+import { OptionalPodSecurityPolicyProps, PodSecurityPolicy } from '../kube10k_constructs/addons/psp';
+import { NodeTaint } from '../kube10k_constructs/k8s/common';
+import { OidcIrsa } from '../kube10k_constructs/k8s/oidc-isra';
 
 export interface NetworkSecurityAddonsProps {
   readonly cluster: ICluster;

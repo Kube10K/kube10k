@@ -3,10 +3,10 @@ import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks';
 import { PolicyStatement, Role } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
-import { Kube10kCluster } from '../constructs/k8s/cluster';
-import { OidcIrsa } from '../constructs/k8s/oidc-isra';
-import { ClusterRoles } from '../constructs/k8s/roles';
-import { ClusterSecurityGroups } from '../constructs/k8s/securitygroups';
+import { Kube10kCluster } from '../kube10k_constructs/k8s/cluster';
+import { OidcIrsa } from '../kube10k_constructs/k8s/oidc-isra';
+import { ClusterRoles } from '../kube10k_constructs/k8s/roles';
+import { ClusterSecurityGroups } from '../kube10k_constructs/k8s/securitygroups';
 
 export interface OptionalClusterStackProps {
   /**

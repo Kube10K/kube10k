@@ -4,9 +4,9 @@ import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks';
 import { CfnRole } from 'aws-cdk-lib/aws-iam';
 import { CfnKey } from 'aws-cdk-lib/aws-kms';
-import * as cluster from '../src/constructs/k8s/cluster';
-import { ClusterRoles } from '../src/constructs/k8s/roles';
-import { ClusterSecurityGroups } from '../src/constructs/k8s/securitygroups';
+import * as cluster from '../src/kube10k_constructs/k8s/cluster';
+import { ClusterRoles } from '../src/kube10k_constructs/k8s/roles';
+import { ClusterSecurityGroups } from '../src/kube10k_constructs/k8s/securitygroups';
 
 describe('ClusterFunctions', () => {
   test('Func: getKubeProxyConfig', () => {

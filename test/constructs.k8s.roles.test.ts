@@ -1,7 +1,7 @@
 import { Stack } from 'aws-cdk-lib';
 import { Capture, Template } from 'aws-cdk-lib/assertions';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { ClusterRoles } from '../src/constructs/k8s/roles';
+import { ClusterRoles } from '../src/kube10k_constructs/k8s/roles';
 
 describe('Roles', () => {
   test('Create Cluster Roles', () => {

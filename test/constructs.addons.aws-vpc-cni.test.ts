@@ -1,8 +1,8 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { AwsVpcCni } from '../src/constructs/addons/aws-vpc-cni';
-import { OidcIrsa } from '../src/constructs/k8s/oidc-isra';
+import { AwsVpcCni } from '../src/kube10k_constructs/addons/aws-vpc-cni';
+import { OidcIrsa } from '../src/kube10k_constructs/k8s/oidc-isra';
 
 describe('AwsVpcCni', () => {
   test('Default', () => {

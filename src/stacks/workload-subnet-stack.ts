@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Stack } from 'aws-cdk-lib';
-import { WorkloadSubnetProps, WorkloadSubnets } from '../constructs/k8s/workload-subnets';
+import { WorkloadSubnetProps, WorkloadSubnets } from '../kube10k_constructs/k8s/workload-subnets';
 
 /**
  * Wrapper-stack for creating a set of Workload Subnets and associating them

@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
-import { CoreVpc, VpcProps } from '../constructs/network/vpc';
+import { CoreVpc, VpcProps } from '../kube10k_constructs/network/vpc';
 
 export interface VpcStackProps extends cdk.NestedStackProps {
   /**

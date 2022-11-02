@@ -66,6 +66,10 @@
     "tomlify-j0.4": "^3.0.0",
     "yaml": "^2.1.3"
   },
+  "bundledDependencies": [
+    "tomlify-j0.4",
+    "yaml"
+  ],
   "keywords": [
     "cdk"
   ],

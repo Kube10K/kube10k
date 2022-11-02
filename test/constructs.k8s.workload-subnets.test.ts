@@ -1,7 +1,7 @@
 import { App, NestedStack, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { WorkloadSubnets } from '../src/constructs/k8s/workload-subnets';
+import { WorkloadSubnets } from '../src/kube10k_constructs/k8s/workload-subnets';
 
 describe('WorkloadSubnets', () => {
   test('Default', () => {

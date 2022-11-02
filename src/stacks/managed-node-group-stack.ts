@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Stack } from 'aws-cdk-lib';
-import { ManagedNodeGroup, ManagedNodeGroupProps } from '../constructs/k8s/compute';
+import { ManagedNodeGroup, ManagedNodeGroupProps } from '../kube10k_constructs/k8s/compute';
 
 /**
  * Wrapper-stack for creating a single nested stack with a Managed Node Group.

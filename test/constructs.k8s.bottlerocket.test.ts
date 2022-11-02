@@ -1,6 +1,6 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { IMachineImage, UserData } from 'aws-cdk-lib/aws-ec2';
-import * as bottlerocket from '../src/constructs/k8s/bottlerocket';
+import * as bottlerocket from '../src/kube10k_constructs/k8s/bottlerocket';
 
 const DEFAULT_EXPECTED_BOTTLEROCKET_CONFIG: string = `[settings]
 

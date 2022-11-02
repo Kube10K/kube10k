@@ -1,7 +1,7 @@
 import { App, NestedStack, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { PriorityClasses } from '../src/constructs/addons/priority-classes';
+import { PriorityClasses } from '../src/kube10k_constructs/addons/priority-classes';
 
 describe('PriorityClassesAddons', () => {
   test('Default', () => {

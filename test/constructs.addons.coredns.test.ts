@@ -1,8 +1,8 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { CoreDns } from '../src/constructs/addons/coredns';
-import { NodeTaint } from '../src/constructs/k8s/common';
+import { CoreDns } from '../src/kube10k_constructs/addons/coredns';
+import { NodeTaint } from '../src/kube10k_constructs/k8s/common';
 
 describe('CoreDnsAddon', () => {
   test('Default', () => {

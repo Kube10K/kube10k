@@ -1,9 +1,9 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { ClusterAutoscaler } from '../src/constructs/addons/cluster-autoscaler';
-import { NodeTaint } from '../src/constructs/k8s/common';
-import { OidcIrsa } from '../src/constructs/k8s/oidc-isra';
+import { ClusterAutoscaler } from '../src/kube10k_constructs/addons/cluster-autoscaler';
+import { NodeTaint } from '../src/kube10k_constructs/k8s/common';
+import { OidcIrsa } from '../src/kube10k_constructs/k8s/oidc-isra';
 
 describe('ClusterAutoscalerAddon', () => {
   test('Default', () => {

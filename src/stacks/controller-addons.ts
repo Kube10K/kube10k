@@ -1,8 +1,8 @@
 import { NestedStack, Stack } from 'aws-cdk-lib';
 import { ICluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { ClusterAutoscaler } from '../constructs/addons/cluster-autoscaler';
-import { NodeTaint } from '../constructs/k8s/common';
-import { OidcIrsa } from '../constructs/k8s/oidc-isra';
+import { ClusterAutoscaler } from '../kube10k_constructs/addons/cluster-autoscaler';
+import { NodeTaint } from '../kube10k_constructs/k8s/common';
+import { OidcIrsa } from '../kube10k_constructs/k8s/oidc-isra';
 
 export interface ControllerAddonsProps {
   readonly cluster: ICluster;

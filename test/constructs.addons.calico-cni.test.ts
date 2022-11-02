@@ -1,8 +1,8 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Cluster, KubernetesVersion } from 'aws-cdk-lib/aws-eks';
-import { CalicoCni } from '../src/constructs/addons/calico-cni';
-import { NodeTaint } from '../src/constructs/k8s/common';
+import { CalicoCni } from '../src/kube10k_constructs/addons/calico-cni';
+import { NodeTaint } from '../src/kube10k_constructs/k8s/common';
 
 describe('CalicoCniAddon', () => {
   test('Default', () => {
