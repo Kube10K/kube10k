@@ -27,6 +27,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
 project.addBundledDeps("yaml");
 project.addBundledDeps("tomlify-j0.4");
 
+project.vscode.extensions.addRecommendations("dbaeumer.vscode-eslint");
+project.vscode.extensions.addRecommendations("orta.vscode-jest");
+project.vscode.extensions.addRecommendations("esbenp.prettier-vscode");
+
+project.vscode.settings.addSetting("eslint.options", {
+  configFile: ".eslintrc.json",
+});
+
 // TODO: Determine if this valuable or not
 // project.vscode.launchConfiguration.addConfiguration({
 //   type: "node",
