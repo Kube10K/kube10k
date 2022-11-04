@@ -1,4 +1,5 @@
 import { awscdk } from "projen";
+import { NpmAccess } from "projen/lib/javascript";
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: "Matt Wise",
@@ -19,6 +20,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
     "*.swo",
   ],
   prettier: true,
+
+  // Deployment to NPM. Set $NPM_TOKEN in Github Actions Secrets.
+  npmAccess: NpmAccess.PUBLIC,
+  npmTokenSecret: "NPM_TOKEN",
 
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
