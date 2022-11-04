@@ -25,4 +25,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
 });
+
+project.vscode?.extensions.addRecommendations("dbaeumer.vscode-eslint");
+project.vscode?.extensions.addRecommendations("orta.vscode-jest");
+project.vscode?.extensions.addRecommendations("esbenp.prettier-vscode");
+
+project.vscode?.settings.addSetting("eslint.options", {
+  configFile: ".eslintrc.json",
+});
+
 project.synth();
