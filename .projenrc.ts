@@ -17,19 +17,41 @@ const project = new awscdk.AwsCdkConstructLibrary({
     // VIM
     "*.swp",
     "*.swo",
+
+    // Integ-Tests
+    "!**/*.integ.snapshot/**/asset.*/*.js",
+    "!**/*.integ.snapshot/**/asset.*/*.d.ts",
+    "!**/*.integ.snapshot/**/asset.*/**",
+    "*.d.ts",
+    "*.generated.ts",
+    "*.js",
+    "*.js.map",
   ],
   prettier: true,
 
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
+  devDeps: [
+    // Integ-Tests
+    "@aws-cdk/integ-tests-alpha@2.41.0-alpha.0",
+    "@aws-cdk/integ-runner@^2",
+  ],
 });
 
+// Integ-Tests
+// const integConfig = new JsonFile(project, "test/integ/tsconfig.json", {
+//   obj: {
+//     extends: "../../tsconfig.dev.json",
+//     include: ["./**/integ.*.ts"],
+//   },
+// });
+project.setScript(
+  "integ",
+  "npx tsc -p test/integ && npx integ-runner --parallel-regions=us-west-2 --update-on-failed"
+);
+
+// VSCode Customizations
 project.vscode?.extensions.addRecommendations("dbaeumer.vscode-eslint");
 project.vscode?.extensions.addRecommendations("orta.vscode-jest");
 project.vscode?.extensions.addRecommendations("esbenp.prettier-vscode");
-
 project.vscode?.settings.addSetting("eslint.options", {
   configFile: ".eslintrc.json",
 });
