@@ -1,11 +1,12 @@
 /** @format */
 
 import * as cdk from "aws-cdk-lib";
+import { StackProps } from "aws-cdk-lib";
 import { IVpc } from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 import { DefaultVpc, DefaultVpcProps } from "./defaultvpc";
 
-export interface VpcStackProps {
+export interface VpcStackProps extends StackProps {
   /**
    * Provides access to customize the VPC being created.
    * Ref: {@link DefaultVpcProps}
@@ -18,7 +19,7 @@ export class VpcStack extends cdk.Stack {
   public readonly vpc: IVpc;
 
   constructor(scope: Construct, id: string, props?: VpcStackProps) {
-    super(scope, id);
+    super(scope, id, props);
 
     // Create the VPC resource itself
     let vpcProps: DefaultVpcProps = props?.vpcProps || {};
@@ -39,7 +40,7 @@ export class NestedVpcStack extends cdk.NestedStack {
   public readonly vpc: IVpc;
 
   constructor(scope: Construct, id: string, props?: VpcStackProps) {
-    super(scope, id);
+    super(scope, id, props);
 
     // Create the VPC resource itself
     let vpcProps: DefaultVpcProps = props?.vpcProps || {};

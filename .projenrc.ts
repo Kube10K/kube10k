@@ -22,6 +22,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   prettier: true,
 
   // Deployment to NPM. Set $NPM_TOKEN in Github Actions Secrets.
+  releaseFailureIssue: true,
   npmAccess: NpmAccess.PUBLIC,
   npmTokenSecret: "NPM_TOKEN",
 
