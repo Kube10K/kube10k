@@ -1,9 +1,9 @@
 /** @format */
 
-import * as cdk from 'aws-cdk-lib';
-import { IVpc } from 'aws-cdk-lib/aws-ec2';
-import { Construct } from 'constructs';
-import { CoreVpc, CoreVpcProps } from './corevpc';
+import * as cdk from "aws-cdk-lib";
+import { IVpc } from "aws-cdk-lib/aws-ec2";
+import { Construct } from "constructs";
+import { CoreVpc, CoreVpcProps } from "./corevpc";
 
 export interface VpcStackProps extends cdk.NestedStackProps {
   /**
@@ -13,7 +13,7 @@ export interface VpcStackProps extends cdk.NestedStackProps {
   readonly vpcProps?: CoreVpcProps;
 }
 
-export class VpcStack extends cdk.Stack {
+export class CoreVpcStack extends cdk.Stack {
   // Resource properties
   public readonly vpc: IVpc;
 
@@ -25,14 +25,14 @@ export class VpcStack extends cdk.Stack {
     let vpcConstruct: CoreVpc = new CoreVpc(this, id, vpcProps);
 
     /**
-     * Record the final awsec2.Vpc object itself in our properties so that it
-     * can be passed around to other stacks and components
+     * Record the final awsec2.Vpc object itself in our properties so that it can be passed around to other stacks and
+     * components
      */
-    this.vpc = vpcConstruct.vpc;
+    this.vpc = vpcConstruct.resource;
   }
 }
 
-export class NestedVpcStack extends cdk.NestedStack {
+export class NestedCoreVpcStack extends cdk.NestedStack {
   /**
    * The VPC in which this Cluster was created
    */
@@ -49,6 +49,6 @@ export class NestedVpcStack extends cdk.NestedStack {
      * Record the final awsec2.Vpc object itself in our properties so that it
      * can be passed around to other stacks and components
      */
-    this.vpc = vpcConstruct.vpc;
+    this.vpc = vpcConstruct.resource;
   }
 }

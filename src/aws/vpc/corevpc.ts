@@ -1,7 +1,7 @@
 /** @format */
 
-import * as cdk from 'aws-cdk-lib';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as cdk from "aws-cdk-lib";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
 import {
   DefaultInstanceTenancy,
   GatewayVpcEndpointOptions,
@@ -10,14 +10,15 @@ import {
   Port,
   SubnetConfiguration,
   SubnetType,
-} from 'aws-cdk-lib/aws-ec2';
-import { Construct } from 'constructs';
+} from "aws-cdk-lib/aws-ec2";
+import { Construct } from "constructs";
 
 const DEFAULT_PUBLIC_SUBNET_BLOCK_SIZE: number = 24;
 const DEFAULT_PRIVATE_SUBNET_BLOCK_SIZE: number = 20;
-const DEFAULT_CIDR: string = '100.64.0.0/16';
+const DEFAULT_CIDR: string = "100.64.0.0/16";
 const DEFAULT_MAX_AZS: number = 3;
-const DEFAULT_INSTANCE_TENANCY: DefaultInstanceTenancy = DefaultInstanceTenancy.DEFAULT;
+const DEFAULT_INSTANCE_TENANCY: DefaultInstanceTenancy =
+  DefaultInstanceTenancy.DEFAULT;
 const DEFAULT_GATEWAY_ENDPOINTS: { [id: string]: GatewayVpcEndpointOptions } = {
   S3: { service: cdk.aws_ec2.GatewayVpcEndpointAwsService.S3 },
   DynamoDB: { service: cdk.aws_ec2.GatewayVpcEndpointAwsService.DYNAMODB },
@@ -32,6 +33,8 @@ const DEFAULT_INTERFACE_ENDPOINTS: ec2.InterfaceVpcEndpointAwsService[] = [
 export interface CoreVpcProps {
   /**
    * The desired "name" tag of the VPC. This can be changed at any time.
+   *
+   * @default this.node.path
    */
   readonly name?: string;
 
@@ -88,17 +91,9 @@ export interface CoreVpcProps {
 }
 
 export class CoreVpc extends Construct {
-  /**
-   * Reference to the raw VPC object created
-   */
-  readonly vpc: cdk.aws_ec2.IVpc;
+  // Resource properties
+  readonly resource: cdk.aws_ec2.IVpc;
 
-  /**
-   *
-   * @param scope
-   * @param id
-   * @param props
-   */
   constructor(scope: Construct, id: string, props: CoreVpcProps) {
     super(scope, id);
 
@@ -108,21 +103,23 @@ export class CoreVpc extends Construct {
      */
     let subnets: SubnetConfiguration[] = [
       {
-        name: 'Private',
+        name: "Private",
         subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-        cidrMask: props.privateSubnetBlockSize || DEFAULT_PRIVATE_SUBNET_BLOCK_SIZE,
+        cidrMask:
+          props.privateSubnetBlockSize || DEFAULT_PRIVATE_SUBNET_BLOCK_SIZE,
       },
       {
-        name: 'Public',
+        name: "Public",
         subnetType: SubnetType.PUBLIC,
-        cidrMask: props.publicSubnetBlockSize || DEFAULT_PUBLIC_SUBNET_BLOCK_SIZE,
+        cidrMask:
+          props.publicSubnetBlockSize || DEFAULT_PUBLIC_SUBNET_BLOCK_SIZE,
       },
     ];
 
     /**
      *  https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk/aws-ec2/lib/vpc.ts
      */
-    this.vpc = new ec2.Vpc(this, 'Vpc', {
+    this.resource = new ec2.Vpc(this, "Vpc", {
       /**
        * Disabled/Explicitly Not Set settings:
        *
@@ -154,7 +151,8 @@ export class CoreVpc extends Construct {
        * In rare situations an operator may need their hardware to be isolated
        * from other AWS customers, so this is customizable.
        */
-      defaultInstanceTenancy: props.defaultInstanceTenancy || DEFAULT_INSTANCE_TENANCY,
+      defaultInstanceTenancy:
+        props.defaultInstanceTenancy || DEFAULT_INSTANCE_TENANCY,
 
       // Always enable the DNS service within the VPC.
       enableDnsSupport: true,
@@ -196,13 +194,16 @@ export class CoreVpc extends Construct {
       subnetConfiguration: subnets,
     });
 
-    const interfaceEndpoints = props.interfaceEndpoints || DEFAULT_INTERFACE_ENDPOINTS;
+    const interfaceEndpoints =
+      props.interfaceEndpoints || DEFAULT_INTERFACE_ENDPOINTS;
     interfaceEndpoints.forEach((element) => {
       /**
        * Add in VPC Endpoints that are recommended by AWS. These endpoints cost
        * money, but if you're running this stack, you know that.
        */
-      let endpoint = this.vpc.addInterfaceEndpoint(element.shortName, { service: element });
+      let endpoint = this.resource.addInterfaceEndpoint(element.shortName, {
+        service: element,
+      });
 
       /**
        * The default VPC Endpoints created by the {@link addInterfaceEndpoint}

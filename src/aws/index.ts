@@ -1,1 +1,4 @@
-export * as vpc from './vpc';
+/**
+ * @module aws
+ */
+export * as vpc from "./vpc";
