@@ -1,4 +1,5 @@
-const { awscdk } = require('projen');
+import { awscdk } from 'projen';
+
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Matt Wise',
   authorAddress: 'wise@wiredgeek.net',
@@ -6,6 +7,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   defaultReleaseBranch: 'main',
   name: 'kube10k',
   repositoryUrl: 'https://github.com/Kube10K/kube10k.git',
+  projenrcTs: true /* https://projen.io/typescript.html */,
 
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
