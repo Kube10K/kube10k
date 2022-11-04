@@ -1,20 +1,21 @@
 /** @format */
 
-import * as cdk from "aws-cdk-lib";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import {
   DefaultInstanceTenancy,
   GatewayVpcEndpointOptions,
+  IpAddresses,
   NatProvider,
   Port,
   SubnetConfiguration,
   SubnetType,
-} from "aws-cdk-lib/aws-ec2";
-import { Construct } from "constructs";
+} from 'aws-cdk-lib/aws-ec2';
+import { Construct } from 'constructs';
 
 const DEFAULT_PUBLIC_SUBNET_BLOCK_SIZE: number = 24;
 const DEFAULT_PRIVATE_SUBNET_BLOCK_SIZE: number = 20;
-const DEFAULT_CIDR: string = "100.64.0.0/16";
+const DEFAULT_CIDR: string = '100.64.0.0/16';
 const DEFAULT_MAX_AZS: number = 3;
 const DEFAULT_INSTANCE_TENANCY: DefaultInstanceTenancy = DefaultInstanceTenancy.DEFAULT;
 const DEFAULT_GATEWAY_ENDPOINTS: { [id: string]: GatewayVpcEndpointOptions } = {
@@ -28,9 +29,9 @@ const DEFAULT_INTERFACE_ENDPOINTS: ec2.InterfaceVpcEndpointAwsService[] = [
   ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
 ];
 
-export interface VpcProps {
+export interface CoreVpcProps {
   /**
-   * The desired "name" of the VPC.
+   * The desired "name" tag of the VPC. This can be changed at any time.
    */
   readonly name?: string;
 
@@ -98,7 +99,7 @@ export class CoreVpc extends Construct {
    * @param id
    * @param props
    */
-  constructor(scope: Construct, id: string, props: VpcProps) {
+  constructor(scope: Construct, id: string, props: CoreVpcProps) {
     super(scope, id);
 
     /**
@@ -107,12 +108,12 @@ export class CoreVpc extends Construct {
      */
     let subnets: SubnetConfiguration[] = [
       {
-        name: "Private",
+        name: 'Private',
         subnetType: SubnetType.PRIVATE_WITH_EGRESS,
         cidrMask: props.privateSubnetBlockSize || DEFAULT_PRIVATE_SUBNET_BLOCK_SIZE,
       },
       {
-        name: "Public",
+        name: 'Public',
         subnetType: SubnetType.PUBLIC,
         cidrMask: props.publicSubnetBlockSize || DEFAULT_PUBLIC_SUBNET_BLOCK_SIZE,
       },
@@ -121,7 +122,7 @@ export class CoreVpc extends Construct {
     /**
      *  https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk/aws-ec2/lib/vpc.ts
      */
-    this.vpc = new ec2.Vpc(this, "Vpc", {
+    this.vpc = new ec2.Vpc(this, 'Vpc', {
       /**
        * Disabled/Explicitly Not Set settings:
        *
@@ -147,7 +148,7 @@ export class CoreVpc extends Construct {
        * CIDR. CdkCluster-to-CdkCluster communication should be done through
        * VPC Endpoints, NLBs, or public Elastic IPs.
        */
-      cidr: props.cidr || DEFAULT_CIDR,
+      ipAddresses: IpAddresses.cidr(props.cidr || DEFAULT_CIDR),
 
       /**
        * In rare situations an operator may need their hardware to be isolated

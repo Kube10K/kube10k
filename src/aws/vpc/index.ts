@@ -1,1 +1,3 @@
-export * from './vpc';
+/** @format */
+
+export * from './corevpc';
