@@ -40,7 +40,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   devDeps: [
     // Integ-Tests
-    "@aws-cdk/integ-tests-alpha@2.41.0-alpha.0",
+    "@aws-cdk/integ-tests-alpha",
     "@aws-cdk/integ-runner@^2",
   ],
 

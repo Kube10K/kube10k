@@ -7,7 +7,6 @@
     },
     {
       "name": "@aws-cdk/integ-tests-alpha",
-      "version": "2.41.0-alpha.0",
       "type": "build"
     },
     {

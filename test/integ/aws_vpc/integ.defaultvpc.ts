@@ -20,8 +20,20 @@ const stack = new Stack(app, "root", {
     qualifier: "default",
   }),
 });
+
+// Nested stack bing tested
 new NestedVpcStack(stack, "vpc", {});
 
+// https://docs.aws.amazon.com/cdk/api/v2/docs/integ-tests-alpha-readme.html#assertions
+const assertionStack = new Stack(app, "assertions", {
+  env: env,
+  synthesizer: new DefaultStackSynthesizer({
+    qualifier: "default",
+  }),
+});
+
+// Just verify the stack is launchable
 new IntegTest(app, "IntegTest", {
   testCases: [stack],
+  assertionStack: assertionStack,
 });
