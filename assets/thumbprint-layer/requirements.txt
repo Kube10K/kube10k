@@ -1,0 +1,5 @@
+boto3
+pyOpenSSL
+awsretry
+certifi
+cfn_resource_provider

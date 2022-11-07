@@ -2,6 +2,282 @@
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
+### ClusterRoles <a name="ClusterRoles" id="kube10k.aws_eks.ClusterRoles"></a>
+
+#### Initializers <a name="Initializers" id="kube10k.aws_eks.ClusterRoles.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+new aws_eks.ClusterRoles(scope: Stack, id: string, props?: ClusterRolesProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.Initializer.parameter.scope">scope</a></code> | <code>aws-cdk-lib.Stack</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.Initializer.parameter.props">props</a></code> | <code>kube10k.aws_eks.ClusterRolesProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="kube10k.aws_eks.ClusterRoles.Initializer.parameter.scope"></a>
+
+- *Type:* aws-cdk-lib.Stack
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="kube10k.aws_eks.ClusterRoles.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Optional</sup> <a name="props" id="kube10k.aws_eks.ClusterRoles.Initializer.parameter.props"></a>
+
+- *Type:* kube10k.aws_eks.ClusterRolesProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.toString">toString</a></code> | Returns a string representation of this construct. |
+
+---
+
+##### `toString` <a name="toString" id="kube10k.aws_eks.ClusterRoles.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="kube10k.aws_eks.ClusterRoles.isConstruct"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+aws_eks.ClusterRoles.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="kube10k.aws_eks.ClusterRoles.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.property.clusterRole">clusterRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Provides access to the Cluster Control Plane role that the cluster will use. |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.property.masterRole">masterRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Provides access to the Master Role that will be granted privileges into the final Kubernetes cluster that is created. |
+| <code><a href="#kube10k.aws_eks.ClusterRoles.property.nodeRole">nodeRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Provides access to the Node Role that should be assigned to EC2 nodes that join the cluster. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="kube10k.aws_eks.ClusterRoles.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `clusterRole`<sup>Required</sup> <a name="clusterRole" id="kube10k.aws_eks.ClusterRoles.property.clusterRole"></a>
+
+```typescript
+public readonly clusterRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Provides access to the Cluster Control Plane role that the cluster will use.
+
+---
+
+##### `masterRole`<sup>Required</sup> <a name="masterRole" id="kube10k.aws_eks.ClusterRoles.property.masterRole"></a>
+
+```typescript
+public readonly masterRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Provides access to the Master Role that will be granted privileges into the final Kubernetes cluster that is created.
+
+---
+
+##### `nodeRole`<sup>Required</sup> <a name="nodeRole" id="kube10k.aws_eks.ClusterRoles.property.nodeRole"></a>
+
+```typescript
+public readonly nodeRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Provides access to the Node Role that should be assigned to EC2 nodes that join the cluster.
+
+---
+
+
+### ClusterSecurityGroups <a name="ClusterSecurityGroups" id="kube10k.aws_eks.ClusterSecurityGroups"></a>
+
+#### Initializers <a name="Initializers" id="kube10k.aws_eks.ClusterSecurityGroups.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+new aws_eks.ClusterSecurityGroups(scope: Stack, id: string, props: ClusterNetworkProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.Initializer.parameter.scope">scope</a></code> | <code>aws-cdk-lib.Stack</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.Initializer.parameter.props">props</a></code> | <code>kube10k.aws_eks.ClusterNetworkProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="kube10k.aws_eks.ClusterSecurityGroups.Initializer.parameter.scope"></a>
+
+- *Type:* aws-cdk-lib.Stack
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="kube10k.aws_eks.ClusterSecurityGroups.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="kube10k.aws_eks.ClusterSecurityGroups.Initializer.parameter.props"></a>
+
+- *Type:* kube10k.aws_eks.ClusterNetworkProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.toString">toString</a></code> | Returns a string representation of this construct. |
+
+---
+
+##### `toString` <a name="toString" id="kube10k.aws_eks.ClusterSecurityGroups.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="kube10k.aws_eks.ClusterSecurityGroups.isConstruct"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+aws_eks.ClusterSecurityGroups.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="kube10k.aws_eks.ClusterSecurityGroups.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.property.controlPlaneSecurityGroup">controlPlaneSecurityGroup</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup</code> | Access to the Control Plane {@link ISecurityGroup} resource. |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.property.nodeSecurityGroup">nodeSecurityGroup</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup</code> | Access to the Node {@link ISecurityGroup} resource. |
+| <code><a href="#kube10k.aws_eks.ClusterSecurityGroups.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | Access to the {@link IVpc} in which the {@link SecurityGroup} resources were created. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="kube10k.aws_eks.ClusterSecurityGroups.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `controlPlaneSecurityGroup`<sup>Required</sup> <a name="controlPlaneSecurityGroup" id="kube10k.aws_eks.ClusterSecurityGroups.property.controlPlaneSecurityGroup"></a>
+
+```typescript
+public readonly controlPlaneSecurityGroup: ISecurityGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup
+
+Access to the Control Plane {@link ISecurityGroup} resource.
+
+---
+
+##### `nodeSecurityGroup`<sup>Required</sup> <a name="nodeSecurityGroup" id="kube10k.aws_eks.ClusterSecurityGroups.property.nodeSecurityGroup"></a>
+
+```typescript
+public readonly nodeSecurityGroup: ISecurityGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup
+
+Access to the Node {@link ISecurityGroup} resource.
+
+---
+
+##### `vpc`<sup>Required</sup> <a name="vpc" id="kube10k.aws_eks.ClusterSecurityGroups.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+
+Access to the {@link IVpc} in which the {@link SecurityGroup} resources were created.
+
+---
+
+
 ### DefaultVpc <a name="DefaultVpc" id="kube10k.aws_vpc.DefaultVpc"></a>
 
 #### Initializers <a name="Initializers" id="kube10k.aws_vpc.DefaultVpc.Initializer"></a>
@@ -983,6 +1259,157 @@ The VPC in which this Cluster was created.
 ---
 
 
+### OidcIrsa <a name="OidcIrsa" id="kube10k.aws_eks.OidcIrsa"></a>
+
+https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html.
+
+This construct implements the OIDC IRSA (IAM Role <-> SerivceAccount) system
+for EKS, and provides helper functions that can be used by other constructs
+for creating IAM Roles that map to Service Accounts.
+
+#### Initializers <a name="Initializers" id="kube10k.aws_eks.OidcIrsa.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+new aws_eks.OidcIrsa(scope: Stack, id: string, props: OidcIrsaProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.OidcIrsa.Initializer.parameter.scope">scope</a></code> | <code>aws-cdk-lib.Stack</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.OidcIrsa.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.OidcIrsa.Initializer.parameter.props">props</a></code> | <code>kube10k.aws_eks.OidcIrsaProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="kube10k.aws_eks.OidcIrsa.Initializer.parameter.scope"></a>
+
+- *Type:* aws-cdk-lib.Stack
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="kube10k.aws_eks.OidcIrsa.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="kube10k.aws_eks.OidcIrsa.Initializer.parameter.props"></a>
+
+- *Type:* kube10k.aws_eks.OidcIrsaProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.OidcIrsa.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#kube10k.aws_eks.OidcIrsa.generateFederatedPolicy">generateFederatedPolicy</a></code> | This function returns back an {@link FederatedPolicy} resource for use in creating an {@link Role} resource that will be used by a Kubernetes `ServiceAccount` to access AWS. |
+
+---
+
+##### `toString` <a name="toString" id="kube10k.aws_eks.OidcIrsa.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `generateFederatedPolicy` <a name="generateFederatedPolicy" id="kube10k.aws_eks.OidcIrsa.generateFederatedPolicy"></a>
+
+```typescript
+public generateFederatedPolicy(scope: Construct, ns: string, sa: string): FederatedPrincipal
+```
+
+This function returns back an {@link FederatedPolicy} resource for use in creating an {@link Role} resource that will be used by a Kubernetes `ServiceAccount` to access AWS.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="kube10k.aws_eks.OidcIrsa.generateFederatedPolicy.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The scope in which the policy resource JSON should be created.
+
+This should be the same construct in which the caller is.
+
+---
+
+###### `ns`<sup>Required</sup> <a name="ns" id="kube10k.aws_eks.OidcIrsa.generateFederatedPolicy.parameter.ns"></a>
+
+- *Type:* string
+
+The Namespace for the ServiceAccount.
+
+---
+
+###### `sa`<sup>Required</sup> <a name="sa" id="kube10k.aws_eks.OidcIrsa.generateFederatedPolicy.parameter.sa"></a>
+
+- *Type:* string
+
+The ServiceAccount name.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.OidcIrsa.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="kube10k.aws_eks.OidcIrsa.isConstruct"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+aws_eks.OidcIrsa.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="kube10k.aws_eks.OidcIrsa.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.OidcIrsa.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#kube10k.aws_eks.OidcIrsa.property.clusterIdString">clusterIdString</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="kube10k.aws_eks.OidcIrsa.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `clusterIdString`<sup>Required</sup> <a name="clusterIdString" id="kube10k.aws_eks.OidcIrsa.property.clusterIdString"></a>
+
+```typescript
+public readonly clusterIdString: string;
+```
+
+- *Type:* string
+
+---
+
+
 ### VpcStack <a name="VpcStack" id="kube10k.aws_vpc.VpcStack"></a>
 
 #### Initializers <a name="Initializers" id="kube10k.aws_vpc.VpcStack.Initializer"></a>
@@ -1817,6 +2244,79 @@ public readonly vpc: IVpc;
 
 ## Structs <a name="Structs" id="Structs"></a>
 
+### ClusterNetworkProps <a name="ClusterNetworkProps" id="kube10k.aws_eks.ClusterNetworkProps"></a>
+
+#### Initializer <a name="Initializer" id="kube10k.aws_eks.ClusterNetworkProps.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+const clusterNetworkProps: aws_eks.ClusterNetworkProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterNetworkProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | Reference to the {@link Vpc} in which the EKS cluster is being created. |
+
+---
+
+##### `vpc`<sup>Required</sup> <a name="vpc" id="kube10k.aws_eks.ClusterNetworkProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+
+Reference to the {@link Vpc} in which the EKS cluster is being created.
+
+---
+
+### ClusterRolesProps <a name="ClusterRolesProps" id="kube10k.aws_eks.ClusterRolesProps"></a>
+
+#### Initializer <a name="Initializer" id="kube10k.aws_eks.ClusterRolesProps.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+const clusterRolesProps: aws_eks.ClusterRolesProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.ClusterRolesProps.property.existingMasterRole">existingMasterRole</a></code> | <code>string</code> | ExistingMasterRole is an optional string that will prevent the creation of a new dedicated MasterRole for the cluster and instead use an existing role. |
+| <code><a href="#kube10k.aws_eks.ClusterRolesProps.property.nodeRolePolicyStatement">nodeRolePolicyStatement</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | NodeRolePolicyStatement is an optional list of awsiam.PolicyStatement resources used to customize the permissions that the individual EC2 nodes in the cluster have. This can be useful when you want to craft specific ECR permissions for example. |
+
+---
+
+##### `existingMasterRole`<sup>Optional</sup> <a name="existingMasterRole" id="kube10k.aws_eks.ClusterRolesProps.property.existingMasterRole"></a>
+
+```typescript
+public readonly existingMasterRole: string;
+```
+
+- *Type:* string
+
+ExistingMasterRole is an optional string that will prevent the creation of a new dedicated MasterRole for the cluster and instead use an existing role.
+
+---
+
+##### `nodeRolePolicyStatement`<sup>Optional</sup> <a name="nodeRolePolicyStatement" id="kube10k.aws_eks.ClusterRolesProps.property.nodeRolePolicyStatement"></a>
+
+```typescript
+public readonly nodeRolePolicyStatement: PolicyStatement[];
+```
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement[]
+
+NodeRolePolicyStatement is an optional list of awsiam.PolicyStatement resources used to customize the permissions that the individual EC2 nodes in the cluster have. This can be useful when you want to craft specific ECR permissions for example.
+
+---
+
 ### DefaultVpcProps <a name="DefaultVpcProps" id="kube10k.aws_vpc.DefaultVpcProps"></a>
 
 #### Initializer <a name="Initializer" id="kube10k.aws_vpc.DefaultVpcProps.Initializer"></a>
@@ -1957,6 +2457,47 @@ The subnet size for the Public subnets.
 These Public subnets are only
 used for things like ALB ENIs when you are exposing services to the
 internet, otherwise everything is launched on Private Subnets.
+
+---
+
+### Foo <a name="Foo" id="kube10k.stacks.Foo"></a>
+
+#### Initializer <a name="Initializer" id="kube10k.stacks.Foo.Initializer"></a>
+
+```typescript
+import { stacks } from 'kube10k'
+
+const foo: stacks.Foo = { ... }
+```
+
+
+### OidcIrsaProps <a name="OidcIrsaProps" id="kube10k.aws_eks.OidcIrsaProps"></a>
+
+#### Initializer <a name="Initializer" id="kube10k.aws_eks.OidcIrsaProps.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+const oidcIrsaProps: aws_eks.OidcIrsaProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.OidcIrsaProps.property.cluster">cluster</a></code> | <code>aws-cdk-lib.aws_eks.Cluster</code> | We use the {@link Cluster} resource here specifically because we need access to the `clusterOpenIdConnectIssuerUrl` property which is not exposed in the {@link ICluster} resource. |
+
+---
+
+##### `cluster`<sup>Required</sup> <a name="cluster" id="kube10k.aws_eks.OidcIrsaProps.property.cluster"></a>
+
+```typescript
+public readonly cluster: Cluster;
+```
+
+- *Type:* aws-cdk-lib.aws_eks.Cluster
+
+We use the {@link Cluster} resource here specifically because we need access to the `clusterOpenIdConnectIssuerUrl` property which is not exposed in the {@link ICluster} resource.
 
 ---
 

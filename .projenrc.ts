@@ -1,4 +1,4 @@
-import { awscdk } from "projen";
+import { awscdk, JsonPatch } from "projen";
 import { NpmAccess } from "projen/lib/javascript";
 
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -56,5 +56,17 @@ project.vscode?.extensions.addRecommendations("esbenp.prettier-vscode");
 project.vscode?.settings.addSetting("eslint.options", {
   configFile: ".eslintrc.json",
 });
+
+// https://github.com/projen/projen/issues/2094#issuecomment-1266153065
+const buildWorkflow = project.tryFindObjectFile(".github/workflows/build.yml");
+buildWorkflow?.patch(
+  JsonPatch.add("/jobs/build/container/options", "--group-add 121")
+);
+
+// Integ-Tests
+project.setScript(
+  "integ",
+  "npx tsc -p test/integ && npx integ-runner --parallel-regions=us-west-2 --update-on-failed"
+);
 
 project.synth();
