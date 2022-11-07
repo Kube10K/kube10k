@@ -34,6 +34,12 @@ cdk.out
 cdk.staging
 *.swp
 *.swo
+*.d.ts
+*.generated.ts
+*.js
+*.js.map
+test/integ/**/cdk-integ.out.*
+test/integ/**/*integ.snapshot
 !/.projenrc.js
 /test-reports/
 junit.xml

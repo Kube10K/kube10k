@@ -18,6 +18,18 @@ const project = new awscdk.AwsCdkConstructLibrary({
     // VIM
     "*.swp",
     "*.swo",
+
+    // Integ-Tests
+    "*.d.ts",
+    "*.generated.ts",
+    "*.js",
+    "*.js.map",
+    "*.d.ts",
+    "*.generated.ts",
+    "*.js",
+    "*.js.map",
+    "test/integ/**/cdk-integ.out.*",
+    "test/integ/**/*integ.snapshot",
   ],
   prettier: true,
 
@@ -26,7 +38,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmAccess: NpmAccess.PUBLIC,
   npmTokenSecret: "NPM_TOKEN",
 
-  // deps: [],                /* Runtime dependencies of this module. */
+  devDeps: [
+    // Integ-Tests
+    "@aws-cdk/integ-tests-alpha@2.41.0-alpha.0",
+    "@aws-cdk/integ-runner@^2",
+  ],
+
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
