@@ -5,8 +5,6 @@
 /**
  * @category Constructs
  */
-export * from "./defaultvpc";
-/**
- * @category Constructs
- */
+export * from "./default_vpc";
 export * from "./stacks";
+export * from "./workload_subnet";

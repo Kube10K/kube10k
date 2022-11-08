@@ -1,10 +1,11 @@
 /** @format */
 
 import * as cdk from "aws-cdk-lib";
-import { StackProps } from "aws-cdk-lib";
+import { Stack, StackProps } from "aws-cdk-lib";
 import { IVpc } from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
-import { DefaultVpc, DefaultVpcProps } from "./defaultvpc";
+import { DefaultVpc, DefaultVpcProps } from "./default_vpc";
+import { WorkloadSubnetProps, WorkloadSubnets } from "./workload_subnet";
 
 export interface VpcStackProps extends StackProps {
   /**
@@ -51,5 +52,19 @@ export class NestedVpcStack extends cdk.NestedStack {
      * can be passed around to other stacks and components
      */
     this.vpc = vpcConstruct.resource;
+  }
+}
+
+/**
+ * Wrapper-stack for creating a set of Workload Subnets and associating them
+ * with a given VPC object. These are held in their own nested stack for
+ * organizational purposes primarily.
+ */
+export class NestedWorkloadSubnetStack extends cdk.NestedStack {
+  public readonly workloadSubnets: WorkloadSubnets;
+
+  constructor(scope: Stack, id: string, props: WorkloadSubnetProps) {
+    super(scope, id);
+    this.workloadSubnets = new WorkloadSubnets(this, id, props);
   }
 }

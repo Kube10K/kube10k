@@ -2333,6 +2333,880 @@ The VPC in which this Cluster was created.
 ---
 
 
+### NestedWorkloadSubnetStack <a name="NestedWorkloadSubnetStack" id="kube10k.aws_vpc.NestedWorkloadSubnetStack"></a>
+
+Wrapper-stack for creating a set of Workload Subnets and associating them with a given VPC object.
+
+These are held in their own nested stack for
+organizational purposes primarily.
+
+#### Initializers <a name="Initializers" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.Initializer"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+new aws_vpc.NestedWorkloadSubnetStack(scope: Stack, id: string, props: WorkloadSubnetProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.Initializer.parameter.scope">scope</a></code> | <code>aws-cdk-lib.Stack</code> | *No description.* |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.Initializer.parameter.props">props</a></code> | <code>kube10k.aws_vpc.WorkloadSubnetProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.Initializer.parameter.scope"></a>
+
+- *Type:* aws-cdk-lib.Stack
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.Initializer.parameter.props"></a>
+
+- *Type:* kube10k.aws_vpc.WorkloadSubnetProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.addDependency">addDependency</a></code> | Add a dependency between this stack and another stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.addMetadata">addMetadata</a></code> | Adds an arbitary key-value pair, with information you want to record about the stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.addTransform">addTransform</a></code> | Add a Transform to this stack. A Transform is a macro that AWS CloudFormation uses to process your template. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.exportValue">exportValue</a></code> | Create a CloudFormation Export for a value. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.formatArn">formatArn</a></code> | Creates an ARN from components. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.getLogicalId">getLogicalId</a></code> | Allocates a stack-unique CloudFormation-compatible logical identity for a specific resource. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.regionalFact">regionalFact</a></code> | Look up a fact value for the given fact for the region of this stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.renameLogicalId">renameLogicalId</a></code> | Rename a generated logical identities. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.reportMissingContextKey">reportMissingContextKey</a></code> | Indicate that a context key was expected. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.resolve">resolve</a></code> | Resolve a tokenized value in the context of the current stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.splitArn">splitArn</a></code> | Splits the provided ARN into its components. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.toJsonString">toJsonString</a></code> | Convert an object, potentially containing tokens, to a JSON string. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.setParameter">setParameter</a></code> | Assign a value to one of the nested stack parameters. |
+
+---
+
+##### `toString` <a name="toString" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `addDependency` <a name="addDependency" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.addDependency"></a>
+
+```typescript
+public addDependency(target: Stack, reason?: string): void
+```
+
+Add a dependency between this stack and another stack.
+
+This can be used to define dependencies between any two stacks within an
+app, and also supports nested stacks.
+
+###### `target`<sup>Required</sup> <a name="target" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.addDependency.parameter.target"></a>
+
+- *Type:* aws-cdk-lib.Stack
+
+---
+
+###### `reason`<sup>Optional</sup> <a name="reason" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.addDependency.parameter.reason"></a>
+
+- *Type:* string
+
+---
+
+##### `addMetadata` <a name="addMetadata" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.addMetadata"></a>
+
+```typescript
+public addMetadata(key: string, value: any): void
+```
+
+Adds an arbitary key-value pair, with information you want to record about the stack.
+
+These get translated to the Metadata section of the generated template.
+
+> [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html)
+
+###### `key`<sup>Required</sup> <a name="key" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.addMetadata.parameter.key"></a>
+
+- *Type:* string
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.addMetadata.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+##### `addTransform` <a name="addTransform" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.addTransform"></a>
+
+```typescript
+public addTransform(transform: string): void
+```
+
+Add a Transform to this stack. A Transform is a macro that AWS CloudFormation uses to process your template.
+
+Duplicate values are removed when stack is synthesized.
+
+> [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html)
+
+*Example*
+
+```typescript
+declare const stack: Stack;
+
+stack.addTransform('AWS::Serverless-2016-10-31')
+```
+
+
+###### `transform`<sup>Required</sup> <a name="transform" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.addTransform.parameter.transform"></a>
+
+- *Type:* string
+
+The transform to add.
+
+---
+
+##### `exportValue` <a name="exportValue" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.exportValue"></a>
+
+```typescript
+public exportValue(exportedValue: any, options?: ExportValueOptions): string
+```
+
+Create a CloudFormation Export for a value.
+
+Returns a string representing the corresponding `Fn.importValue()`
+expression for this Export. You can control the name for the export by
+passing the `name` option.
+
+If you don't supply a value for `name`, the value you're exporting must be
+a Resource attribute (for example: `bucket.bucketName`) and it will be
+given the same name as the automatic cross-stack reference that would be created
+if you used the attribute in another Stack.
+
+One of the uses for this method is to *remove* the relationship between
+two Stacks established by automatic cross-stack references. It will
+temporarily ensure that the CloudFormation Export still exists while you
+remove the reference from the consuming stack. After that, you can remove
+the resource and the manual export.
+
+## Example
+
+Here is how the process works. Let's say there are two stacks,
+`producerStack` and `consumerStack`, and `producerStack` has a bucket
+called `bucket`, which is referenced by `consumerStack` (perhaps because
+an AWS Lambda Function writes into it, or something like that).
+
+It is not safe to remove `producerStack.bucket` because as the bucket is being
+deleted, `consumerStack` might still be using it.
+
+Instead, the process takes two deployments:
+
+### Deployment 1: break the relationship
+
+- Make sure `consumerStack` no longer references `bucket.bucketName` (maybe the consumer
+   stack now uses its own bucket, or it writes to an AWS DynamoDB table, or maybe you just
+   remove the Lambda Function altogether).
+- In the `ProducerStack` class, call `this.exportValue(this.bucket.bucketName)`. This
+   will make sure the CloudFormation Export continues to exist while the relationship
+   between the two stacks is being broken.
+- Deploy (this will effectively only change the `consumerStack`, but it's safe to deploy both).
+
+### Deployment 2: remove the bucket resource
+
+- You are now free to remove the `bucket` resource from `producerStack`.
+- Don't forget to remove the `exportValue()` call as well.
+- Deploy again (this time only the `producerStack` will be changed -- the bucket will be deleted).
+
+###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.exportValue.parameter.exportedValue"></a>
+
+- *Type:* any
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.exportValue.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.ExportValueOptions
+
+---
+
+##### `formatArn` <a name="formatArn" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.formatArn"></a>
+
+```typescript
+public formatArn(components: ArnComponents): string
+```
+
+Creates an ARN from components.
+
+If `partition`, `region` or `account` are not specified, the stack's
+partition, region and account will be used.
+
+If any component is the empty string, an empty string will be inserted
+into the generated ARN at the location that component corresponds to.
+
+The ARN will be formatted as follows:
+
+   arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
+
+The required ARN pieces that are omitted will be taken from the stack that
+the 'scope' is attached to. If all ARN pieces are supplied, the supplied scope
+can be 'undefined'.
+
+###### `components`<sup>Required</sup> <a name="components" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.formatArn.parameter.components"></a>
+
+- *Type:* aws-cdk-lib.ArnComponents
+
+---
+
+##### `getLogicalId` <a name="getLogicalId" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.getLogicalId"></a>
+
+```typescript
+public getLogicalId(element: CfnElement): string
+```
+
+Allocates a stack-unique CloudFormation-compatible logical identity for a specific resource.
+
+This method is called when a `CfnElement` is created and used to render the
+initial logical identity of resources. Logical ID renames are applied at
+this stage.
+
+This method uses the protected method `allocateLogicalId` to render the
+logical ID for an element. To modify the naming scheme, extend the `Stack`
+class and override this method.
+
+###### `element`<sup>Required</sup> <a name="element" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.getLogicalId.parameter.element"></a>
+
+- *Type:* aws-cdk-lib.CfnElement
+
+The CloudFormation element for which a logical identity is needed.
+
+---
+
+##### `regionalFact` <a name="regionalFact" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.regionalFact"></a>
+
+```typescript
+public regionalFact(factName: string, defaultValue?: string): string
+```
+
+Look up a fact value for the given fact for the region of this stack.
+
+Will return a definite value only if the region of the current stack is resolved.
+If not, a lookup map will be added to the stack and the lookup will be done at
+CDK deployment time.
+
+What regions will be included in the lookup map is controlled by the
+`@aws-cdk/core:target-partitions` context value: it must be set to a list
+of partitions, and only regions from the given partitions will be included.
+If no such context key is set, all regions will be included.
+
+This function is intended to be used by construct library authors. Application
+builders can rely on the abstractions offered by construct libraries and do
+not have to worry about regional facts.
+
+If `defaultValue` is not given, it is an error if the fact is unknown for
+the given region.
+
+###### `factName`<sup>Required</sup> <a name="factName" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.regionalFact.parameter.factName"></a>
+
+- *Type:* string
+
+---
+
+###### `defaultValue`<sup>Optional</sup> <a name="defaultValue" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.regionalFact.parameter.defaultValue"></a>
+
+- *Type:* string
+
+---
+
+##### `renameLogicalId` <a name="renameLogicalId" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.renameLogicalId"></a>
+
+```typescript
+public renameLogicalId(oldId: string, newId: string): void
+```
+
+Rename a generated logical identities.
+
+To modify the naming scheme strategy, extend the `Stack` class and
+override the `allocateLogicalId` method.
+
+###### `oldId`<sup>Required</sup> <a name="oldId" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.renameLogicalId.parameter.oldId"></a>
+
+- *Type:* string
+
+---
+
+###### `newId`<sup>Required</sup> <a name="newId" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.renameLogicalId.parameter.newId"></a>
+
+- *Type:* string
+
+---
+
+##### `reportMissingContextKey` <a name="reportMissingContextKey" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.reportMissingContextKey"></a>
+
+```typescript
+public reportMissingContextKey(report: MissingContext): void
+```
+
+Indicate that a context key was expected.
+
+Contains instructions which will be emitted into the cloud assembly on how
+the key should be supplied.
+
+###### `report`<sup>Required</sup> <a name="report" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.reportMissingContextKey.parameter.report"></a>
+
+- *Type:* aws-cdk-lib.cloud_assembly_schema.MissingContext
+
+The set of parameters needed to obtain the context.
+
+---
+
+##### `resolve` <a name="resolve" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.resolve"></a>
+
+```typescript
+public resolve(obj: any): any
+```
+
+Resolve a tokenized value in the context of the current stack.
+
+###### `obj`<sup>Required</sup> <a name="obj" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.resolve.parameter.obj"></a>
+
+- *Type:* any
+
+---
+
+##### `splitArn` <a name="splitArn" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.splitArn"></a>
+
+```typescript
+public splitArn(arn: string, arnFormat: ArnFormat): ArnComponents
+```
+
+Splits the provided ARN into its components.
+
+Works both if 'arn' is a string like 'arn:aws:s3:::bucket',
+and a Token representing a dynamic CloudFormation expression
+(in which case the returned components will also be dynamic CloudFormation expressions,
+encoded as Tokens).
+
+###### `arn`<sup>Required</sup> <a name="arn" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.splitArn.parameter.arn"></a>
+
+- *Type:* string
+
+the ARN to split into its components.
+
+---
+
+###### `arnFormat`<sup>Required</sup> <a name="arnFormat" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.splitArn.parameter.arnFormat"></a>
+
+- *Type:* aws-cdk-lib.ArnFormat
+
+the expected format of 'arn' - depends on what format the service 'arn' represents uses.
+
+---
+
+##### `toJsonString` <a name="toJsonString" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.toJsonString"></a>
+
+```typescript
+public toJsonString(obj: any, space?: number): string
+```
+
+Convert an object, potentially containing tokens, to a JSON string.
+
+###### `obj`<sup>Required</sup> <a name="obj" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.toJsonString.parameter.obj"></a>
+
+- *Type:* any
+
+---
+
+###### `space`<sup>Optional</sup> <a name="space" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.toJsonString.parameter.space"></a>
+
+- *Type:* number
+
+---
+
+##### `setParameter` <a name="setParameter" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.setParameter"></a>
+
+```typescript
+public setParameter(name: string, value: string): void
+```
+
+Assign a value to one of the nested stack parameters.
+
+###### `name`<sup>Required</sup> <a name="name" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.setParameter.parameter.name"></a>
+
+- *Type:* string
+
+The parameter name (ID).
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.setParameter.parameter.value"></a>
+
+- *Type:* string
+
+The value to assign.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.isStack">isStack</a></code> | Return whether the given object is a Stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.of">of</a></code> | Looks up the first stack scope in which `construct` is defined. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.isNestedStack">isNestedStack</a></code> | Checks if `x` is an object of type `NestedStack`. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.isConstruct"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+aws_vpc.NestedWorkloadSubnetStack.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isStack` <a name="isStack" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.isStack"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+aws_vpc.NestedWorkloadSubnetStack.isStack(x: any)
+```
+
+Return whether the given object is a Stack.
+
+We do attribute detection since we can't reliably use 'instanceof'.
+
+###### `x`<sup>Required</sup> <a name="x" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.isStack.parameter.x"></a>
+
+- *Type:* any
+
+---
+
+##### `of` <a name="of" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.of"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+aws_vpc.NestedWorkloadSubnetStack.of(construct: IConstruct)
+```
+
+Looks up the first stack scope in which `construct` is defined.
+
+Fails if there is no stack up the tree.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.of.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+The construct to start the search from.
+
+---
+
+##### `isNestedStack` <a name="isNestedStack" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.isNestedStack"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+aws_vpc.NestedWorkloadSubnetStack.isNestedStack(x: any)
+```
+
+Checks if `x` is an object of type `NestedStack`.
+
+###### `x`<sup>Required</sup> <a name="x" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.isNestedStack.parameter.x"></a>
+
+- *Type:* any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.account">account</a></code> | <code>string</code> | The AWS account into which this stack will be deployed. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.artifactId">artifactId</a></code> | <code>string</code> | The ID of the cloud assembly artifact for this stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.availabilityZones">availabilityZones</a></code> | <code>string[]</code> | Returns the list of AZs that are available in the AWS environment (account/region) associated with this stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.bundlingRequired">bundlingRequired</a></code> | <code>boolean</code> | Indicates whether the stack requires bundling or not. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.dependencies">dependencies</a></code> | <code>aws-cdk-lib.Stack[]</code> | Return the stacks this stack depends on. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.environment">environment</a></code> | <code>string</code> | The environment coordinates in which this stack is deployed. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.nested">nested</a></code> | <code>boolean</code> | Indicates if this is a nested stack, in which case `parentStack` will include a reference to it's parent. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.notificationArns">notificationArns</a></code> | <code>string[]</code> | Returns the list of notification Amazon Resource Names (ARNs) for the current stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.partition">partition</a></code> | <code>string</code> | The partition in which this stack is defined. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.region">region</a></code> | <code>string</code> | The AWS region into which this stack will be deployed (e.g. `us-west-2`). |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.stackId">stackId</a></code> | <code>string</code> | An attribute that represents the ID of the stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.stackName">stackName</a></code> | <code>string</code> | An attribute that represents the name of the nested stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method for this stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.tags">tags</a></code> | <code>aws-cdk-lib.TagManager</code> | Tags to be applied to the stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.templateFile">templateFile</a></code> | <code>string</code> | The name of the CloudFormation template file emitted to the output directory during synthesis. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.templateOptions">templateOptions</a></code> | <code>aws-cdk-lib.ITemplateOptions</code> | Options for CloudFormation template (like version, transform, description). |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.urlSuffix">urlSuffix</a></code> | <code>string</code> | The Amazon domain suffix for the region in which this stack is defined. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.nestedStackParent">nestedStackParent</a></code> | <code>aws-cdk-lib.Stack</code> | If this is a nested stack, returns it's parent stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.nestedStackResource">nestedStackResource</a></code> | <code>aws-cdk-lib.CfnResource</code> | If this is a nested stack, this represents its `AWS::CloudFormation::Stack` resource. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether termination protection is enabled for this stack. |
+| <code><a href="#kube10k.aws_vpc.NestedWorkloadSubnetStack.property.workloadSubnets">workloadSubnets</a></code> | <code>kube10k.aws_vpc.WorkloadSubnets</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `account`<sup>Required</sup> <a name="account" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.account"></a>
+
+```typescript
+public readonly account: string;
+```
+
+- *Type:* string
+
+The AWS account into which this stack will be deployed.
+
+This value is resolved according to the following rules:
+
+1. The value provided to `env.account` when the stack is defined. This can
+    either be a concrete account (e.g. `585695031111`) or the
+    `Aws.ACCOUNT_ID` token.
+3. `Aws.ACCOUNT_ID`, which represents the CloudFormation intrinsic reference
+    `{ "Ref": "AWS::AccountId" }` encoded as a string token.
+
+Preferably, you should use the return value as an opaque string and not
+attempt to parse it to implement your logic. If you do, you must first
+check that it is a concerete value an not an unresolved token. If this
+value is an unresolved token (`Token.isUnresolved(stack.account)` returns
+`true`), this implies that the user wishes that this stack will synthesize
+into a **account-agnostic template**. In this case, your code should either
+fail (throw an error, emit a synth error using `Annotations.of(construct).addError()`) or
+implement some other region-agnostic behavior.
+
+---
+
+##### `artifactId`<sup>Required</sup> <a name="artifactId" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.artifactId"></a>
+
+```typescript
+public readonly artifactId: string;
+```
+
+- *Type:* string
+
+The ID of the cloud assembly artifact for this stack.
+
+---
+
+##### `availabilityZones`<sup>Required</sup> <a name="availabilityZones" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.availabilityZones"></a>
+
+```typescript
+public readonly availabilityZones: string[];
+```
+
+- *Type:* string[]
+
+Returns the list of AZs that are available in the AWS environment (account/region) associated with this stack.
+
+If the stack is environment-agnostic (either account and/or region are
+tokens), this property will return an array with 2 tokens that will resolve
+at deploy-time to the first two availability zones returned from CloudFormation's
+`Fn::GetAZs` intrinsic function.
+
+If they are not available in the context, returns a set of dummy values and
+reports them as missing, and let the CLI resolve them by calling EC2
+`DescribeAvailabilityZones` on the target environment.
+
+To specify a different strategy for selecting availability zones override this method.
+
+---
+
+##### `bundlingRequired`<sup>Required</sup> <a name="bundlingRequired" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.bundlingRequired"></a>
+
+```typescript
+public readonly bundlingRequired: boolean;
+```
+
+- *Type:* boolean
+
+Indicates whether the stack requires bundling or not.
+
+---
+
+##### `dependencies`<sup>Required</sup> <a name="dependencies" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.dependencies"></a>
+
+```typescript
+public readonly dependencies: Stack[];
+```
+
+- *Type:* aws-cdk-lib.Stack[]
+
+Return the stacks this stack depends on.
+
+---
+
+##### `environment`<sup>Required</sup> <a name="environment" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.environment"></a>
+
+```typescript
+public readonly environment: string;
+```
+
+- *Type:* string
+
+The environment coordinates in which this stack is deployed.
+
+In the form
+`aws://account/region`. Use `stack.account` and `stack.region` to obtain
+the specific values, no need to parse.
+
+You can use this value to determine if two stacks are targeting the same
+environment.
+
+If either `stack.account` or `stack.region` are not concrete values (e.g.
+`Aws.ACCOUNT_ID` or `Aws.REGION`) the special strings `unknown-account` and/or
+`unknown-region` will be used respectively to indicate this stack is
+region/account-agnostic.
+
+---
+
+##### `nested`<sup>Required</sup> <a name="nested" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.nested"></a>
+
+```typescript
+public readonly nested: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if this is a nested stack, in which case `parentStack` will include a reference to it's parent.
+
+---
+
+##### `notificationArns`<sup>Required</sup> <a name="notificationArns" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.notificationArns"></a>
+
+```typescript
+public readonly notificationArns: string[];
+```
+
+- *Type:* string[]
+
+Returns the list of notification Amazon Resource Names (ARNs) for the current stack.
+
+---
+
+##### `partition`<sup>Required</sup> <a name="partition" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.partition"></a>
+
+```typescript
+public readonly partition: string;
+```
+
+- *Type:* string
+
+The partition in which this stack is defined.
+
+---
+
+##### `region`<sup>Required</sup> <a name="region" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.region"></a>
+
+```typescript
+public readonly region: string;
+```
+
+- *Type:* string
+
+The AWS region into which this stack will be deployed (e.g. `us-west-2`).
+
+This value is resolved according to the following rules:
+
+1. The value provided to `env.region` when the stack is defined. This can
+    either be a concerete region (e.g. `us-west-2`) or the `Aws.REGION`
+    token.
+3. `Aws.REGION`, which is represents the CloudFormation intrinsic reference
+    `{ "Ref": "AWS::Region" }` encoded as a string token.
+
+Preferably, you should use the return value as an opaque string and not
+attempt to parse it to implement your logic. If you do, you must first
+check that it is a concerete value an not an unresolved token. If this
+value is an unresolved token (`Token.isUnresolved(stack.region)` returns
+`true`), this implies that the user wishes that this stack will synthesize
+into a **region-agnostic template**. In this case, your code should either
+fail (throw an error, emit a synth error using `Annotations.of(construct).addError()`) or
+implement some other region-agnostic behavior.
+
+---
+
+##### `stackId`<sup>Required</sup> <a name="stackId" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.stackId"></a>
+
+```typescript
+public readonly stackId: string;
+```
+
+- *Type:* string
+
+An attribute that represents the ID of the stack.
+
+This is a context aware attribute:
+- If this is referenced from the parent stack, it will return `{ "Ref": "LogicalIdOfNestedStackResource" }`.
+- If this is referenced from the context of the nested stack, it will return `{ "Ref": "AWS::StackId" }`
+
+Example value: `arn:aws:cloudformation:us-east-2:123456789012:stack/mystack-mynestedstack-sggfrhxhum7w/f449b250-b969-11e0-a185-5081d0136786`
+
+---
+
+##### `stackName`<sup>Required</sup> <a name="stackName" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.stackName"></a>
+
+```typescript
+public readonly stackName: string;
+```
+
+- *Type:* string
+
+An attribute that represents the name of the nested stack.
+
+This is a context aware attribute:
+- If this is referenced from the parent stack, it will return a token that parses the name from the stack ID.
+- If this is referenced from the context of the nested stack, it will return `{ "Ref": "AWS::StackName" }`
+
+Example value: `mystack-mynestedstack-sggfrhxhum7w`
+
+---
+
+##### `synthesizer`<sup>Required</sup> <a name="synthesizer" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.synthesizer"></a>
+
+```typescript
+public readonly synthesizer: IStackSynthesizer;
+```
+
+- *Type:* aws-cdk-lib.IStackSynthesizer
+
+Synthesis method for this stack.
+
+---
+
+##### `tags`<sup>Required</sup> <a name="tags" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.tags"></a>
+
+```typescript
+public readonly tags: TagManager;
+```
+
+- *Type:* aws-cdk-lib.TagManager
+
+Tags to be applied to the stack.
+
+---
+
+##### `templateFile`<sup>Required</sup> <a name="templateFile" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.templateFile"></a>
+
+```typescript
+public readonly templateFile: string;
+```
+
+- *Type:* string
+
+The name of the CloudFormation template file emitted to the output directory during synthesis.
+
+Example value: `MyStack.template.json`
+
+---
+
+##### `templateOptions`<sup>Required</sup> <a name="templateOptions" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.templateOptions"></a>
+
+```typescript
+public readonly templateOptions: ITemplateOptions;
+```
+
+- *Type:* aws-cdk-lib.ITemplateOptions
+
+Options for CloudFormation template (like version, transform, description).
+
+---
+
+##### `urlSuffix`<sup>Required</sup> <a name="urlSuffix" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.urlSuffix"></a>
+
+```typescript
+public readonly urlSuffix: string;
+```
+
+- *Type:* string
+
+The Amazon domain suffix for the region in which this stack is defined.
+
+---
+
+##### `nestedStackParent`<sup>Optional</sup> <a name="nestedStackParent" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.nestedStackParent"></a>
+
+```typescript
+public readonly nestedStackParent: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+If this is a nested stack, returns it's parent stack.
+
+---
+
+##### `nestedStackResource`<sup>Optional</sup> <a name="nestedStackResource" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.nestedStackResource"></a>
+
+```typescript
+public readonly nestedStackResource: CfnResource;
+```
+
+- *Type:* aws-cdk-lib.CfnResource
+
+If this is a nested stack, this represents its `AWS::CloudFormation::Stack` resource.
+
+`undefined` for top-level (non-nested) stacks.
+
+---
+
+##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.terminationProtection"></a>
+
+```typescript
+public readonly terminationProtection: boolean;
+```
+
+- *Type:* boolean
+
+Whether termination protection is enabled for this stack.
+
+---
+
+##### `workloadSubnets`<sup>Required</sup> <a name="workloadSubnets" id="kube10k.aws_vpc.NestedWorkloadSubnetStack.property.workloadSubnets"></a>
+
+```typescript
+public readonly workloadSubnets: WorkloadSubnets;
+```
+
+- *Type:* kube10k.aws_vpc.WorkloadSubnets
+
+---
+
+
 ### OidcIrsa <a name="OidcIrsa" id="kube10k.aws_eks.OidcIrsa"></a>
 
 https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html.
@@ -3316,6 +4190,174 @@ public readonly vpc: IVpc;
 ---
 
 
+### WorkloadSubnets <a name="WorkloadSubnets" id="kube10k.aws_vpc.WorkloadSubnets"></a>
+
+The WorkloadSubnets construct creates a dedicated CIDR Range with Subnets for a particular workload.
+
+It is expected that the subnetes will host both the
+EC2 Nodes and the Pod IPs themselves.
+
+** "No" to EKS "Custom Networking Mode"
+
+Ref: https://docs.aws.amazon.com/eks/latest/userguide/cni-custom-network.html
+
+The "Custom Networking Mode" that AWS proposes in the above doc involves
+creating dedicated `ENIConfig` resources for each custom Subnet/SecurityGroup
+mapping that you want to put your workloads onto. The challenge is that your
+EKS Nodes must also live in the same Availbility Zone as the Subnet in your
+ENI Config, and a node can only launch Pods on a single ENIConfig.
+
+This limitation makes the mapping of Nodes<->ENIConfig complicated, is not
+cost effective, and greatly increases the complexity of the configuration.
+
+** "Yes" to colocating Nodes and Pods
+
+By not running the aws-vpc-cni pods in the custom networking mode, Pods
+automatically get assigned to the same Subnet Id as the EC2 host. This allows
+you to scale out multiple {@link WorkloadSubnets}, and then launch compute
+nodes on those Subnets for scale-out beyond individual CIDR or Subnet limits.
+
+#### Initializers <a name="Initializers" id="kube10k.aws_vpc.WorkloadSubnets.Initializer"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+new aws_vpc.WorkloadSubnets(scope: Stack, id: string, props: WorkloadSubnetProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.Initializer.parameter.scope">scope</a></code> | <code>aws-cdk-lib.Stack</code> | *No description.* |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.Initializer.parameter.props">props</a></code> | <code>kube10k.aws_vpc.WorkloadSubnetProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="kube10k.aws_vpc.WorkloadSubnets.Initializer.parameter.scope"></a>
+
+- *Type:* aws-cdk-lib.Stack
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="kube10k.aws_vpc.WorkloadSubnets.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="kube10k.aws_vpc.WorkloadSubnets.Initializer.parameter.props"></a>
+
+- *Type:* kube10k.aws_vpc.WorkloadSubnetProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.toString">toString</a></code> | Returns a string representation of this construct. |
+
+---
+
+##### `toString` <a name="toString" id="kube10k.aws_vpc.WorkloadSubnets.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="kube10k.aws_vpc.WorkloadSubnets.isConstruct"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+aws_vpc.WorkloadSubnets.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="kube10k.aws_vpc.WorkloadSubnets.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.property.blockSize">blockSize</a></code> | <code>number</code> | *No description.* |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.property.cidr">cidr</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.property.subnetIds">subnetIds</a></code> | <code>string[]</code> | *No description.* |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnets.property.subnets">subnets</a></code> | <code>aws-cdk-lib.aws_ec2.ISubnet[]</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="kube10k.aws_vpc.WorkloadSubnets.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `blockSize`<sup>Required</sup> <a name="blockSize" id="kube10k.aws_vpc.WorkloadSubnets.property.blockSize"></a>
+
+```typescript
+public readonly blockSize: number;
+```
+
+- *Type:* number
+
+---
+
+##### `cidr`<sup>Required</sup> <a name="cidr" id="kube10k.aws_vpc.WorkloadSubnets.property.cidr"></a>
+
+```typescript
+public readonly cidr: string;
+```
+
+- *Type:* string
+
+---
+
+##### `subnetIds`<sup>Required</sup> <a name="subnetIds" id="kube10k.aws_vpc.WorkloadSubnets.property.subnetIds"></a>
+
+```typescript
+public readonly subnetIds: string[];
+```
+
+- *Type:* string[]
+
+---
+
+##### `subnets`<sup>Required</sup> <a name="subnets" id="kube10k.aws_vpc.WorkloadSubnets.property.subnets"></a>
+
+```typescript
+public readonly subnets: ISubnet[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISubnet[]
+
+---
+
+
 ## Structs <a name="Structs" id="Structs"></a>
 
 ### ClusterNetworkProps <a name="ClusterNetworkProps" id="kube10k.aws_eks.ClusterNetworkProps"></a>
@@ -3865,6 +4907,45 @@ Provides access to customize the Kube10kCluster more.
 
 ---
 
+### NodeLabel <a name="NodeLabel" id="kube10k.aws_eks.NodeLabel"></a>
+
+#### Initializer <a name="Initializer" id="kube10k.aws_eks.NodeLabel.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+const nodeLabel: aws_eks.NodeLabel = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.NodeLabel.property.key">key</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeLabel.property.value">value</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `key`<sup>Required</sup> <a name="key" id="kube10k.aws_eks.NodeLabel.property.key"></a>
+
+```typescript
+public readonly key: string;
+```
+
+- *Type:* string
+
+---
+
+##### `value`<sup>Required</sup> <a name="value" id="kube10k.aws_eks.NodeLabel.property.value"></a>
+
+```typescript
+public readonly value: string;
+```
+
+- *Type:* string
+
+---
+
 ### OidcIrsaProps <a name="OidcIrsaProps" id="kube10k.aws_eks.OidcIrsaProps"></a>
 
 #### Initializer <a name="Initializer" id="kube10k.aws_eks.OidcIrsaProps.Initializer"></a>
@@ -4055,6 +5136,49 @@ ServiceIPv4Cidr (optional, **immutable**) is the "Service IP range" that will be
 The default is
 172.20.0.0/16 and should be fine for most cases. This setting cannot be
 changed once the initial stack has been created.
+
+---
+
+### OptionalWorkloadSubnetProps <a name="OptionalWorkloadSubnetProps" id="kube10k.aws_vpc.OptionalWorkloadSubnetProps"></a>
+
+#### Initializer <a name="Initializer" id="kube10k.aws_vpc.OptionalWorkloadSubnetProps.Initializer"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+const optionalWorkloadSubnetProps: aws_vpc.OptionalWorkloadSubnetProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_vpc.OptionalWorkloadSubnetProps.property.blockSize">blockSize</a></code> | <code>number</code> | Per-Subnet Subnet Block Size (eg: 18). |
+| <code><a href="#kube10k.aws_vpc.OptionalWorkloadSubnetProps.property.cidr">cidr</a></code> | <code>string</code> | Workload CIDR Range (eg: 100.65.0.0/16). |
+
+---
+
+##### `blockSize`<sup>Optional</sup> <a name="blockSize" id="kube10k.aws_vpc.OptionalWorkloadSubnetProps.property.blockSize"></a>
+
+```typescript
+public readonly blockSize: number;
+```
+
+- *Type:* number
+
+Per-Subnet Subnet Block Size (eg: 18).
+
+---
+
+##### `cidr`<sup>Optional</sup> <a name="cidr" id="kube10k.aws_vpc.OptionalWorkloadSubnetProps.property.cidr"></a>
+
+```typescript
+public readonly cidr: string;
+```
+
+- *Type:* string
+
+Workload CIDR Range (eg: 100.65.0.0/16).
 
 ---
 
@@ -4268,5 +5392,298 @@ Ref: {@link DefaultVpcProps}
 
 ---
 
+### WorkloadSubnetProps <a name="WorkloadSubnetProps" id="kube10k.aws_vpc.WorkloadSubnetProps"></a>
 
+#### Initializer <a name="Initializer" id="kube10k.aws_vpc.WorkloadSubnetProps.Initializer"></a>
+
+```typescript
+import { aws_vpc } from 'kube10k'
+
+const workloadSubnetProps: aws_vpc.WorkloadSubnetProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnetProps.property.cluster">cluster</a></code> | <code>aws-cdk-lib.aws_eks.ICluster</code> | {@link ICluster} reference to the cluster that these Subnets are for. |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnetProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | {@link IVpc} reference to the VPC that the Subnets will be created in. |
+| <code><a href="#kube10k.aws_vpc.WorkloadSubnetProps.property.optionalWorkloadSubnetProps">optionalWorkloadSubnetProps</a></code> | <code>kube10k.aws_vpc.OptionalWorkloadSubnetProps</code> | Optional customizable parameters for the WorkloadSubnet. |
+
+---
+
+##### `cluster`<sup>Required</sup> <a name="cluster" id="kube10k.aws_vpc.WorkloadSubnetProps.property.cluster"></a>
+
+```typescript
+public readonly cluster: ICluster;
+```
+
+- *Type:* aws-cdk-lib.aws_eks.ICluster
+
+{@link ICluster} reference to the cluster that these Subnets are for.
+
+---
+
+##### `vpc`<sup>Required</sup> <a name="vpc" id="kube10k.aws_vpc.WorkloadSubnetProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+
+{@link IVpc} reference to the VPC that the Subnets will be created in.
+
+---
+
+##### `optionalWorkloadSubnetProps`<sup>Optional</sup> <a name="optionalWorkloadSubnetProps" id="kube10k.aws_vpc.WorkloadSubnetProps.property.optionalWorkloadSubnetProps"></a>
+
+```typescript
+public readonly optionalWorkloadSubnetProps: OptionalWorkloadSubnetProps;
+```
+
+- *Type:* kube10k.aws_vpc.OptionalWorkloadSubnetProps
+
+Optional customizable parameters for the WorkloadSubnet.
+
+---
+
+## Classes <a name="Classes" id="Classes"></a>
+
+### NodeLabels <a name="NodeLabels" id="kube10k.aws_eks.NodeLabels"></a>
+
+#### Initializers <a name="Initializers" id="kube10k.aws_eks.NodeLabels.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+new aws_eks.NodeLabels()
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.NodeLabels.addInternalLabel">addInternalLabel</a></code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeLabels.addLabel">addLabel</a></code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeLabels.labelsAsMap">labelsAsMap</a></code> | *No description.* |
+
+---
+
+##### `addInternalLabel` <a name="addInternalLabel" id="kube10k.aws_eks.NodeLabels.addInternalLabel"></a>
+
+```typescript
+public addInternalLabel(subKey: string, value: string): void
+```
+
+###### `subKey`<sup>Required</sup> <a name="subKey" id="kube10k.aws_eks.NodeLabels.addInternalLabel.parameter.subKey"></a>
+
+- *Type:* string
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="kube10k.aws_eks.NodeLabels.addInternalLabel.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+##### `addLabel` <a name="addLabel" id="kube10k.aws_eks.NodeLabels.addLabel"></a>
+
+```typescript
+public addLabel(key: string, value: string): void
+```
+
+###### `key`<sup>Required</sup> <a name="key" id="kube10k.aws_eks.NodeLabels.addLabel.parameter.key"></a>
+
+- *Type:* string
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="kube10k.aws_eks.NodeLabels.addLabel.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+##### `labelsAsMap` <a name="labelsAsMap" id="kube10k.aws_eks.NodeLabels.labelsAsMap"></a>
+
+```typescript
+public labelsAsMap(): {[ key: string ]: string}
+```
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.NodeLabels.property.labels">labels</a></code> | <code>kube10k.aws_eks.NodeLabel[]</code> | *No description.* |
+
+---
+
+##### `labels`<sup>Required</sup> <a name="labels" id="kube10k.aws_eks.NodeLabels.property.labels"></a>
+
+```typescript
+public readonly labels: NodeLabel[];
+```
+
+- *Type:* kube10k.aws_eks.NodeLabel[]
+
+---
+
+
+### NodeTaint <a name="NodeTaint" id="kube10k.aws_eks.NodeTaint"></a>
+
+#### Initializers <a name="Initializers" id="kube10k.aws_eks.NodeTaint.Initializer"></a>
+
+```typescript
+import { aws_eks } from 'kube10k'
+
+new aws_eks.NodeTaint(key: string, value: string, effect?: TaintedNodeEffect, internal?: boolean)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.NodeTaint.Initializer.parameter.key">key</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeTaint.Initializer.parameter.value">value</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeTaint.Initializer.parameter.effect">effect</a></code> | <code>kube10k.aws_eks.TaintedNodeEffect</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeTaint.Initializer.parameter.internal">internal</a></code> | <code>boolean</code> | *No description.* |
+
+---
+
+##### `key`<sup>Required</sup> <a name="key" id="kube10k.aws_eks.NodeTaint.Initializer.parameter.key"></a>
+
+- *Type:* string
+
+---
+
+##### `value`<sup>Required</sup> <a name="value" id="kube10k.aws_eks.NodeTaint.Initializer.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+##### `effect`<sup>Optional</sup> <a name="effect" id="kube10k.aws_eks.NodeTaint.Initializer.parameter.effect"></a>
+
+- *Type:* kube10k.aws_eks.TaintedNodeEffect
+
+---
+
+##### `internal`<sup>Optional</sup> <a name="internal" id="kube10k.aws_eks.NodeTaint.Initializer.parameter.internal"></a>
+
+- *Type:* boolean
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.NodeTaint.getPreferredNodeAffeinity">getPreferredNodeAffeinity</a></code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeTaint.nodeSelector">nodeSelector</a></code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeTaint.toleration">toleration</a></code> | *No description.* |
+
+---
+
+##### `getPreferredNodeAffeinity` <a name="getPreferredNodeAffeinity" id="kube10k.aws_eks.NodeTaint.getPreferredNodeAffeinity"></a>
+
+```typescript
+public getPreferredNodeAffeinity(weight?: number): {[ key: string ]: any}
+```
+
+###### `weight`<sup>Optional</sup> <a name="weight" id="kube10k.aws_eks.NodeTaint.getPreferredNodeAffeinity.parameter.weight"></a>
+
+- *Type:* number
+
+---
+
+##### `nodeSelector` <a name="nodeSelector" id="kube10k.aws_eks.NodeTaint.nodeSelector"></a>
+
+```typescript
+public nodeSelector(): {[ key: string ]: string}
+```
+
+##### `toleration` <a name="toleration" id="kube10k.aws_eks.NodeTaint.toleration"></a>
+
+```typescript
+public toleration(): {[ key: string ]: string}
+```
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#kube10k.aws_eks.NodeTaint.property.effect">effect</a></code> | <code>kube10k.aws_eks.TaintedNodeEffect</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeTaint.property.key">key</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.NodeTaint.property.value">value</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `effect`<sup>Required</sup> <a name="effect" id="kube10k.aws_eks.NodeTaint.property.effect"></a>
+
+```typescript
+public readonly effect: TaintedNodeEffect;
+```
+
+- *Type:* kube10k.aws_eks.TaintedNodeEffect
+
+---
+
+##### `key`<sup>Required</sup> <a name="key" id="kube10k.aws_eks.NodeTaint.property.key"></a>
+
+```typescript
+public readonly key: string;
+```
+
+- *Type:* string
+
+---
+
+##### `value`<sup>Required</sup> <a name="value" id="kube10k.aws_eks.NodeTaint.property.value"></a>
+
+```typescript
+public readonly value: string;
+```
+
+- *Type:* string
+
+---
+
+
+
+## Enums <a name="Enums" id="Enums"></a>
+
+### TaintedNodeEffect <a name="TaintedNodeEffect" id="kube10k.aws_eks.TaintedNodeEffect"></a>
+
+Custom class for defining Taints and then populating Tolerations, BottleRocket Taint configs, etc.
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#kube10k.aws_eks.TaintedNodeEffect.NO_SCHEDULE">NO_SCHEDULE</a></code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.TaintedNodeEffect.NO_EXECUTE">NO_EXECUTE</a></code> | *No description.* |
+| <code><a href="#kube10k.aws_eks.TaintedNodeEffect.PREFER_NO_SCHEDULE">PREFER_NO_SCHEDULE</a></code> | *No description.* |
+
+---
+
+##### `NO_SCHEDULE` <a name="NO_SCHEDULE" id="kube10k.aws_eks.TaintedNodeEffect.NO_SCHEDULE"></a>
+
+---
+
+
+##### `NO_EXECUTE` <a name="NO_EXECUTE" id="kube10k.aws_eks.TaintedNodeEffect.NO_EXECUTE"></a>
+
+---
+
+
+##### `PREFER_NO_SCHEDULE` <a name="PREFER_NO_SCHEDULE" id="kube10k.aws_eks.TaintedNodeEffect.PREFER_NO_SCHEDULE"></a>
+
+---
 
