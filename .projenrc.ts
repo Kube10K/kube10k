@@ -29,7 +29,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     "*.js",
     "*.js.map",
     "test/integ/**/cdk-integ.out.*",
-    "test/integ/**/*integ.snapshot",
+    // "test/integ/**/*integ.snapshot",
   ],
   prettier: true,
 
@@ -37,6 +37,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   releaseFailureIssue: true,
   npmAccess: NpmAccess.PUBLIC,
   npmTokenSecret: "NPM_TOKEN",
+
+  bundledDeps: ["yaml"],
 
   devDeps: [
     // Integ-Tests
