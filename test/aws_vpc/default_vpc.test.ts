@@ -2,7 +2,7 @@
 
 import { Stack } from "aws-cdk-lib";
 import { Match, Template } from "aws-cdk-lib/assertions";
-import { DefaultVpc } from "../../src/aws_vpc/defaultvpc";
+import { DefaultVpc } from "../../src/aws_vpc";
 
 describe("DefaultVpc", () => {
   test("Create", () => {
