@@ -27,6 +27,7 @@
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen",
+    "clean": "npx clean-ts-built .",
     "integ": "npx tsc -p test/integ && npx integ-runner --parallel-regions=us-west-2 --update-on-failed"
   },
   "author": {
@@ -42,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
     "aws-cdk-lib": "2.50.0",
+    "clean-ts-built": "^1.0.0",
     "constructs": "10.0.5",
     "eslint": "^8",
     "eslint-config-prettier": "^8.5.0",

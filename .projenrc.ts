@@ -41,6 +41,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   bundledDeps: ["yaml"],
 
   devDeps: [
+    // https://yarnpkg.com/package/clean-ts-built
+    "clean-ts-built",
+
     // Integ-Tests
     "@aws-cdk/integ-tests-alpha",
     "@aws-cdk/integ-runner@^2",
@@ -63,6 +66,12 @@ project.vscode?.settings.addSetting("eslint.options", {
 const buildWorkflow = project.tryFindObjectFile(".github/workflows/build.yml");
 buildWorkflow?.patch(
   JsonPatch.add("/jobs/build/container/options", "--group-add 121")
+);
+
+// clean-ts-built
+project.setScript(
+  "clean",
+  "npx clean-ts-built ."
 );
 
 // Integ-Tests
