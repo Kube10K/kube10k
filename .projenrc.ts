@@ -69,10 +69,7 @@ buildWorkflow?.patch(
 );
 
 // clean-ts-built
-project.setScript(
-  "clean",
-  "npx clean-ts-built ."
-);
+project.setScript("clean", "npx clean-ts-built .");
 
 // Integ-Tests
 project.setScript(
