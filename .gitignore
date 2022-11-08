@@ -39,7 +39,6 @@ cdk.staging
 *.js
 *.js.map
 test/integ/**/cdk-integ.out.*
-test/integ/**/*integ.snapshot
 !/.projenrc.js
 /test-reports/
 junit.xml

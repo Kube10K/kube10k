@@ -1,3 +1,4 @@
+import * as path from "path";
 import { CfnJson, CustomResource, Fn, RemovalPolicy, Stack } from "aws-cdk-lib";
 import { Cluster } from "aws-cdk-lib/aws-eks";
 import { CfnOIDCProvider, FederatedPrincipal } from "aws-cdk-lib/aws-iam";
@@ -57,8 +58,19 @@ export class OidcIrsa extends Construct {
      *
      * https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
      *
+     * Relative path imports work within your own module, but when you are using the code from outside the module (eg,
+     * integration tests or a client app) they don't work). Instead, we use __dirname to walk up the tree from this file
+     * location.
+     *
      */
-    const codeDirectory = Code.fromAsset("assets/thumbprint-layer");
+    const assetPath = path.resolve(
+      __dirname,
+      "..",
+      "..",
+      "assets",
+      "thumbprint-layer"
+    );
+    const codeDirectory = Code.fromAsset(assetPath);
     const thumbprintLayer: LayerVersion = new LayerVersion(
       this,
       "ThumbprintLayer",
